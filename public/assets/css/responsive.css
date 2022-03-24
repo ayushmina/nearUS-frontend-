@@ -1,0 +1,102 @@
+
+
+@media (min-width:1440px) {
+	.container {
+		max-width: 1440px;
+	}
+	.container-xl .container {
+		max-width: 1440px;
+		padding: 0px;
+	}
+}
+
+@media screen and (min-device-width: 1200px) and (max-device-width: 1440px) {
+	.container {
+		max-width: 1280px;
+		padding: 0px 40px;
+	}
+	.container-xl .container {
+		max-width: 1350px;
+	}
+}
+
+
+@media screen and (min-device-width: 300px) and (max-device-width: 768px) {
+
+	.main-banner-wrap .navbar-brand {
+		width: 100%;
+		text-align: center;
+		margin-bottom: 15px;
+	}
+
+	.main-wrp-content {
+		padding: 125px 0px;
+		height: 100%;
+	}
+
+	.main-search-wrp input {
+		font-size: 12px;
+	}
+
+	.common-head h2 {
+		text-align: center;
+	}
+
+	.search-acc-header {
+		display: block;
+	}
+
+	.search-acc-icon img {
+		height: 25px;
+		object-fit: contain;
+	}
+
+	.search-acc-header-content ul {
+		display: inline-block;
+	}
+
+	.search-acc-header-content ul li {
+		display: inline-block;
+	}
+
+	.search-acc-icon {
+		margin-bottom: 15px;
+	}
+
+	.search-acc-header-content {
+		padding: 0px 0px;
+	}
+
+	.acc-contact-details ul {
+		display: block;
+	}
+
+	.acc-contact-details ul li {
+		text-align: left;
+		width: 100%;
+		margin-bottom: 15px;
+		border-right: unset;
+	}
+
+	.footer-wrp {
+		padding: 50px 25px;
+	}
+
+	.footer-wrp h3 {
+		padding-top: 35px;
+	}
+
+	.acc-contact-details button {
+		width: 100%;
+	}
+
+	.nav-buttons {
+		margin: 0 auto;
+		margin-left: 45px;
+	}
+
+	.search-wrp {
+		margin-bottom: 30px;
+	}
+
+ }
