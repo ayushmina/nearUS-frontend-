@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import img1 from "../../components/assets/img/canvas-close.png" ;
-
+import img from "../../components/assets/img/canvas-close.png"
 
 class FormPost extends Component {
   constructor(props) {
@@ -21,11 +21,11 @@ class FormPost extends Component {
     // 
     return (
     <>
- <div class="offcanvas offcanvas-end common-offcanvas" tabindex="-1" id="offcanvasPostjob"
+       <div class="offcanvas offcanvas-end common-offcanvas" tabindex="-1" id="offcanvasPostjob"
             aria-labelledby="offcanvasPostjobLabel">
             <div class="canvas-wrp">
                <div class="offcanvas-header">
-                  <img class="canvas-close" data-bs-dismiss="offcanvas" src="./img/canvas-close.png" className="img img-fluid"
+                  <img class="canvas-close" data-bs-dismiss="offcanvas" src={img} className="img img-fluid"
                      alt="" />
                </div>
                <div class="offcanvas-body">

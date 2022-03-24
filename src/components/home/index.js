@@ -35,7 +35,9 @@ const Home = () => {
     <>
     <section class="main-banner-wrap">
     <Header setLogin = {setLogin}></Header>
+    <Login ></Login>
     <FormPost></FormPost>
+
     {/* <SlidingPane
     direction="right"
     width={700}
@@ -48,11 +50,12 @@ const Home = () => {
     setVerify = {setVerif}
    />
    </SlidingPane> */}
-    <Login ></Login>
+    
     <Search/>
     
  </section>
  <section class="search-result-wrp">
+
  <PostJob></PostJob> 
  </section>
  <Abc></Abc>

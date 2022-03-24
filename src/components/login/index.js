@@ -1,5 +1,6 @@
 import React, { Component, useState } from "react";
-import img1 from "../../components/assets/img//login-artwork.png" ;
+import img1 from "../../components/assets/img/login-artwork.png" ;
+import img from "../../components/assets/img/canvas-close.png"
 // import img from "../../assets/img//";
 const Login =()=> {
 
@@ -7,13 +8,13 @@ const Login =()=> {
    // 
     return (
         <>
-         <div class="offcanvas offcanvas-end common-offcanvas" tabindex="-1" id="offcanvasPostjob"
+         <div class="offcanvas offcanvas-end common-offcanvas" tabindex="-1" id="offcanvasLogin"
             aria-labelledby="offcanvasPostjobLabel">
-           <div class="canvas-wrp">
-              {/* <div class="offcanvas-header">
-                 <img class="canvas-close" data-bs-dismiss="offcanvas" src={img} className="img img-fluid"
-                    alt="" />
-              </div> */}
+            <div class="canvas-wrp">
+               <div class="offcanvas-header">
+                  <img class="canvas-close" data-bs-dismiss="offcanvas" src={img} className="img img-fluid"
+                     alt=""/>
+               </div>
               <div class="offcanvas-body">
                  <div class="post-job-content">
                     <h3 class="mb-0">Login as <span>Employer</span></h3>
