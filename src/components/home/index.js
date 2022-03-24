@@ -6,7 +6,7 @@ import Login from "../login";
 import Abc from "../foter/";
 import FormPost from "../formjobs";
 import SlidingPane from "../slider";
-
+import Varify from "../verifyOtp";
 const Home = () => {
 
   const [login, setLoginn] = useState(false);
@@ -37,7 +37,7 @@ const Home = () => {
     <Header setLogin = {setLogin}></Header>
     <Login ></Login>
     <FormPost></FormPost>
-
+    <Varify></Varify>
     {/* <SlidingPane
     direction="right"
     width={700}

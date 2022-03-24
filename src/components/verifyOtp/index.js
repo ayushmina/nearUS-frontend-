@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import img from "../../components/assets/img/login-artwork.png" ;
 import img1 from "../../components/assets/img/canvas-close.png";
-class Login extends Component {
+class Verify extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,11 +20,13 @@ class Login extends Component {
     // 
     return (
         <>
-          <div class="canvas-wrp">
-              <div class="offcanvas-header">
-                 <img class="canvas-close" data-bs-dismiss="offcanvas" src={img1} className="img img-fluid"
-                    alt="" />
-              </div>
+          <div class="offcanvas offcanvas-end common-offcanvas" tabindex="-1" id="offcanvasVerifyotp"
+            aria-labelledby="offcanvasPostjobLabel">
+            <div class="canvas-wrp">
+               <div class="offcanvas-header">
+                  <img class="canvas-close" data-bs-dismiss="offcanvas" src={img1} className="img img-fluid"
+                     alt="" />
+               </div>
               <div class="offcanvas-body">
                  <div class="post-job-content">
                     <h3 class="mb-0">Verify  <span>OTP</span></h3>
@@ -54,10 +56,11 @@ class Login extends Component {
                  </div>
               </div>
            </div>
+           </div>
         </>
     
     );
   }
 }
 
-export default Login;
+export default Verify;
