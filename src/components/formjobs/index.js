@@ -1,4 +1,6 @@
-import React, { Component, useState } from "react"
+import React, { Component, useState,useEffect } from "react"
+import CreatableSelect from 'react-select/creatable';
+import { ActionMeta, OnChangeValue } from 'react-select';
 import img1 from "../../components/assets/img/canvas-close.png"
 import img from "../../components/assets/img/canvas-close.png"
 import data from "../../usaState.json";
@@ -13,7 +15,37 @@ const [information,setInformation]=useState("");
 const [number,setNumber]=useState("");
 const [selectedOption, setSelectedOption] = useState("");
 const [state, setStates] = useState("Mississippi");
+const [stateOption, setStateOption] = useState([]);
 const [arrycity,setarr]=useState([]);
+
+useEffect(()=>{
+  setStateOption(optionMaker(data.data));
+},[])
+const handleChange = (newValue, actionMeta) => {
+  console.group('Value Changed');
+  console.log(newValue);
+  console.log(`action: ${actionMeta.action}`);
+  console.groupEnd();
+};
+const handleInputChange = (inputValue, actionMeta) => {
+  console.group('Input Changed');
+  console.log(inputValue);
+  console.log(`action: ${actionMeta.action}`);
+  console.groupEnd();
+};
+const optionMaker=(arr)=>{
+  let data=[];
+  console.log(arr)
+  arr.map((e)=>{
+    data.push({
+      value:e,
+      lebel:e
+    })
+  })
+  console.log(data,"arr");
+  return data;
+}
+
 const sendform=()=>{
    let dataToSend={
       name,email,businessName,salary,information,number
@@ -131,12 +163,15 @@ const newdata=data.data;
           </div>
           <div class="col-lg-6">
             <div class="">
-              <select class="form-select" onChange={e => {
-                 setSelectedOption(e.target.value)
-                 console.log(selectedOption,"value and ")
-                 
-                 }}>
-              </select>
+            { stateOption.length > 0 ? 
+            <CreatableSelect
+            isClearable
+           onChange={handleChange}
+           onInputChange={handleInputChange}
+           options={stateOption}
+           
+      />:""
+            }
             </div>
           </div>
           <div class="col-lg-6">
