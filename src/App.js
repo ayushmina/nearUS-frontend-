@@ -1,16 +1,41 @@
+import React, { Component, useState ,useEffect } from "react";
 import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css';
+import { auth } from "./firebase";
+import {onAuthStateChanged} from "firebase/auth";
 import Home from './components/home';
-// import "../public/assets/css/bootstrap.min.css"
-// import "../public/assets/css/main.css"
-// import "../public/assets/css/responsive.css"
+import {useNavigate} from 'react-router-dom'
 import Dashborad from './components/dashboard';
+
 function App() {
+  const  [user,setUser]= useState("");
+  const history=useNavigate(); 
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
+    console.log("Auth", currentuser);
+    setUser(currentuser);
+  });
+
+  return () => {
+    unsubscribe();
+    if(user){
+      history("/dasbord")
+    }
+  };
+}, []);
+
   return (
-    <div className="App">
-      <Home></Home>
-      {/* <Dashborad></Dashborad> */}
-    </div>
+    <>
+    
+            <Routes>
+          
+              <Route exact path="/" key="home" element={<Home user={user}/>} />
+               <Route  path="/dashboard" key="userdashboard" element={<Dashborad user={user}/>}/>
+              
+              </Routes>
+        
+    </>
   );
 }
 

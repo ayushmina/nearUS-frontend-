@@ -9,15 +9,15 @@ body {
 
 @font-face {
     font-family: inter;
-    src: url("../fonts/Inter.ttf");
+    src: url(../fonts/Inter.ttf);
 }
-.react-multi-carousel-item {
-	width: 88px !important;
-	margin: 10px;
-  }
-  .react-multiple-carousel__arrow {
-	z-index: 0 !important;
-  }
+.offcanvas-end {
+    top: 0;
+    right: 0;
+    width: 600px !important;
+    border-left: 1px solid rgba(0,0,0,.2);
+}
+
 body {
 	overflow-x: hidden !important;
 	font-weight: 400;
@@ -99,18 +99,27 @@ footer {
 /* homepage css start */
 
 .main-banner-wrap {
-	background: url("../img/main-banner.png");
+	background:transparent;
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position:center;
-	padding: 25px 0px;
+	padding: 0px 0px;
 	width: 100%;
 	float: left;
 	position: relative;
 	overflow: hidden;
 }
 
-.main-banner-wrap::after {
+.overlay-above-content {
+	position: absolute;
+	top: 25px;
+	left: 0;
+	right: 0;
+	width: 100%;
+	bottom: 25px;
+}
+
+.banner-bg-video::after {
 	content: "";
 	background: rgba(0,0,0,0.6);
 	height: 100%;
@@ -118,13 +127,43 @@ footer {
 	position: absolute;
 	top: 0;
 	left: 0;
-	z-index: 0;
+	z-index: 99;
 }
-
+.otp-input input {
+	margin: 10px;
+	border-radius: 0;
+	text-align: center;
+	width: 45px !important;
+	height: 45px;
+	/* outline: -webkit-focus-ring-color auto 1px !important; */
+  }
+  .otp-input input:focus {
+	outline: auto 1px !important;
+  }
+  .input-group {
+    justify-content: center;
+  }
+  .input-group.otp-input input {
+    border: 0 !important;
+    box-shadow: unset;
+    height: 50px;
+    width: 70px !important;
+    font-size: 22px;
+    border-bottom: 1px solid #333 !important;
+    margin-bottom: 0px;
+}
 .main-banner-wrap header {
 	position: relative;
 	z-index: 99;
 } 
+
+.banner-bg-video {
+	height: 100vh;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
 
 .main-wrp-content {
 	position: relative;
@@ -134,7 +173,7 @@ footer {
 }
 
 .main-wrp-content {
-	padding: 100px 0px;
+	padding: 50px 0px;
 	height: calc(100vh - 110px);
 	display: flex;
 	align-items: center;
@@ -198,7 +237,7 @@ footer {
 }
 
 .main-banner-wrap .navbar img {
-	height: 34px;
+	height: 50px;
 	object-fit: contain;
 }
 
@@ -376,7 +415,7 @@ footer {
 }
 
 .footer-logo img {
-	height: 30px;
+	height: 50px;
 	object-fit: contain;
 }
 
@@ -653,4 +692,9 @@ footer {
 	color: #1D1C1C;
 	font-size: 28px;
 	font-weight: 500;
+}
+
+.bottom-5 {
+	position: relative;
+	bottom: -5px;
 }

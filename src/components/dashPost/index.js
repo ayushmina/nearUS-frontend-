@@ -9,7 +9,7 @@ import img5 from "../../components/assets/img/delete-icon.png";
 import img6 from "../../components/assets/img/icon-result-purple.png";
 
 const DashPost =(props)=> {
- 
+
 
     return (
         

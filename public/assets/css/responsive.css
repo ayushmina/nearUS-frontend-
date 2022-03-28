@@ -30,8 +30,16 @@
 	}
 
 	.main-wrp-content {
-		padding: 125px 0px;
-		height: 100%;
+		padding: 75px 0px;
+		height: 85%;
+	}
+
+	.banner-bg-video {
+		height: 75vh;
+	}
+
+	.main-wrp-content h1 {
+		font-size: 36px;
 	}
 
 	.main-search-wrp input {
@@ -92,7 +100,7 @@
 
 	.nav-buttons {
 		margin: 0 auto;
-		margin-left: 45px;
+		margin-left: 0px;
 	}
 
 	.search-wrp {

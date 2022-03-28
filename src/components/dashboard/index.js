@@ -1,39 +1,50 @@
-import React, { useState, Component } from "react";
+import React, { useState, Component,useEffect } from "react";
 import TopDashBoradheader from "../topdashboard";
 import DashPost from "../dashPost";
 import Abc from "../foter/";
 import FormPost from "../formjobs";
 import SlidingPane from "../slider";
-
+import {onAuthStateChanged} from "firebase/auth";
+import { auth } from "../../firebase";
+import {useNavigate} from 'react-router-dom'
 const Dashborad = () => {
-
-  const [login, setLoginn] = useState(false);
-  const [verify, setVerify] = useState(false);
-
-
-  const setLogin = () => {
-    console.log("yxzas")
-    setLoginn(true);
-  }
-  const off = () => {
-    // this.setState({login:false,verify:false})
-    setLoginn(false);
-    setVerify(false);
-  }
- const setVerif = () => {
-    // this.setState({verify:true});
-    setVerify(true);
-  }
-  const backToLogin = () => {
-    setLoginn(true);
-
-  }
  
+  const  [user,setUser]= useState("");
+  const [post,setPost] = useState(false);
+  const history=useNavigate(); 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
+      console.log("Auth", currentuser);
+      setUser(currentuser);
+    });
+  
+    return () => {
+      unsubscribe();
+      if(user){
+        history("/home");
+      }
+    };
+  }, []);
+  const off = () => {  
+    setPost(false)
+  }
+  
+  const showPost=()=>{
+    setPost(true);
+    console.log("hello setPost ")
+  }
+  
   return (
     <>
    <section class="main-banner-wrap logged-user">
-    <TopDashBoradheader></TopDashBoradheader>
-    <FormPost></FormPost>
+    <TopDashBoradheader showPost={showPost} ></TopDashBoradheader>
+    <SlidingPane
+    direction="right"
+    state={post}
+    setState={off}
+    >
+      <FormPost/>
+   </SlidingPane>
  </section>
  <DashPost></DashPost>
  <Abc></Abc>

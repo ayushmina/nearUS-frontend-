@@ -1,13 +1,19 @@
 import React, { useState, Component } from "react";
 import img from "../../components/assets/img/white-logo.png";
+import {useNavigate} from 'react-router-dom'
+
 const Header =(props)=> {
- 
+const history=useNavigate(); 
 const openLogin =()=>{
+   if(props.user){
+      history("/dashboard")
+   }else{
    props.setLogin();
-   // onClick={e=>{
-   //    e.preventDefault()
-   //    openLogin();
-   // }
+   }
+}
+const showPost=()=>{
+
+   props.showPost();
 
 } 
     return (
@@ -16,9 +22,19 @@ const openLogin =()=>{
            <div class="container">
               <a class="navbar-brand"><img src={img}class="img img-fluid" alt=""/></a>
               <div class="nav-buttons">
-                 <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasLogin" class="btn" type="button" >Login / Signup</button>
-                 <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasPostjob" class="btn" type="button">Post a
-                 Job</button>
+                 <button  class="btn" type="button"    onClick={e=>{
+      e.preventDefault()
+      openLogin();
+   }} >
+      {props.user ? 'DashBoard' : 'Login/signup'}</button>
+
+      {props.user ?
+                 <button   class="btn" type="button"onClick={e=>{
+      e.preventDefault()
+      showPost();
+   }}        >Post a
+                 Job</button>:
+                 ''}
               </div>
            </div>
         </nav>

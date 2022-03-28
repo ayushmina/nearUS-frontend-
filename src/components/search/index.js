@@ -19,6 +19,7 @@ class Search extends Component {
   render() {
     // 
     return (
+    
         <section class="main-banner-wrap">
         <div class="main-wrp-content">
            <div class="container">
