@@ -11,17 +11,17 @@ import Dashborad from './components/dashboard';
 function App() {
   const  [user,setUser]= useState("");
   const history=useNavigate(); 
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
+useEffect(  () => {
+  const unsubscribe =  onAuthStateChanged(auth, (currentuser) => {
     console.log("Auth", currentuser);
     setUser(currentuser);
   });
 
   return () => {
     unsubscribe();
-    if(user){
-      history("/dasbord")
-    }
+    // if(user){
+    //   history("/dasbord")
+    // }
   };
 }, []);
 

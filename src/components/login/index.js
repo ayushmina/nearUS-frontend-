@@ -31,7 +31,12 @@ const Login =(props)=> {
             window.confirmationResult = confirmationResult;
             result=confirmationResult;
             console.log(result,"here is result");
-            props.setResult(result)
+         
+            let dataToSend={
+               phoneNumber:phone,
+               // firebaseUID:"kjbljhebvljhbdflvbdfjhvbjdfbvjbdfjvbdf"
+            }
+            props.setResult(result,dataToSend)
 
 
           }).catch((error) => {

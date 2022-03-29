@@ -5,7 +5,9 @@ import img1 from "../../components/assets/img/canvas-close.png"
 import img from "../../components/assets/img/canvas-close.png"
 import data from "../../usaState.json";
 import city from "../../usaCitys.json";
-import Creatable from "react-select/async-creatable"
+import options from "../../options";
+import postActions from "../../actions/postActions"
+import Select from 'react-select';
 const FormPost = () => {
 const [name,setName]=useState("");
 const [email,setEmail]=useState("");
@@ -14,32 +16,73 @@ const [salary,setSalary]=useState("");
 const [information,setInformation]=useState("");
 const [number,setNumber]=useState("");
 const [selectedOption, setSelectedOption] = useState("");
-const [state, setStates] = useState("Mississippi");
+const [state, setStates] = useState("");
 const [stateOption, setStateOption] = useState([]);
 const [arrycity,setarr]=useState([]);
-
+const [cityName,setCityName]=useState("");
+const [experience,setExperience]=useState("");
+const [job_type,setJobType]=useState("");
+const [pinCode,setPinCode]=useState("");
+const [isDisabled,setIsDisabled]=useState(true);
+const temp=[
+  {
+    value:"ayuhs",
+    label:"hello"
+  }
+]
+const [perSaly,setPerSaly]=useState(1);
 useEffect(()=>{
   setStateOption(optionMaker(data.data));
 },[])
+useEffect(()=>{
+  console.log(state,"inside useeffect");
+  if(state!=""){
+  getCityArry();
+  }
+},[state])
+useEffect(()=>{
+  console.log(cityName,"inside cityName useeffect");
+
+
+
+},[cityName])
+const getCityArry=()=>{
+
+
+    console.log(state,"herejhvscvhs");
+    if(city[state]==null){
+      setarr([]);
+      return
+    }
+    let data=optionMaker(city[state]);
+    setarr(data);
+}
 const handleChange = (newValue, actionMeta) => {
-  console.group('Value Changed');
-  console.log(newValue);
-  console.log(`action: ${actionMeta.action}`);
-  console.groupEnd();
+  console.log(newValue,"Value Changed");
+
+  setStates(newValue.label);
+  setIsDisabled(false);
 };
-const handleInputChange = (inputValue, actionMeta) => {
-  console.group('Input Changed');
-  console.log(inputValue);
-  console.log(`action: ${actionMeta.action}`);
-  console.groupEnd();
+const handleChange1 = (newValue, actionMeta) => {
+  console.log(newValue,"Value Changed");
+  setCityName(newValue.label);
 };
+const handleChange2 = (newValue, actionMeta) => {
+  console.log(newValue,"Value Changed");
+  setExperience(newValue.label);
+};
+const handleChange3 = (newValue, actionMeta) => {
+  console.log(newValue,"Value Changed");
+  setJobType(newValue.label);
+};
+
 const optionMaker=(arr)=>{
   let data=[];
   console.log(arr)
   arr.map((e)=>{
     data.push({
       value:e,
-      lebel:e
+      label:e
     })
   })
   console.log(data,"arr");
@@ -47,18 +90,50 @@ const optionMaker=(arr)=>{
 }
 
 const sendform=()=>{
+  let temp="";
+  if(perSaly==1){
+    temp="Per Hour"
+  }else if(perSaly==2){
+    temp="Per Month"
+  }else if( perSaly==3){
+    temp="Per Mile"
+  }
+  if(!name&&!email&&!businessName&&!salary&&!job_type&&!pinCode&&!cityName&&!experience&&!information&&!number&&!state){
+  
+    return false;
+  }
    let dataToSend={
-      name,email,businessName,salary,information,number
+    contactName:name,
+    emailAddress:email,
+    businessName:businessName,
+    salary:salary,
+    comment:information,
+    phoneNumber:number,
+    experience:experience,
+    jobType:job_type,
+    salaryPer:temp,
+    state:state,
+    city:cityName,
+    pinCode:pinCode
+    
    }
+
+   postActions.addPost(dataToSend,(err,res)=>{
+     if(err){
+      //  showw error 
+      console.log(err,'here is erro form send');
+     }else{
+       console.log(res,"ok job post almost done   ")
+     }
+   })
    console.log(dataToSend);
 }
 
-const changeHandler=(e)=>{
-   console.log("e:",e.target.value)
-   setStates(e.target.value);
-}
+// const changeHandler=(e)=>{
+//    console.log("e:",e.target.value)
+//    setStates(e.target.value);
+// }
 
-const newdata=data.data;
   return (
     <div class="post-job-content">
       <h3>
@@ -85,6 +160,13 @@ const newdata=data.data;
                 type="text"
                 class="form-control"
                 placeholder="Phone Number"
+                maxlength="10"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                  }
+                }}
+                
                 onChange={e=>{
                   setNumber(e.target.value);
                 }}
@@ -122,28 +204,54 @@ const newdata=data.data;
           </div>
           <div class="col-lg-6">
             <div class="">
-              <select class="form-select" onChange={e=>changeHandler(e)} >
-
-                <option selected >State</option>
-                {newdata.map((o,index) => (
-               <option key={o} value={o}>{o}</option>
-               ))}
-              </select>
+            { stateOption.length > 0 ? 
+            <Select
+            placeholder="State..."
+            isClearable
+           onChange={handleChange}
+           options={stateOption} 
+           />: <Select
+           placeholder="State..."
+           isClearable
+          onChange={handleChange}
+          options={temp}
+          />
+            }
+           
             </div>
           </div>
           <div class="col-lg-6">
             <div class="">
-              <select class="form-select">
-              <option selected>Experience</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
+            { arrycity.length > 0 ? 
+            <CreatableSelect
+            placeholder="City..."
+            isClearable
+            isDisabled={isDisabled}
+           onChange={handleChange1}
+           options={arrycity} 
+           />: <CreatableSelect
+           placeholder="City..."
+           isClearable
+           isDisabled={isDisabled}
+          onChange={handleChange1}
+          options={[]}
+          />
+            }
             </div>
           </div>
           <div class="col-lg-6">
             <div class="">
-              <input type="text" class="form-control" placeholder="Zip Code" />
+              <input type="text" class="form-control" placeholder="Zip Code"
+              
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                }
+              }}
+              maxlength="5"
+              onChange={e=>{
+                  setPinCode(e.target.value);
+                }} />
             </div>
           </div>
         </div>
@@ -153,25 +261,22 @@ const newdata=data.data;
         <div class="row">
           <div class="col-lg-6">
             <div class="">
-              <select class="form-select">
-                <option selected>Experience</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
+            <CreatableSelect
+            placeholder="experinece..."
+            isClearable
+            onChange={handleChange2}
+            options={options.experience} 
+            />
             </div>
           </div>
           <div class="col-lg-6">
             <div class="">
-            { stateOption.length > 0 ? 
             <CreatableSelect
+            placeholder="job type..."
             isClearable
-           onChange={handleChange}
-           onInputChange={handleInputChange}
-           options={stateOption}
-           
-      />:""
-            }
+           onChange={handleChange3}
+           options={options.job_type} 
+           />
             </div>
           </div>
           <div class="col-lg-6">
@@ -183,13 +288,23 @@ const newdata=data.data;
           </div>
           <div class="col-lg-6">
             <div class="per-ul">
-              <button type="button" class="btn active">
+              <button type="button"  name="per Hour" class={`btn ${perSaly===1?"active":""}`} onClick={(e)=>{
+                e.preventDefault();
+                setPerSaly(1)
+              }}>
                 Per Hour
               </button>
-              <button type="button" class="btn">
+              <button type="button"  name="Per Month" class={`btn ${perSaly===2?"active":""}`} onClick={(e)=>{
+                e.preventDefault();
+                setPerSaly(2)
+              }}>
                 Per Month
               </button>
-              <button type="button" class="btn">
+              <button type="button" name="per mile" class={`btn ${perSaly===3?"active":""}`} onClick={(e)=>{
+                e.preventDefault();
+                console.log(e);
+                setPerSaly(3)
+              }}>
                 Per Mile
               </button>
             </div>

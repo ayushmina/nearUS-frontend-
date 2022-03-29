@@ -7,9 +7,9 @@ import SlidingPane from "../slider";
 import {onAuthStateChanged} from "firebase/auth";
 import { auth } from "../../firebase";
 import {useNavigate} from 'react-router-dom'
-const Dashborad = () => {
+const Dashborad = (props) => {
  
-  const  [user,setUser]= useState("");
+  const  [user,setUser]= useState(null);
   const [post,setPost] = useState(false);
   const history=useNavigate(); 
   useEffect(() => {
@@ -18,12 +18,13 @@ const Dashborad = () => {
       setUser(currentuser);
     });
   
-    return () => {
       unsubscribe();
-      if(user){
-        history("/home");
-      }
-    };
+      console.log(props)
+      if(props.user==null||props.user==''){
+        console.log("yeh ky ho rhs hai ")
+        history("/");
+   
+  }
   }, []);
   const off = () => {  
     setPost(false)

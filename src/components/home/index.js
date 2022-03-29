@@ -17,6 +17,8 @@ const Home = (props) => {
   const [result,setResult] =useState({});
   const [post,setPost] = useState(false);
   const  [user,setUser]= useState("");
+  const [dataToSend,setDataToSend]=useState({});
+
   
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
@@ -53,7 +55,9 @@ const Home = (props) => {
     setPost(true);
     console.log("hello setPost ")
   }
-  const setResul=(data)=>{
+  const setResul=(data,dataToSend)=>{
+    console.log(dataToSend,"data is here ")
+    setDataToSend(dataToSend)
     setResult(data);
     setVerify(true)
   } 
@@ -94,7 +98,7 @@ const Home = (props) => {
     state={verify}
     setState={backToLogin}
     >
-      <Varify backToLogin={backToLogin} result={result}/>
+      <Varify backToLogin={backToLogin} result={result} dataToSend={dataToSend}/>
    
    </SlidingPane>
    =
