@@ -18,6 +18,7 @@ const Home = (props) => {
   const [post,setPost] = useState(false);
   const  [user,setUser]= useState("");
   const [dataToSend,setDataToSend]=useState({});
+  const [phone,setPhone]=useState("");
 
   
   useEffect(() => {
@@ -57,6 +58,7 @@ const Home = (props) => {
   }
   const setResul=(data,dataToSend)=>{
     console.log(dataToSend,"data is here ")
+    setPhone(dataToSend.phone);
     setDataToSend(dataToSend)
     setResult(data);
     setVerify(true)
@@ -98,7 +100,7 @@ const Home = (props) => {
     state={verify}
     setState={backToLogin}
     >
-      <Varify backToLogin={backToLogin} result={result} dataToSend={dataToSend}/>
+      <Varify backToLogin={backToLogin} result={result} dataToSend={dataToSend} />
    
    </SlidingPane>
    =

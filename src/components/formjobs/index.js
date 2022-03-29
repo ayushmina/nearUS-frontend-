@@ -114,7 +114,7 @@ const sendform=()=>{
     salaryPer:temp,
     state:state,
     city:cityName,
-    pinCode:pinCode
+    zipcode:pinCode
     
    }
 

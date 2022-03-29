@@ -7,12 +7,18 @@ import SlidingPane from "../slider";
 import {onAuthStateChanged} from "firebase/auth";
 import { auth } from "../../firebase";
 import {useNavigate} from 'react-router-dom'
+import postActions from "../../actions/postActions";
+import { async } from "@firebase/util";
+import Agent from "../../actions/superAgent";
 const Dashborad = (props) => {
  
   const  [user,setUser]= useState(null);
   const [post,setPost] = useState(false);
+  const [postList,setList]=useState([]); 
   const history=useNavigate(); 
   useEffect(() => {
+    let token =Agent.getToken();
+    fetchPost();
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       console.log("Auth", currentuser);
       setUser(currentuser);
@@ -20,12 +26,26 @@ const Dashborad = (props) => {
   
       unsubscribe();
       console.log(props)
-      if(props.user==null||props.user==''){
+      if(!token){
         console.log("yeh ky ho rhs hai ")
         history("/");
-   
   }
   }, []);
+  useEffect(() => {
+    
+
+  },[]);
+
+  const fetchPost= async()=>{
+     await postActions.myPost((err,res)=>{
+      if(err){
+
+      }else{
+        setList(res.data);
+
+      }
+    })
+  }
   const off = () => {  
     setPost(false)
   }
@@ -47,7 +67,9 @@ const Dashborad = (props) => {
       <FormPost/>
    </SlidingPane>
  </section>
- <DashPost></DashPost>
+ {postList.length> 0 ? postList.map((e)=>{
+   <DashPost data={e} ></DashPost>
+ }):"hello"}
  <Abc></Abc>
 
 </>

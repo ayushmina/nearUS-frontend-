@@ -7,6 +7,7 @@ import img3 from "../../components/assets/img/gcap-icon.png";
 import img4 from "../../components/assets/img/edit-icon.png";
 import img5 from "../../components/assets/img/delete-icon.png";
 import img6 from "../../components/assets/img/delete-icon.png";
+import img7 from "../../components/assets/img/call-icon.png";
 // const BACKEND_URL = config.BACKEND_URL;
 
 const PostJob =(props)=> {
@@ -32,7 +33,10 @@ const PostJob =(props)=> {
                      <div class="col-lg-6">
    <Accordion defaultActiveKey="0">
       <Accordion.Item eventKey="0">
-        <Accordion.Header>
+        <Accordion.Header onClick={e=>{
+           e.preventDefault();
+           console.log("hello");
+        }}>
             <div class="search-acc-header">
                   <div class="search-acc-icon">
                          <img src={img} alt=""/>
@@ -67,11 +71,19 @@ const PostJob =(props)=> {
                                     dolor 
                                  </p>
                               </div>
-                              <div class="acc-contact-details">
+                              {/* <div class="acc-contact-details">
                                  <ul class="">
                                     <li class="border-0"><button class="btn" type="button"><img src={img4} alt=""/>Edit</button></li>
                                     <li class="border-0"><button class="btn" type="button"><img src={img5} alt=""/>Delete</button></li>
                                     <li class="border-0"><button class="btn" type="button"><img src={img6} alt=""/>Repost</button></li>
+                                 </ul>
+                              </div> */}
+                              <div class="acc-contact-details">
+                                 <ul>
+                                    <li><a href="javascript:;"><img src={img7} alt="" />+1 xxxx-xxx-xxx</a>
+                                    </li>
+                                    <li><a href="javascript:;"><img src={img7} alt="" />xxxxxx@mail.com</a>
+                                    </li>
                                  </ul>
                               </div>
         </Accordion.Body>

@@ -23,17 +23,16 @@ function getPost(payload, cb) {
   }
   function addPost(payload,cb) {
     Agent
-      .fire('post', `${BACKEND_URL}/addPost`)
+      .fire('post', `${BACKEND_URL}/users/postJob`)
       .send(payload)
       .end((err, res) => {
         var error = err || res.error ? ServerError(res) : (res.body && res.body.error) ? ServerError(res) : null;
         if (typeof cb === 'function') return cb(error, res && res.body);
       });
   }
-  function myPost(id, cb) {
+  function myPost(cb) {
     Agent
-      .fire('get', `${BACKEND_URL}/myPost/${id}`)
-      .query(id)
+      .fire('get', `${BACKEND_URL}/users//ownJob`)
       .end((err, res) => {
         var error = err || res.error ? ServerError(res) : (res.body && res.body.error) ? ServerError(res) : null;
         if (typeof cb === 'function') return cb(error, res && res.body);

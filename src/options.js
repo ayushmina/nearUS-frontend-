@@ -40,8 +40,8 @@ const job_type=[
         value:"student"
     },
     {
-        label:"admin",
-        value:"admin"
+        label:"berozgaar",
+        value:"berozgaar"
     },
 
 ] 

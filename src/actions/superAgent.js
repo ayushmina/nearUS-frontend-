@@ -29,10 +29,10 @@ const getLoginType = () => {
 const fire = (method, url, shouldSendHeader=false) => {
     let token = getToken();
     let loginType = getLoginType();
-
+    console.log()
     let defaultHeaders = {}
     if (token) {
-        defaultHeaders['x-access-token'] = token;
+        defaultHeaders['authorization'] = token;
     }
     if (loginType) {
         defaultHeaders['loginType'] = loginType;

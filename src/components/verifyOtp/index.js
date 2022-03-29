@@ -1,10 +1,11 @@
 import React, { Component, useEffect, useState } from "react"
-import img from "../../components/assets/img/login-artwork.png"
-import img1 from "../../components/assets/img/canvas-close.png"
+import img1 from "../../components/assets/img/login-artwork.png" ;
 import OtpInput from 'react-otp-input';
+import Cookies from 'universal-cookie';
 import loginAction from "../../actions/login.action";
 const Verify = (props) => {
-  
+  let cookie = new Cookies();
+
   var [otp, setOtp] = useState("")
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const Verify = (props) => {
           console.log(res,"here is ")
         }
       });
-      localStorage.setItem("token",data._tokenResponse.idToken);
+      cookie.set("token",data._tokenResponse.idToken);
       // window.location.reload(); 
     } catch (err) {
       console.log("verify eroor", err)
@@ -49,7 +50,7 @@ const Verify = (props) => {
         Verify <span>OTP</span>
       </h3>
       <p>
-        We have sent an OTP to your Phone Number. <br /> <b>{props.phone}</b>{" "}
+        We have sent an OTP to your Phone Number. <br /> <b>{props.dataToSend.phone}</b>{" "}
         <a href="javascript:;">Update Number</a>{" "}
       </p>
       <div class="mt-5">
@@ -68,8 +69,11 @@ const Verify = (props) => {
           <div class="col-lg-12">
             <div class="otp-btn-ul">
               <a href="#">
-                <button class="btn post-main-btn" type="button">
-                  Resend OTP
+                <button class="btn post-main-btn" type="button" onClick={(e)=>{
+                  e.preventDefault();
+                  window.location.reload();
+                }}>
+                  Start Again
                 </button>
               </a>
               <a href="posted-jobs.html">
