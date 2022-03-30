@@ -1,50 +1,37 @@
-const experience=[{
-    label:"0",
-    value:"0"
+const experience = [{
+    label: "0-1",
+    value: "0-1"
 },
 {
-    label:"1",
-    value:"1"
+    label: "1+",
+    value: "1+"
 },
 {
-    label:"1-2",
-    value:"1.5"
+    label: "2-3",
+    value: "2-3"
 },
 {
-    label:"2",
-    value:"2"
+    label: "3-5",
+    value: "3-5"
 },
 {
-    label:"2-3",
-    value:"2.5"
+    label: "5+",
+    value: "5+"
 }
 
 
 ]
 
-const job_type=[
+const job_type = [
     {
-        label:"node js ",
-        value:"node js"
+        label: "Part Time",
+        value: "Part Time"
     },
     {
-        label:"ceo",
-        value:"ceo"
-    },
-    {
-        label:"android D ",
-        value:"android D"
-    },
-    {
-        label:"student ",
-        value:"student"
-    },
-    {
-        label:"berozgaar",
-        value:"berozgaar"
-    },
-
-] 
+        label: "Full Time",
+        value: "Full Time"
+    }
+]
 
 
 export default {

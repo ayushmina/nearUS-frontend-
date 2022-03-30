@@ -26,7 +26,7 @@ const showPost=()=>{
       e.preventDefault()
       openLogin();
    }} >
-      {props.user ? 'DashBoard' : 'Login/signup'}</button>
+      {props.user ? 'Dashboard' : 'Login/signup'}</button>
 
       {props.user ?
                  <button   class="btn" type="button"onClick={e=>{

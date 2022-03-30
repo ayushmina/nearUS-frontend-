@@ -3,6 +3,7 @@ import img1 from "../../components/assets/img/login-artwork.png" ;
 import img from "../../components/assets/img/canvas-close.png"
 import {   RecaptchaVerifier, signInWithPhoneNumber,} from "firebase/auth";
  import { auth } from "../../firebase";
+ import Loader from 'rsuite/Loader';
 
 // import img from "../../assets/img//";
 import firebase from "../../firebase";
@@ -10,15 +11,18 @@ console.log("zFirebase", firebase.auth)
 const Login =(props)=> { 
 
    const [phone,setPhone]=useState("");
+   const [isloading,setIsloading]=useState(false);
+
    const setverify=()=>{
       props.setVerify(true);
    }
 
    const onSignInSubmit= async ()=>{
       if(phone.length<10){
-         alert('pura fill kr bhaii')
+         alert('Phone Number Invalid')
          return false;
       }
+      setIsloading(true);
       console.log(phone,'phone is here ')
       const number = "+91"+phone;
          const recaptchaVerifier = await new RecaptchaVerifier(
@@ -40,6 +44,7 @@ const Login =(props)=> {
                // firebaseUID:"kjbljhebvljhbdflvbdfjhvbjdfbvjbdfjvbdf"
             }
             props.setResult(result,dataToSend)
+            setIsloading(false);
 
 
           }).catch((error) => {
@@ -51,7 +56,7 @@ const Login =(props)=> {
 
     return (
         <>
-      
+
                  <div class="post-job-content">
                     <h3 class="mb-0">Login as <span>Employer</span></h3>
                     <p>Add, View, Edit or Repost jobs!</p>
@@ -61,15 +66,16 @@ const Login =(props)=> {
                              <div class="">
                                 <input type="text" class="form-control" placeholder="Phone Number" onChange={(e) => {
                       setPhone(e.target.value);
-                    
                     }}/>
                              </div>
                           </div>
                           <div class="col-lg-12">
+
                              <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasVerifyotp" class="btn post-main-btn" type="button" onClick={e=>{
                                  e.preventDefault();
                                  onSignInSubmit();
                              }}>Login</button>
+                             {isloading ? <div>LOading</div> : ""}
                           </div>
                        </div>
                     </div>
