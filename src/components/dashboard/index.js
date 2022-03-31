@@ -30,6 +30,11 @@ const Dashborad = (props) => {
   const [postList, setList] = useState([]);
   const [searchText, setSearchText] = useState("");
 
+  // Updating phase
+  useEffect(() => {
+    fetchPost();
+  }, [searchText])
+
   const history = useNavigate();
   useEffect(() => {
     let token = Agent.getToken();
@@ -39,7 +44,7 @@ const Dashborad = (props) => {
       setUser(currentuser);
     });
 
-    unsubscribe();
+    // unsubscribe();
     console.log(props);
     if (!token) {
       history("/");
@@ -80,7 +85,7 @@ const Dashborad = (props) => {
 
   const setSearchTextInput = (e) => {
    setSearchText(e.target.value);
-    fetchPost();
+    // fetchPost();
   }
 
   return (
@@ -102,7 +107,7 @@ const Dashborad = (props) => {
                 </h2>
               </div>
             </div>
-            {postList.length > 0 ? <div class="col-lg-6">
+            {postList.length < 0  && searchText.length<0 ? "" : <div class="col-lg-6">
               <div class="search-wrp">
                 <input
                   type="text"
@@ -113,7 +118,7 @@ const Dashborad = (props) => {
                 />
                 <img src={img} class="img img-fluid" alt="" />
               </div>
-            </div>: ""}
+            </div>}
           </div> 
           <div class="search-accordian">
             <div class="accordion" id="accordionExample">

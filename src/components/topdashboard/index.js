@@ -11,7 +11,7 @@ const TopDashBoradheader = (props) => {
     <header>
       <nav class="navbar">
         <div class="container">
-          <a href="index.html" class="navbar-brand">
+          <a href="/" class="navbar-brand">
             <img src={headerImg} class="img img-fluid" alt="" />
           </a>
           <div class="nav-buttons">
@@ -28,7 +28,7 @@ const TopDashBoradheader = (props) => {
               Post a Job
             </button>
             <button class="btn logged-user-icon" type="button">
-              aj
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
             </button>
           </div>
         </div>
