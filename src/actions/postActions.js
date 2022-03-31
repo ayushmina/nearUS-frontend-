@@ -5,7 +5,7 @@ const BACKEND_URL = config.BACKEND_URL;
 
 function getPost(payload, cb) {
     Agent
-      .fire('get', `${BACKEND_URL}/getPost`)
+      .fire('get', `${BACKEND_URL}/users/getPost`)
       .query(payload)
       .end((err, res) => {
         var error = err || res.error ? ServerError(res) : (res.body && res.body.error) ? ServerError(res) : null;
@@ -14,7 +14,7 @@ function getPost(payload, cb) {
   }
   function editPost(payload, id, cb) {
     Agent
-      .fire('post', `${BACKEND_URL}/editPost/${id}`)
+      .fire('post', `${BACKEND_URL}/users/editPost/${id}`)
       .send(payload)
       .end((err, res) => {
         var error = err || res.error ? ServerError(res) : (res.body && res.body.error) ? ServerError(res) : null;

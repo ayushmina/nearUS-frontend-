@@ -18,6 +18,7 @@ let removeSession = () => {
 
 const getToken = () => {
     let token = cookie.get('token', { path: '/' });
+    console.log(token);
     return token
 }
 
