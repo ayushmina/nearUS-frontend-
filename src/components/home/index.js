@@ -6,7 +6,6 @@ import FormPost from "../formjobs";
 import SlidingPane from "../slider";
 import Varify from "../verifyOtp";
 import postActions from "../../actions/postActions";
-import { onAuthStateChanged } from "firebase/auth";
 import { Modal, ModalBody, ModalFooter, ModalHeader, Button } from "reactstrap";
 import {
   Accordion,
@@ -15,14 +14,10 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
-// Demo styles, see 'Styles' section below for some notes on use.
 import 'react-accessible-accordion/dist/fancy-example.css';
 import video from "../assets/img/bg-video.mp4";
 import { auth } from "../../firebase";
-// import Accordion from "react-bootstrap/Accordion";
-import callIcon from "../../components/assets/img/call-icon.png";
 import searchIcon from "../../components/assets/img/search-icon.png";
-import img from "../../components/assets/img/icon-result-purple.png";
 import img1 from "../../components/assets/img/location-icon.png";
 import img2 from "../../components/assets/img/watch-icon.png";
 import img3 from "../../components/assets/img/gcap-icon.png";
@@ -30,6 +25,11 @@ import img4 from "../../components/assets/img/mail-icon.png";
 import img5 from "../../components/assets/img/dollar-icon.png";
 import img6 from "../../components/assets/img/icon-result-purple.png";
 import img7 from "../../components/assets/img/call-icon.png";
+// import ipapi from "ipapi.co";
+// var https = require('https-browserify')
+
+// var ipapi = https.request('ipapi.co')
+
 
 const Home = (props) => {
   const [login, setLoginn] = useState(false);
@@ -46,23 +46,44 @@ const Home = (props) => {
   const [hoverStateEmail, setHoverStateEmail] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [modalStateOtp, setModalStateOtp] = useState(false);
-
-
-
-
   const [openedId, setOpenedId] = useState(0);
 
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-      console.log("Auth", currentuser);
-      setUser(currentuser);
-    });
-
-    return () => {
-      // unsubscribe();
-    };
+    locationFunction();
   }, []);
+
+  const locationFunction = async () =>{
+    // ipapi.location(callback); 
+    await navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log("[postions:",position);
+        // let latitude = position && position.coords && position.coords.latitude;
+        // let longitude =
+        //   position && position.coords && position.coords.longitude;
+        // this.setState({
+        //   latitude,
+        //   longitude,
+        // });
+      },
+      (error) => {
+        console.log("error in get location", error);
+        // ipapi.location(callback); // Complete location for your IP address
+        // console.error("Error Code = " + error.code + " - " + error.message);
+      }
+    );
+  }
+  const callback = (loc) => {
+    console.log("ipapi loc:",loc)
+    searchText(loc.city);
+    searchResult();
+    // this.setState({
+    //   latitudeIp : loc && loc.latitude && loc.latitude,
+    //   longitudeIp : loc && loc.longitude && loc.longitude
+    // })
+  };
+  
+
 
   const kFormatter = (num) => {
     return Math.abs(num) > 999
