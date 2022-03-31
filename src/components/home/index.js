@@ -103,7 +103,7 @@ const OnVerify= async (e)=>{
     // setIsloading(true);
     let data = await result.confirm(otp);
     console.log(data,'databis ')
-    cookie.set("guestToken", data._tokenResponse.idToken);
+    cookie.set("x-access-token-gt", data._tokenResponse.idToken);
     toast("correct OTP");
   } catch (err) {
     toast("Incorrect OTP",err);

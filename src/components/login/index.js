@@ -2,11 +2,15 @@ import React, { Component, useEffect, useState } from "react";
 import img1 from "../../components/assets/img/login-artwork.png" ;
 import img from "../../components/assets/img/canvas-close.png"
 import {   RecaptchaVerifier, signInWithPhoneNumber,} from "firebase/auth";
+import { toast } from "react-toastify";
+import 'react-phone-input-2/lib/style.css'
+import PhoneInput from 'react-phone-input-2'
  import { auth } from "../../firebase";
  import Loader from 'rsuite/Loader';
 
 // import img from "../../assets/img//";
 import firebase from "../../firebase";
+import { type } from "superagent/lib/utils";
 console.log("zFirebase", firebase.auth)
 const Login =(props)=> { 
 
@@ -19,12 +23,12 @@ const Login =(props)=> {
 
    const onSignInSubmit= async ()=>{
       if(phone.length<10){
-         alert('Phone Number Invalid')
+         toast('Phone Number Invalid')
          return false;
       }
       setIsloading(true);
-      console.log(phone,'phone is here ')
-      const number = "+91"+phone;
+      console.log(typeof phone,'phone is here ')
+      const number = "+" + phone;
          const recaptchaVerifier = await new RecaptchaVerifier(
            "recaptcha-container",
            {
@@ -40,15 +44,16 @@ const Login =(props)=> {
             console.log(result,"here is result");
          
             let dataToSend={
-               phoneNumber:phone,
+               phoneNumber: "+"+ phone,
                // firebaseUID:"kjbljhebvljhbdflvbdfjhvbjdfbvjbdfjvbdf"
             }
             props.setResult(result,dataToSend)
+            toast("otp sent successfully")
             setIsloading(false);
 
 
           }).catch((error) => {
-
+            toast("auth/invalid-phone-number")
            console.log(error,"here is eroor");
           });
 
@@ -64,16 +69,28 @@ const Login =(props)=> {
                        <div class="row">
                           <div class="col-lg-12">
                              <div class="">
-                                <input type="text" class="form-control" placeholder="Phone Number" onChange={(e) => {
+                                {/* <input type="text" class="form-control" placeholder="Phone Number" onChange={(e) => {
                       setPhone(e.target.value);}}
                       maxlength="10"
-                      
+
                       onKeyPress={(event) => {
                         if (!/[0-9]/.test(event.key)) {
                           event.preventDefault();
                         }
                       }}
-                    />
+                    /> */}
+                    <PhoneInput
+                              country="us"
+                              class="form-control changephone"
+                              value={phone}
+                              onChange={(phoneNumber) =>
+                                setPhone( phoneNumber )
+                              }
+                              // defaultMask=
+                              style={{ display: "flex", flex: 1 }}
+                              alwaysDefaultMask={false}
+                            
+                     />
                              </div>
                           </div>
                           <div class="col-lg-12">

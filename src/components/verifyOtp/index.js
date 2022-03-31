@@ -5,8 +5,9 @@ import Cookies from "universal-cookie";
 import loginAction from "../../actions/login.action";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useNavigate } from "react-router-dom";
 const Verify = (props) => {
+  const history = useNavigate();
   let cookie = new Cookies();
   var [otp, setOtp] = useState("");
   const [isloading, setIsloading] = useState(false);
@@ -34,9 +35,9 @@ const Verify = (props) => {
           console.log("here is ottttttp error", res);
         } else {
           setIsloading(false);
-          cookie.set("token", data._tokenResponse.idToken);
-          console.log(res, "here is ");
-          props.history.push("/dashboard");
+          cookie.set("x-access-token-ns", data._tokenResponse.idToken);
+          toast("otp match successful")
+          history("/dashboard");
         }
       });
       // window.location.reload();

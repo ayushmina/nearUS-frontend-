@@ -11,6 +11,13 @@ body {
     font-family: inter;
     src: url(../fonts/Inter.ttf);
 }
+.changephone{
+	height: 40px;
+    border: 1px solid #858585;
+    font-size: 12px;
+    color: #858585;
+    margin-bottom: 25px;
+}
 .offcanvas-end {
     top: 0;
     right: 0;
@@ -763,3 +770,12 @@ span.my-className-prefix__indicator-separator {
        border-radius: 20px;
        padding: 30px;
     }
+
+	.react-tel-input .form-control {
+		height: 45px !important;
+		width: 100% !important;
+	}
+
+	.react-tel-input {
+		margin-bottom: 30px;
+	}
