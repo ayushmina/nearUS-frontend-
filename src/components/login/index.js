@@ -65,8 +65,15 @@ const Login =(props)=> {
                           <div class="col-lg-12">
                              <div class="">
                                 <input type="text" class="form-control" placeholder="Phone Number" onChange={(e) => {
-                      setPhone(e.target.value);
-                    }}/>
+                      setPhone(e.target.value);}}
+                      maxlength="10"
+                      
+                      onKeyPress={(event) => {
+                        if (!/[0-9]/.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
+                    />
                              </div>
                           </div>
                           <div class="col-lg-12">
