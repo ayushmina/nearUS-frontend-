@@ -25,6 +25,20 @@ const Dashborad = (props) => {
   const [user, setUser] = useState(null);
   const [post, setPost] = useState(false);
   const [postList, setList] = useState([]);
+  const [postData,setPostData]=useState({
+    contactName: "",
+      emailAddress: "",
+      businessName: "",
+      salary: "",
+      comment: "",
+      phoneNumber: "",
+      experience: "",
+      jobType: "",
+      salaryPer: "",
+      state: "",
+      city: "",
+      zipcode: "",
+  })
   const history = useNavigate();
   useEffect(() => {
     let token = Agent.getToken();
@@ -56,7 +70,24 @@ const Dashborad = (props) => {
   };
 
   const editJob = (job) => {
+
     setPost(true);
+    setPostData(
+      {
+        contactName: job.contactName,
+      emailAddress: job.email,
+      businessName: job.businessName,
+      salary: job.salary,
+      comment: job.comment,
+      phoneNumber: job.phoneNumber,
+      experience: job.experience,
+      jobType: job.jobType,
+      salaryPer: job.salaryPer,
+      state: job.state,
+      city: job.city,
+      zipcode: job.zipcode,
+      }
+    );
 
   };
   
@@ -79,7 +110,7 @@ const Dashborad = (props) => {
       <section class="main-banner-wrap logged-user">
         <TopDashBoradheader showPost={showPost}></TopDashBoradheader>
         <SlidingPane direction="right" state={post} setState={off}>
-          <FormPost postState={post} setPost={setPost} fetchPost={fetchPost} toastCall={toastCall}/>
+          <FormPost postState={post} setPost={setPost} fetchPost={fetchPost} toastCall={toastCall} postData={postData} />
         </SlidingPane>
       </section>
       <section class="search-result-wrp">

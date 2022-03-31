@@ -1,8 +1,8 @@
 const settings = {
 
-    BACKEND_URL: 'http://localhost:4044',
+    // BACKEND_URL: 'http://localhost:4044',
 
-    // BACKEND_URL: 'http://64.227.111.119:5000',
+    BACKEND_URL: 'http://192.168.1.44:4044',
 
 
     // dev

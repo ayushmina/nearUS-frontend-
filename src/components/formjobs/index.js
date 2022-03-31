@@ -189,6 +189,7 @@ const FormPost = (props) => {
                 type="text"
                 class="form-control"
                 placeholder="Business Name"
+                
                 onChange={(e) => {
                   setBusinessName(e.target.value);
                 }}
