@@ -740,3 +740,26 @@ span.my-className-prefix__indicator-separator {
     position: relative;
     top: -6px;
 }
+
+.otp-wrp .title
+     {
+       line-height: 1.5;
+     }
+    .otp-wrp input[type="text"]
+    {
+      font-size:12px;
+  }
+    .otp-wrp input[type="text"]:focus{
+     border:1px solid #000;
+     outline: none;
+     box-shadow: none;
+    }
+    .send-buttons .btn{
+      border-radius: 60px;
+      font-size: 12px;
+    }
+    .otp-wrp .modal-content
+    {
+       border-radius: 20px;
+       padding: 30px;
+    }
