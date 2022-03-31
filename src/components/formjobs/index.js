@@ -224,7 +224,6 @@ const FormPost = (props) => {
                   isClearable
                   isDisabled={isDisabled}
                   classNamePrefix="my-className-prefix"
-
                   onChange={handleChange1}
                   options={arrycity}
                 />
@@ -232,7 +231,6 @@ const FormPost = (props) => {
                 <CreatableSelect
                   placeholder="City..."
                   classNamePrefix="my-className-prefix"
-
                   isClearable
                   isDisabled={isDisabled}
                   onChange={handleChange1}
@@ -281,7 +279,6 @@ const FormPost = (props) => {
               <CreatableSelect
                 placeholder="Job type"
                 classNamePrefix="my-className-prefix"
-
                 isClearable
                 onChange={handleChange3}
                 options={options.job_type}

@@ -683,9 +683,10 @@ footer {
 	margin-top: 5px !important;
 }
 
-.acc-contact-details button:hover {
-	color: #0056D6;
-}
+/* .acc-contact-details button:hover {
+	color: #fff;
+	background:#0056D6 ;
+} */
 
 .acc-contact-details button img {
 	height: 15px;

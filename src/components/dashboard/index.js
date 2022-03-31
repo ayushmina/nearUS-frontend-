@@ -18,6 +18,9 @@ import img6 from "../../components/assets/img/icon-result-purple.png";
 import img7 from "../../components/assets/img/dollar-icon.png";
 import img8 from "../../components/assets/img/repost-icon.png";
 import Agent from "../../actions/superAgent";
+import noJObs from "../../components/assets/img/no-job-artwork.png";
+
+// ../../components/assets/img/no-job-artwork.png
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -25,6 +28,8 @@ const Dashborad = (props) => {
   const [user, setUser] = useState(null);
   const [post, setPost] = useState(false);
   const [postList, setList] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
   const history = useNavigate();
   useEffect(() => {
     let token = Agent.getToken();
@@ -43,7 +48,7 @@ const Dashborad = (props) => {
   useEffect(() => {}, []);
 
   const fetchPost = async () => {
-    await postActions.myPost((err, res) => {
+    await postActions.myPost(searchText,(err, res) => {
       if (err) {
       } else {
         setList(res.data);
@@ -73,6 +78,11 @@ const Dashborad = (props) => {
     console.log("hello setPost ");
   };
 
+  const setSearchTextInput = (e) => {
+   setSearchText(e.target.value);
+    fetchPost();
+  }
+
   return (
     <>
                 <ToastContainer />
@@ -92,17 +102,19 @@ const Dashborad = (props) => {
                 </h2>
               </div>
             </div>
-            <div class="col-lg-6">
+            {postList.length > 0 ? <div class="col-lg-6">
               <div class="search-wrp">
                 <input
                   type="text"
-                  placeholder="Search your Jobs by Name"
+                  placeholder="Search your jobs by name"
                   class="form-control"
+                  value={searchText}
+                  onChange={setSearchTextInput}
                 />
                 <img src={img} class="img img-fluid" alt="" />
               </div>
-            </div>
-          </div>
+            </div>: ""}
+          </div> 
           <div class="search-accordian">
             <div class="accordion" id="accordionExample">
               <div class="row">
@@ -198,7 +210,17 @@ const Dashborad = (props) => {
                         </Accordion>
                       </div>)
                     })
-                  : "hello"}
+                  :  <> <section class="search-result-wrp">
+                  <div class="container">
+                     {/* <div class="common-head">
+                        <h2>Your Posted <span>Jobs</span></h2>
+                     </div> */}
+                     <div class="no-post-wrp">
+                        <img src={noJObs} class="img img-fluid" alt=""/>
+                        <h4>No Jobs Found</h4>
+                     </div>
+                  </div>
+               </section></>} 
               </div>
             </div>
           </div>

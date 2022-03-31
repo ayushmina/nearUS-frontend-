@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import img1 from "../../components/assets/img/call-icon.png" ;
 import img from "../../components/assets/img/mail-icon.png";
+import footerImg from "../../components/assets/img/white-logo.png";
 
 class Abc extends Component {
   constructor(props) {
@@ -9,13 +10,6 @@ class Abc extends Component {
       
     };
   }
-
-  componentDidMount() {  
-
-   
-  }
-
-
 
   render() {
     // 
@@ -26,7 +20,7 @@ class Abc extends Component {
             <div class="row">
                <div class="col-lg-6">
                   <div class="footer-logo">
-                     <img src="./img/white-logo.png" class="img img-fluid" alt=""/>
+                     <img src={footerImg} class="img img-fluid" alt=""/>
                   </div>
                </div>
                <div class="col-lg-3">

@@ -30,9 +30,9 @@ function getPost(payload, cb) {
         if (typeof cb === 'function') return cb(error, res && res.body);
       });
   }
-  function myPost(cb) {
+  function myPost(text,cb) {
     Agent
-      .fire('get', `${BACKEND_URL}/users//ownJob`)
+      .fire('get', `${BACKEND_URL}/users/ownJob?text=${text}`)
       .end((err, res) => {
         var error = err || res.error ? ServerError(res) : (res.body && res.body.error) ? ServerError(res) : null;
         if (typeof cb === 'function') return cb(error, res && res.body);
