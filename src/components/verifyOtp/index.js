@@ -36,7 +36,7 @@ const Verify = (props) => {
           setIsloading(false);
           cookie.set("token", data._tokenResponse.idToken);
           console.log(res, "here is ");
-          this.props.history.push("dashboard");
+          props.history.push("/dashboard");
         }
       });
       // window.location.reload();

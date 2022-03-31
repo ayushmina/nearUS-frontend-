@@ -32,6 +32,7 @@ const Home = (props) => {
   const [list, setList] = useState([]);
   const [text, searchText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [hoverState, setHoverState] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
@@ -45,24 +46,26 @@ const Home = (props) => {
   }, []);
 
   const kFormatter = (num) => {
-    return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
-}
+    return Math.abs(num) > 999
+      ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
+      : Math.sign(num) * Math.abs(num);
+  };
 
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 700,
-    behavior: "smooth",
-  });
-};
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 700,
+      behavior: "smooth",
+    });
+  };
 
   const searchResult = async () => {
-    setLoading(true)
+    setLoading(true);
     await postActions.Search(text, (err, res) => {
       if (err) {
       } else {
         setList(res.data);
         scrollToTop();
-        setLoading(false)
+        setLoading(false);
       }
     });
   };
@@ -122,26 +125,31 @@ const scrollToTop = () => {
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="main-search-wrp">
-                      <form action="">
-                        <div>
-                          <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Search by Zip Code, City or State"
-                            onChange={(e) => {
-                              searchText(e.target.value);
-                            }}
-                          />
-                          <button
-                            class="btn"
-                            type="button"
-                            onClick={searchResult}
-                            disabled={text.length > 0 ? false : true}
-                          >
-                          {!loading ? <img src={searchIcon} alt=""  /> :""}  
-                          </button>
-                        </div>
-                      </form>
+                      {/* <form action=""> */}
+                      <div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Search by Zip Code, City or State"
+                          onChange={(e) => {
+                            searchText(e.target.value);
+                          }}
+                          onKeyPress={(event) => {
+                            if (event.key === "Enter") {
+                              searchResult();
+                            }
+                          }}
+                        />
+                        <button
+                          class="btn"
+                          type="button"
+                          onClick={searchResult}
+                          disabled={text.length > 0 ? false : true}
+                        >
+                          {!loading ? <img src={searchIcon} alt="" /> : ""}
+                        </button>
+                      </div>
+                      {/* </form> */}
                     </div>
                   </div>
                 </div>
@@ -181,91 +189,98 @@ const scrollToTop = () => {
                   <div class="search-accordian">
                     <div class="accordion" id="accordionExample">
                       <div class="row">
-                        {list.map((job) => {
+                        {list.map((job,index) => {
                           // return()
-                          return( <div class="col-lg-6">
-                             <Accordion defaultActiveKey="1">
-                          <Accordion.Item eventKey="0">
-                            <Accordion.Header
-                              eventKey="0"
-                              onClick={(e) => {
-                                e.preventDefault();
-                              }}
-                            >
-                              <div class="search-acc-header">
-                                <div class="search-acc-icon">
-                                  <img src={img6} alt="" />
-                                </div>
-                                <div class="search-acc-header-content">
-                                  <h3>{job.jobType}</h3>
-                                  <p>{job.businessName}</p>
-                                  <div>
-                                    <ul>
-                                      <li>
-                                        <div className="search-acc-header-text">
-                                        <img src={img1} alt="" />
-                                        <h6>
-                                          {job.city}, {job.state}
-                                        </h6>
+                          return (
+                            <div class="col-lg-6">
+                              <Accordion accordionId={index} open={this.state.openedId}>
+                                <Accordion.Item eventKey="0">
+                                  <Accordion.Header
+                                    eventKey="0"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                    }}
+                                  >
+                                    <div class="search-acc-header">
+                                      <div class="search-acc-icon">
+                                        <img src={img6} alt="" />
+                                      </div>
+                                      <div class="search-acc-header-content">
+                                        <h3>{job.jobType}</h3>
+                                        <p>{job.businessName}</p>
+                                        <div>
+                                          <ul>
+                                            <li>
+                                              <div className="search-acc-header-text">
+                                                <img src={img1} alt="" />
+                                                <h6>
+                                                  {job.city}, {job.state}
+                                                </h6>
+                                              </div>
+                                            </li>
+                                            <li>
+                                              <div className="search-acc-header-text">
+                                                <img src={img5} alt="" />
+                                                <h6>
+                                                  {kFormatter(job.salary)}/
+                                                  {job.salaryPer}
+                                                </h6>
+                                              </div>
+                                            </li>
+                                            <li>
+                                              <div className="search-acc-header-text">
+                                                <img src={img2} alt="" />
+                                                <h6>{job.jobType}</h6>
+                                              </div>
+                                            </li>
+                                            <li>
+                                              <div className="search-acc-header-text">
+                                                <img src={img3} alt="" />
+                                                <h6>{job.experience} Years</h6>
+                                              </div>
+                                            </li>
+                                          </ul>
                                         </div>
-                                      </li>
-                                      <li>
-                                      <div className="search-acc-header-text">
-                                      <img src={img5} alt="" />
-                                      <h6>
-                                          {kFormatter(job.salary)}/{job.salaryPer}
-                                        </h6>
                                       </div>
-                                      
-                                      </li>
-                                      <li>
-                                      <div className="search-acc-header-text">
-                                      <img src={img2} alt="" />
-                                      <h6>
-                                          {job.jobType}
-                                        </h6>
-                                       </div>
-                                      </li>
-                                      <li>
-                                      <div className="search-acc-header-text"> 
-                                      <img src={img3} alt="" />
-                                      <h6>
-                                          {job.experience} Years
-                                        </h6>
-                                      </div>
-                                        
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </Accordion.Header>
-                            <Accordion.Body>
-                              <div class="accordion-body">
-                                <p>
-                                 {job.comment}
-                                </p>
-                              </div>
-                              <div class="acc-contact-details">
-                                    <ul>
-                                      <li>
-                                        <a href="javascript:;">
-                                          <img src={img7} alt="" />
-                                          +1 xxxx-xxx-xxx
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="javascript:;">
-                                          <img src={img4} alt="" />
-                                          xxxxxx@mail.com
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </div>
-                            </Accordion.Body>
-                          </Accordion.Item>
-                        </Accordion>
-                          </div>)
+                                    </div>
+                                  </Accordion.Header>
+                                  <Accordion.Body>
+                                    <div class="accordion-body">
+                                      <p>{job.comment}</p>
+                                    </div>
+                                    <div class="acc-contact-details">
+                                      <ul>
+                                        <li onMouseOver={()=>setHoverState(true)} onMouseOut={()=>setHoverState(false)}>
+                                          {!hoverState ? (
+                                            <a href="javascript:;">
+                                              <img src={img7} alt="" />
+                                              +1 xxxx-xxx-xxx
+                                            </a>
+                                          ) : (
+                                            <button
+                                              className="btn"
+                                              type="button"
+                                            >
+                                              Click to reveal info
+                                            </button>
+                                          )}
+                                        </li>
+                                        <li>
+                                          <a href="javascript:;">
+                                            <img src={img4} alt="" />
+                                            xxxxxx@mail.com
+                                          </a>
+                                          <button className="btn" type="button">
+                                            Click to reveal info
+                                          </button>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              </Accordion>
+                            </div>
+                          );
                         })}
                       </div>
                     </div>

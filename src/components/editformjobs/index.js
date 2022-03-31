@@ -10,31 +10,39 @@ import postActions from "../../actions/postActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
-const FormPost = (props) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [businessName, setBusinessName] = useState("");
-  const [salary, setSalary] = useState("");
-  const [information, setInformation] = useState("");
-  const [number, setNumber] = useState("");
+const EditFormPost = (props) => {
+  const [name, setName] = useState(props.postData.contactName);
+  const [email, setEmail] = useState(props.postData.emailAddress);
+  const [businessName, setBusinessName] = useState(props.postData.businessName);
+  const [salary, setSalary] = useState(props.postData.salary);
+  const [information, setInformation] = useState(props.postData.comment);
+  const [number, setNumber] = useState(props.postData.phoneNumber);
   const [selectedOption, setSelectedOption] = useState("");
-  const [state, setStates] = useState("");
+  const [state, setStates] = useState(props.postData.state);
   const [stateOption, setStateOption] = useState([]);
   const [arrycity, setarr] = useState([]);
-  const [cityName, setCityName] = useState("");
-  const [experience, setExperience] = useState("");
-  const [job_type, setJobType] = useState("");
-  const [pinCode, setPinCode] = useState("");
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [cityName, setCityName] = useState(props.postData.city);
+  const [experience, setExperience] = useState(props.postData.experience);
+  const [job_type, setJobType] = useState(props.postData.jobType);
+  const [pinCode, setPinCode] = useState(props.postData.zipcode);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [selectedState,setSelectedState]=useState();
   const temp = [
     {
-      value: "ayuhs",
-      label: "hello",
+      value: "llll",
+      label: "llll",
     },
   ];
-  const [perSaly, setPerSaly] = useState(1);
+  const [perSaly, setPerSaly] = useState(props.postData.salaryPer==="Annum"? 3: props.postData.salaryPer==="Hour" ? 1 : 2);
   useEffect(() => {
     setStateOption(optionMaker(data.data));
+    console.log(state);
+    setSelectedState({
+        value: state,
+        label: state,
+    });
+    getCityArry();
+
   }, []);
   useEffect(() => {
     if (state != "") {
@@ -113,9 +121,10 @@ const FormPost = (props) => {
       state: state,
       city: cityName,
       zipcode: pinCode,
+    //   id:props.postData.id,
     };
 
-    postActions.addPost(dataToSend, (err, res) => {
+    postActions.editPost(dataToSend,props.postData.id, (err, res) => {
       if (err) {
         //  showw error
         console.log(err, "here is erro form send");
@@ -131,7 +140,7 @@ const FormPost = (props) => {
     <div class="post-job-content">
             <ToastContainer />
       <h3>
-        Post a <span>Job</span>
+        Edit <span>Job</span>
       </h3>
       <div class="mb-3">
         <h4>Personal Details</h4>
@@ -142,6 +151,7 @@ const FormPost = (props) => {
                 type="text"
                 class="form-control"
                 placeholder="Contact Name"
+                value={name}
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
@@ -153,6 +163,7 @@ const FormPost = (props) => {
               <input
                 type="text"
                 class="form-control"
+                value={number}
                 placeholder="Phone Number"
                 maxlength="10"
                 onKeyPress={(event) => {
@@ -172,6 +183,7 @@ const FormPost = (props) => {
                 type="email"
                 class="form-control"
                 placeholder="Email Address"
+                value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -189,7 +201,7 @@ const FormPost = (props) => {
                 type="text"
                 class="form-control"
                 placeholder="Business Name"
-                
+                value={businessName}
                 onChange={(e) => {
                   setBusinessName(e.target.value);
                 }}
@@ -204,6 +216,7 @@ const FormPost = (props) => {
                   isClearable
                   onChange={handleChange}
                   classNamePrefix="my-className-prefix"
+                  defaultValue={{label:state,value:state}}
                   options={stateOption}
                 />
               ) : (
@@ -211,6 +224,7 @@ const FormPost = (props) => {
                   placeholder="State"
                   isClearable
                   onChange={handleChange}
+                  defaultValue={{label:state,value:state}}
                   classNamePrefix="my-className-prefix"
                   options={temp}
                 />
@@ -225,6 +239,7 @@ const FormPost = (props) => {
                   isClearable
                   isDisabled={isDisabled}
                   classNamePrefix="my-className-prefix"
+                  defaultValue={{label:cityName,value:cityName}}
                   onChange={handleChange1}
                   options={arrycity}
                 />
@@ -235,6 +250,7 @@ const FormPost = (props) => {
                   isClearable
                   isDisabled={isDisabled}
                   onChange={handleChange1}
+                  defaultValue={{label:cityName,value:cityName}}
                   options={[]}
                 />
               )}
@@ -252,6 +268,7 @@ const FormPost = (props) => {
                   }
                 }}
                 maxlength="5"
+                value={pinCode}
                 onChange={(e) => {
                   setPinCode(e.target.value);
                 }}
@@ -267,6 +284,7 @@ const FormPost = (props) => {
             <div class="">
               <CreatableSelect
                 placeholder="Experience"
+                defaultValue={{value:experience,label:experience}}
                 isClearable
                 classNamePrefix="my-className-prefix"
 
@@ -283,6 +301,7 @@ const FormPost = (props) => {
                 isClearable
                 onChange={handleChange3}
                 options={options.job_type}
+                defaultValue={{label:job_type,value:job_type}}
               />
             </div>
           </div>
@@ -291,6 +310,7 @@ const FormPost = (props) => {
               <input
                 type="text"
                 class="form-control"
+                value={salary}
                 placeholder="Salary"
                 onChange={(e) => {
                   setSalary(e.target.value);
@@ -344,6 +364,7 @@ const FormPost = (props) => {
                 cols="30"
                 rows="4"
                 placeholder="Additional Information"
+                value={information}
                 onChange={(e) => {
                   setInformation(e.target.value);
                 }}
@@ -359,7 +380,7 @@ const FormPost = (props) => {
                 sendform();
               }}
             >
-              Post Job
+              Edit Job
             </button>
           </div>
         </div>
@@ -368,7 +389,7 @@ const FormPost = (props) => {
   );
 };
 
-export default FormPost;
+export default EditFormPost;
 
 {
   /* const [selectedOption, setSelectedOption] = useState(options[0].value);
