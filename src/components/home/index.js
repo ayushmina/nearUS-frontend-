@@ -7,6 +7,7 @@ import OtpInput from "react-otp-input";
 import SlidingPane from "../slider";
 import Varify from "../verifyOtp";
 import postActions from "../../actions/postActions";
+import PhoneInput from 'react-phone-input-2'
 import { Modal, ModalBody, ModalFooter, ModalHeader, Button } from "reactstrap";
 import {
   Accordion,
@@ -66,13 +67,13 @@ const Home = (props) => {
 const SendOtpInModal=async (e)=>{
   e.preventDefault();
   if(phone1.length<10){
-    alert('Phone Number Invalid')
+    toast('Phone Number Invalid')
     return false;
  }
 //  isloading true
  console.log(phone1,'phone is here ')
 
- const number = "+91"+phone1;
+ const number = "+"+phone1;
    
   const recaptchaVerifier =  new RecaptchaVerifier(
       "recaptcha-container",
@@ -105,6 +106,9 @@ const OnVerify= async (e)=>{
     console.log(data,'databis ')
     cookie.set("x-access-token-gt", data._tokenResponse.idToken);
     toast("correct OTP");
+    setModalStateOtp(false);
+    setModalState(false)
+    setOtp("");
   } catch (err) {
     toast("Incorrect OTP",err);
     console.log("verify eroor", err);
@@ -474,7 +478,7 @@ const locationFunction = async () =>{
             <p class="h4 title">Enter your <br />Phone Number</p>
             <small class="text-muted">We need your phone number for your verification!</small>
             <div class="mt-3">
-              <input type="text" class="form-control" id="phone-number" placeholder="Phone Number"  onChange={(e) => {
+              {/* <input type="text" class="form-control" id="phone-number" placeholder="Phone Number"  onChange={(e) => {
                       setPhone1(e.target.value);}}
                       maxlength="10"
                       onKeyPress={(event) => {
@@ -482,7 +486,19 @@ const locationFunction = async () =>{
                           event.preventDefault();
                         }
                       }}
-                    />
+                    /> */}
+                     <PhoneInput
+                              country="us"
+                              class="form-control changephone"
+                              value={phone}
+                              onChange={(phoneNumber) =>
+                                setPhone1( phoneNumber )
+                              }
+                              // defaultMask=
+                              style={{ display: "flex", flex: 1 }}
+                              alwaysDefaultMask={false}
+                            
+                     />
             </div>
             <div class="mt-3 send-buttons">
               <button type="button" class="btn btn-primary w-100" onClick={(e) => { SendOtpInModal(e)}}>Send OTP</button>
