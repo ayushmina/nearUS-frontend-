@@ -9,29 +9,17 @@ import {useNavigate} from 'react-router-dom'
 import Dashborad from './components/dashboard';
 
 function App() {
-  const  [user,setUser]= useState("");
+ 
   const history=useNavigate(); 
-useEffect(  () => {
-  const unsubscribe =  onAuthStateChanged(auth, (currentuser) => {
-    console.log("Auth", currentuser);
-    setUser(currentuser);
-  });
 
-  return () => {
-    unsubscribe();
-    // if(user){
-    //   history("/dasbord")
-    // }
-  };
-}, []);
 
   return (
     <>
     
             <Routes>
           
-              <Route exact path="/" key="home" element={<Home user={user}/>} />
-               <Route  path="/dashboard" key="userdashboard" element={<Dashborad user={user}/>}/>
+              <Route exact path="/" key="home" element={<Home />} />
+               <Route  path="/dashboard" key="userdashboard" element={<Dashborad />}/>
               
               </Routes>
         

@@ -3,10 +3,10 @@ import Header from "../topheader";
 import Login from "../login";
 import Abc from "../foter/";
 import FormPost from "../formjobs";
+import OtpInput from "react-otp-input";
 import SlidingPane from "../slider";
 import Varify from "../verifyOtp";
 import postActions from "../../actions/postActions";
-import { onAuthStateChanged } from "firebase/auth";
 import { Modal, ModalBody, ModalFooter, ModalHeader, Button } from "reactstrap";
 import {
   Accordion,
@@ -15,11 +15,12 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
-// Demo styles, see 'Styles' section below for some notes on use.
+import Cookies from "universal-cookie";
 import 'react-accessible-accordion/dist/fancy-example.css';
 import video from "../assets/img/bg-video.mp4";
+import {   RecaptchaVerifier, signInWithPhoneNumber,} from "firebase/auth";
 import { auth } from "../../firebase";
-// import Accordion from "react-bootstrap/Accordion";
+import { ToastContainer, toast } from "react-toastify";
 import callIcon from "../../components/assets/img/call-icon.png";
 import searchIcon from "../../components/assets/img/search-icon.png";
 import img from "../../components/assets/img/icon-result-purple.png";
@@ -30,6 +31,8 @@ import img4 from "../../components/assets/img/mail-icon.png";
 import img5 from "../../components/assets/img/dollar-icon.png";
 import img6 from "../../components/assets/img/icon-result-purple.png";
 import img7 from "../../components/assets/img/call-icon.png";
+import Agent from "../../actions/superAgent";
+import { async } from "@firebase/util";
 
 const Home = (props) => {
   const [login, setLoginn] = useState(false);
@@ -39,6 +42,7 @@ const Home = (props) => {
   const [user, setUser] = useState("");
   const [dataToSend, setDataToSend] = useState({});
   const [phone, setPhone] = useState("");
+  const [phone1, setPhone1] = useState("");
   const [list, setList] = useState([]);
   const [text, searchText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,24 +50,66 @@ const Home = (props) => {
   const [hoverStateEmail, setHoverStateEmail] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [modalStateOtp, setModalStateOtp] = useState(false);
-
-
-
-
+  const[otp,setOtp]=useState("");
   const [openedId, setOpenedId] = useState(0);
-
+  let cookie = new Cookies();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-      console.log("Auth", currentuser);
-      setUser(currentuser);
-    });
-
-    return () => {
-      // unsubscribe();
-    };
+    let token = Agent.getToken();
+    console.log(token,'jecjj')
+    setUser(token);
   }, []);
+  const handleOtpChange = (e) => {
+    setOtp(e);
+    console.log(otp);
+  };
+const SendOtpInModal=async (e)=>{
+  e.preventDefault();
+  if(phone1.length<10){
+    alert('Phone Number Invalid')
+    return false;
+ }
+//  isloading true
+ console.log(phone1,'phone is here ')
 
+ const number = "+91"+phone1;
+   
+  const recaptchaVerifier =  new RecaptchaVerifier(
+      "recaptcha-container",
+      {
+       'size': 'invisible',
+      },
+      auth
+    );
+    let result={};
+     signInWithPhoneNumber(auth, number, recaptchaVerifier).then((confirmationResult) => {
+       window.confirmationResult = confirmationResult;
+       result=confirmationResult;
+       console.log(result,"here is result");
+       toast("otp send ")
+       setResult(result)       
+       setModalStateOtp(true);
+       setModalState(false)
+     }).catch((error) => {
+      toast("Phone Number Invalid")
+      console.log(error,"here is eroor");
+     });
+}
+const OnVerify= async (e)=>{
+  e.preventDefault();
+  console.log(otp, "here is otp");
+  if (otp === "" || otp === null) return;
+  try {
+    // setIsloading(true);
+    let data = await result.confirm(otp);
+    console.log(data,'databis ')
+    cookie.set("guestToken", data._tokenResponse.idToken);
+    toast("correct OTP");
+  } catch (err) {
+    toast("Incorrect OTP",err);
+    console.log("verify eroor", err);
+  }
+};
   const kFormatter = (num) => {
     return Math.abs(num) > 999
       ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
@@ -121,6 +167,7 @@ const Home = (props) => {
   return (
     <>
       <section class="main-banner-wrap">
+      <ToastContainer></ToastContainer>
         <div class="banner-bg-video">
           <video autoPlay muted loop id="myVideo" preload="auto">
             <source src={video} type="video/mp4" />
@@ -405,12 +452,21 @@ const Home = (props) => {
             <p class="h4 title">Enter your <br />Phone Number</p>
             <small class="text-muted">We need your phone number for your verification!</small>
             <div class="mt-3">
-              <input type="text" class="form-control" id="phone-number" placeholder="Phone Number" />
+              <input type="text" class="form-control" id="phone-number" placeholder="Phone Number"  onChange={(e) => {
+                      setPhone1(e.target.value);}}
+                      maxlength="10"
+                      onKeyPress={(event) => {
+                        if (!/[0-9]/.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
+                    />
             </div>
             <div class="mt-3 send-buttons">
-              <button type="button" class="btn btn-primary w-100" onClick={() => {  setModalStateOtp(true); setModalState(false) }}>Send OTP</button>
+              <button type="button" class="btn btn-primary w-100" onClick={(e) => { SendOtpInModal(e)}}>Send OTP</button>
               <button type="button" class="btn btn-light border border-info text-info w-100 mt-3" onClick={() => setModalState(false)}>Cancel</button>
             </div>
+            <div id="recaptcha-container"></div>
           </div>
         </ModalBody>
       </Modal>
@@ -427,16 +483,17 @@ const Home = (props) => {
             {/* <a href="" class="">update Number</a> */}
             <div class="mt-3">
               <div class="otp-filling">
-                <input type="text" class="form-control" style={{ marginLeft: "0 !important" }} />
-                <input type="text" class="form-control" />
-                <input type="text" class="form-control" />
-                <input type="text" class="form-control" />
-                <input type="text" class="form-control" />
+              <OtpInput
+                value={otp}
+                onChange={handleOtpChange}
+                numInputs={6}
+                separator={<span> </span>}
+              />
               </div>
             </div>
             <div class="row  send-buttons">
               {/* <div class="col-lg-6 mt-4"><button type="button" class="btn btn-light border border-info text-info ">Resend OTP</button></div> */}
-              <div class="col-lg-6 mt-4"><button type="button" class="btn btn-primary ">Verify</button></div>
+              <div class="col-lg-6 mt-4"><button type="button" class="btn btn-primary " onClick={(e)=>{ OnVerify(e)}}>Verify</button></div>
               <div class="col-lg-6 mt-4"><button type="button" class="btn btn-primary" onClick={() => setModalStateOtp(false)}>Cancel</button></div>
             </div>
           {/* </div> */}
