@@ -23,7 +23,6 @@ import { auth } from "../../firebase";
 import { ToastContainer, toast } from "react-toastify";
 import callIcon from "../../components/assets/img/call-icon.png";
 import searchIcon from "../../components/assets/img/search-icon.png";
-import img from "../../components/assets/img/icon-result-purple.png";
 import img1 from "../../components/assets/img/location-icon.png";
 import img2 from "../../components/assets/img/watch-icon.png";
 import img3 from "../../components/assets/img/gcap-icon.png";
@@ -55,6 +54,7 @@ const Home = (props) => {
   let cookie = new Cookies();
 
   useEffect(() => {
+    locationFunction();
     let token = Agent.getToken();
     console.log(token,'jecjj')
     setUser(token);
@@ -110,6 +110,26 @@ const OnVerify= async (e)=>{
     console.log("verify eroor", err);
   }
 };
+const locationFunction = async () =>{
+  // ipapi.location(callback); 
+  await navigator.geolocation.getCurrentPosition(
+    (position) => {
+      console.log("[postions:",position);
+      // let latitude = position && position.coords && position.coords.latitude;
+      // let longitude =
+      //   position && position.coords && position.coords.longitude;
+      // this.setState({
+      //   latitude,
+      //   longitude,
+      // });
+    },
+    (error) => {
+      console.log("error in get location", error);
+      // ipapi.location(callback); // Complete location for your IP address
+      // console.error("Error Code = " + error.code + " - " + error.message);
+    }
+  )}
+
   const kFormatter = (num) => {
     return Math.abs(num) > 999
       ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
@@ -239,9 +259,9 @@ const OnVerify= async (e)=>{
       </section>
       {list && list.length > 0 ? (
         <>
-          <section class="search-result-wrp">
+          <section class="search-result-wrp homepage">
             <>
-              <section class="search-result-wrp">
+              <section class="">
                 <div class="container">
                   <div class="row">
                     <div class="col-lg-12">
@@ -255,10 +275,11 @@ const OnVerify= async (e)=>{
                   <div class="search-accordian">
                     <div class="accordion" id="accordionExample">
                       <div class="row">
-                        <Accordion>
+                        <Accordion >
                           {list.map((job, index) => {
                             return (
-                              <>  <AccordionItem key={job._id}>
+                              <>  <div className="col-lg-6">
+                                   <AccordionItem key={job._id}>
                                 <AccordionItemHeading>
                                   <AccordionItemButton>
                                     <div class="search-acc-header">
@@ -339,6 +360,7 @@ const OnVerify= async (e)=>{
                                   </div>
                                 </AccordionItemPanel>
                               </AccordionItem>
+                             </div>
                                 {/* <div class="col-lg-6">
                               <Accordion accordionId={index} open={openedId} handleClick={()=>setOpenedId(index)}>
                                 <Accordion.Item eventKey="0">
@@ -445,10 +467,10 @@ const OnVerify= async (e)=>{
         )}
       <Modal
         isOpen={modalState}
-        className="p-0 product-modal-nb modal-lg modal-dialog-centered"
+        className="p-0 product-modal-nb otp-wrp modal-lg modal-dialog-centered"
       >
         <ModalBody>
-          <div class="modal-body">
+          <div class="">
             <p class="h4 title">Enter your <br />Phone Number</p>
             <small class="text-muted">We need your phone number for your verification!</small>
             <div class="mt-3">

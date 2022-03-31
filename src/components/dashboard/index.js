@@ -27,28 +27,28 @@ import "react-toastify/dist/ReactToastify.css";
 const Dashborad = (props) => {
   const [user, setUser] = useState(null);
   const [post, setPost] = useState(false);
-  const [editPost,setEditPost]=useState(false);
+  const [editPost, setEditPost] = useState(false);
   const [postList, setList] = useState([]);
-  const [postData,setPostData]=useState({
+  const [postData, setPostData] = useState({
     contactName: "",
-      emailAddress: "",
-      businessName: "",
-      salary: "",
-      comment: "",
-      phoneNumber: "",
-      experience: "",
-      jobType: "",
-      salaryPer: "",
-      state: "",
-      city: "",
-      zipcode: "",
-  })
+    emailAddress: "",
+    businessName: "",
+    salary: "",
+    comment: "",
+    phoneNumber: "",
+    experience: "",
+    jobType: "",
+    salaryPer: "",
+    state: "",
+    city: "",
+    zipcode: "",
+  });
   const [searchText, setSearchText] = useState("");
 
   // Updating phase
   useEffect(() => {
     fetchPost();
-  }, [searchText])
+  }, [searchText]);
 
   const history = useNavigate();
   useEffect(() => {
@@ -68,7 +68,7 @@ const Dashborad = (props) => {
   useEffect(() => {}, []);
 
   const fetchPost = async () => {
-    await postActions.myPost(searchText,(err, res) => {
+    await postActions.myPost(searchText, (err, res) => {
       if (err) {
       } else {
         setList(res.data);
@@ -77,17 +77,13 @@ const Dashborad = (props) => {
   };
 
   const off = () => {
-    setEditPost(false)
+    setEditPost(false);
     setPost(false);
   };
 
   const editJob = (job) => {
-
-    
-    console.log(job,'satyamtomar')
-    setPostData(
-      {
-        contactName: job.contactName,
+    setPostData({
+      contactName: job.contactName,
       emailAddress: job.emailAddress,
       businessName: job.businessName,
       salary: job.salary,
@@ -100,18 +96,23 @@ const Dashborad = (props) => {
       city: job.city,
       zipcode: job.zipcode,
       id: job._id,
-      }
-    );
+    });
     setEditPost(true);
   };
-  
+
   const toastCall = () => {
-    toast.success("New job added")
+    toast.success("New job added");
   };
+  const toastCallEdit = () => {
+    toast.success("Job updated");
+  };
+
   
   const kFormatter = (num) => {
-    return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
-}
+    return Math.abs(num) > 999
+      ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
+      : Math.sign(num) * Math.abs(num);
+  };
 
   const showPost = () => {
     setPost(true);
@@ -119,39 +120,52 @@ const Dashborad = (props) => {
   };
 
   const setSearchTextInput = (e) => {
-   setSearchText(e.target.value);
+    setSearchText(e.target.value);
     // fetchPost();
-  }
-   const deletePost=(job)=>{
-       
+  };
+  const deletePost = (job) => {
     postActions.deletePost(job._id, (err, res) => {
       if (err) {
         //  showw error
         console.log(err, "here is error in delete");
-      } 
-      
+      }else {
+        fetchPost();
+        toast.error("Job removed");
+      }
     });
-   }
-   const repost=(job)=>{
-       
+  };
+  const repost = (job) => {
     postActions.repost(job._id, (err, res) => {
       if (err) {
         //  showw error
         console.log(err, "here is erro in repost");
-      } 
-      
+      } else {
+        fetchPost();
+        toast.success("Job reposted");
+      }
     });
-   }
+  };
   return (
     <>
-                <ToastContainer />
+      <ToastContainer />
       <section class="main-banner-wrap logged-user">
         <TopDashBoradheader showPost={showPost}></TopDashBoradheader>
         <SlidingPane direction="right" state={editPost} setState={off}>
-          <EditFormPost postState={editPost} setPost={setEditPost} fetchPost={fetchPost} toastCall={toastCall} postData={postData} />
+          <EditFormPost
+            postState={editPost}
+            setPost={setEditPost}
+            fetchPost={fetchPost}
+            toastCall={toastCallEdit}
+            postData={postData}
+          />
         </SlidingPane>
         <SlidingPane direction="right" state={post} setState={off}>
-          <FormPost postState={post} setPost={setPost} fetchPost={fetchPost} toastCall={toastCall} />
+          <FormPost
+            postState={post}
+            setPost={setPost}
+            fetchPost={fetchPost}
+            toastCall={toastCall}
+          />
         </SlidingPane>
       </section>
       <section class="search-result-wrp">
@@ -164,25 +178,30 @@ const Dashborad = (props) => {
                 </h2>
               </div>
             </div>
-            {postList.length < 0  && searchText.length<0 ? "" : <div class="col-lg-6">
-              <div class="search-wrp">
-                <input
-                  type="text"
-                  placeholder="Search your jobs by name"
-                  class="form-control"
-                  value={searchText}
-                  onChange={setSearchTextInput}
-                />
-                <img src={img} class="img img-fluid" alt="" />
+            {postList.length < 0 && searchText.length < 0 ? (
+              ""
+            ) : (
+              <div class="col-lg-6">
+                <div class="search-wrp">
+                  <input
+                    type="text"
+                    placeholder="Search your jobs by name"
+                    class="form-control"
+                    value={searchText}
+                    onChange={setSearchTextInput}
+                  />
+                  <img src={img} class="img img-fluid" alt="" />
+                </div>
               </div>
-            </div>}
-          </div> 
+            )}
+          </div>
           <div class="search-accordian">
             <div class="accordion" id="accordionExample">
               <div class="row">
-                {postList.length > 0
-                  ? postList.map((job) => {
-                     return( <div class="col-lg-6">
+                {postList.length > 0 ? (
+                  postList.map((job) => {
+                    return (
+                      <div class="col-lg-6">
                         <Accordion defaultActiveKey="1">
                           <Accordion.Item eventKey="0">
                             <Accordion.Header
@@ -202,37 +221,32 @@ const Dashborad = (props) => {
                                     <ul>
                                       <li>
                                         <div className="search-acc-header-text">
-                                        <img src={img1} alt="" />
-                                        <h6>
-                                          {job.city}, {job.state}
-                                        </h6>
+                                          <img src={img1} alt="" />
+                                          <h6>
+                                            {job.city}, {job.state}
+                                          </h6>
                                         </div>
                                       </li>
                                       <li>
-                                      <div className="search-acc-header-text">
-                                      <img src={img7} alt="" />
-                                      <h6>
-                                          {kFormatter(job.salary)} - {job.salaryPer}
-                                        </h6>
-                                      </div>
-                                      
+                                        <div className="search-acc-header-text">
+                                          <img src={img7} alt="" />
+                                          <h6>
+                                            {kFormatter(job.salary)} -{" "}
+                                            {job.salaryPer}
+                                          </h6>
+                                        </div>
                                       </li>
                                       <li>
-                                      <div className="search-acc-header-text">
-                                      <img src={img2} alt="" />
-                                      <h6>
-                                          {job.jobType}
-                                        </h6>
-                                       </div>
+                                        <div className="search-acc-header-text">
+                                          <img src={img2} alt="" />
+                                          <h6>{job.jobType}</h6>
+                                        </div>
                                       </li>
                                       <li>
-                                      <div className="search-acc-header-text"> 
-                                      <img src={img3} alt="" />
-                                      <h6>
-                                          {job.experience} Years
-                                        </h6>
-                                      </div>
-                                        
+                                        <div className="search-acc-header-text">
+                                          <img src={img3} alt="" />
+                                          <h6>{job.experience} Years</h6>
+                                        </div>
                                       </li>
                                     </ul>
                                   </div>
@@ -241,28 +255,43 @@ const Dashborad = (props) => {
                             </Accordion.Header>
                             <Accordion.Body>
                               <div class="accordion-body">
-                                <p>
-                                 {job.comment}
-                                </p>
+                                <p>{job.comment}</p>
                               </div>
                               <div class="acc-contact-details">
                                 <ul class="">
                                   <li class="border-0">
-                                    <button class="btn" type="button" onClick={(e)=>{
-                                      e.preventDefault();
-                                      editJob(job)}}>
+                                    <button
+                                      class="btn"
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        editJob(job);
+                                      }}
+                                    >
                                       <img src={img4} alt="" />
                                       Edit
                                     </button>
                                   </li>
                                   <li class="border-0">
-                                    <button class="btn" type="button" onClick={()=>{deletePost(job)}}>
+                                    <button
+                                      class="btn"
+                                      type="button"
+                                      onClick={() => {
+                                        deletePost(job);
+                                      }}
+                                    >
                                       <img src={img5} alt="" />
                                       Delete
                                     </button>
                                   </li>
                                   <li class="border-0">
-                                    <button class="btn" type="button" onClick={()=>{repost(job)}}>
+                                    <button
+                                      class="btn"
+                                      type="button"
+                                      onClick={() => {
+                                        repost(job);
+                                      }}
+                                    >
                                       <img src={img8} alt="" />
                                       Repost
                                     </button>
@@ -272,19 +301,25 @@ const Dashborad = (props) => {
                             </Accordion.Body>
                           </Accordion.Item>
                         </Accordion>
-                      </div>)
-                    })
-                  :  <> <section class="search-result-wrp">
-                  <div class="container">
-                     {/* <div class="common-head">
+                      </div>
+                    );
+                  })
+                ) : (
+                  <>
+                    {" "}
+                    <section class="search-result-wrp">
+                      <div class="container">
+                        {/* <div class="common-head">
                         <h2>Your Posted <span>Jobs</span></h2>
                      </div> */}
-                     <div class="no-post-wrp">
-                        <img src={noJObs} class="img img-fluid" alt=""/>
-                        <h4>No Jobs Found</h4>
-                     </div>
-                  </div>
-               </section></>} 
+                        <div class="no-post-wrp">
+                          <img src={noJObs} class="img img-fluid" alt="" />
+                          <h4>No Jobs Found</h4>
+                        </div>
+                      </div>
+                    </section>
+                  </>
+                )}
               </div>
             </div>
           </div>
