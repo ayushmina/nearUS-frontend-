@@ -192,9 +192,9 @@ const Home = (props) => {
       </section>
       {list && list.length > 0 ? (
         <>
-          <section class="search-result-wrp">
+          <section class="search-result-wrp homepage">
             <>
-              <section class="search-result-wrp">
+              <section class="">
                 <div class="container">
                   <div class="row">
                     <div class="col-lg-12">
@@ -208,10 +208,11 @@ const Home = (props) => {
                   <div class="search-accordian">
                     <div class="accordion" id="accordionExample">
                       <div class="row">
-                        <Accordion>
+                        <Accordion >
                           {list.map((job, index) => {
                             return (
-                              <>  <AccordionItem key={job._id}>
+                              <>  <div className="col-lg-6">
+                                   <AccordionItem key={job._id}>
                                 <AccordionItemHeading>
                                   <AccordionItemButton>
                                     <div class="search-acc-header">
@@ -292,6 +293,7 @@ const Home = (props) => {
                                   </div>
                                 </AccordionItemPanel>
                               </AccordionItem>
+                             </div>
                                 {/* <div class="col-lg-6">
                               <Accordion accordionId={index} open={openedId} handleClick={()=>setOpenedId(index)}>
                                 <Accordion.Item eventKey="0">
@@ -398,10 +400,10 @@ const Home = (props) => {
         )}
       <Modal
         isOpen={modalState}
-        className="p-0 product-modal-nb modal-lg modal-dialog-centered"
+        className="p-0 product-modal-nb otp-wrp modal-lg modal-dialog-centered"
       >
         <ModalBody>
-          <div class="modal-body">
+          <div class="">
             <p class="h4 title">Enter your <br />Phone Number</p>
             <small class="text-muted">We need your phone number for your verification!</small>
             <div class="mt-3">
@@ -409,7 +411,7 @@ const Home = (props) => {
             </div>
             <div class="mt-3 send-buttons">
               <button type="button" class="btn btn-primary w-100" onClick={() => {  setModalStateOtp(true); setModalState(false) }}>Send OTP</button>
-              <button type="button" class="btn btn-light border border-info text-info w-100 mt-3" onClick={() => setModalState(false)}>Cancel</button>
+              <button type="button" class="btn btn-outline-primary w-100 mt-3" onClick={() => setModalState(false)}>Cancel</button>
             </div>
           </div>
         </ModalBody>
