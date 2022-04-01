@@ -22,7 +22,11 @@ body {
     top: 0;
     right: 0;
     width: 600px !important;
-    border-left: 1px solid rgba(0,0,0,.2);
+	border-left: unset;
+	padding-left: 5px;
+	-webkit-box-shadow: -4px 4px 18px 0px rgba(227,227,227,0.63);
+	-moz-box-shadow: -4px 4px 18px 0px rgba(227,227,227,0.63);
+	box-shadow: -4px 4px 18px 0px rgba(227,227,227,0.63);
 }
 
 body {
@@ -246,6 +250,8 @@ footer {
 .main-banner-wrap .navbar img {
 	height: 50px;
 	object-fit: contain;
+	position: relative;
+	top: 7px;
 }
 
 .nav-buttons button {
@@ -533,15 +539,15 @@ footer {
 }
 
 .post-job-content input, .post-job-content select {
-	height: 40px;
-	border: 1px solid #858585;
-	font-size: 12px;
-	color: #858585;
-	margin-bottom: 25px;
+    height: 40px;
+    border: 1px solid hsl(0, 0%, 80%);
+    font-size: 12px;
+    color: #858585;
+    margin-bottom: 25px;
 }
 
 .post-job-content textarea {
-	border: 1px solid #858585;
+	border: 1px solid hsl(0, 0%, 80%);
 	font-size: 12px;
 	color: #858585;
 	margin-bottom: 25px;
@@ -618,6 +624,7 @@ footer {
 	font-size: 24px;
 	color: #000;
 	text-align: center;
+	width: 45px !important;
 }
 
 .otp-filling input:first-child {
