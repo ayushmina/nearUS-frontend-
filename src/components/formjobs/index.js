@@ -84,7 +84,7 @@ const FormPost = (props) => {
     } else if (perSaly == 2) {
       temp = "Month";
     } else if (perSaly == 3) {
-      temp = "Annum";
+      temp = "Mile";
     }
     if (
       !name &&
@@ -268,25 +268,54 @@ const FormPost = (props) => {
         <div class="row">
           <div class="col-lg-6">
             <div class="">
-              <CreatableSelect
+            <select class="form-select">
+                                    <option selected={true} disabled={true}>Experience</option>
+                                    {options.experience.map((e)=>{
+                                     return <option value={e.value}>{e.label}</option>
+                                    })}
+                                 </select>
+              {/* <CreatableSelect
                 placeholder="Experience"
                 isClearable
                 classNamePrefix="my-className-prefix"
-
                 onChange={handleChange2}
                 options={options.experience}
-              />
+              /> */}
             </div>
           </div>
           <div class="col-lg-6">
             <div class="">
-              <CreatableSelect
+            <select class="form-select">
+                                    <option selected={true} disabled={true}>Job type</option>
+                                    {options.job_type.map((e)=>{
+                                     return <option value={e.value}>{e.label}</option>
+                                    })}
+                                 </select>
+              {/* <CreatableSelect
                 placeholder="Job type"
                 classNamePrefix="my-className-prefix"
                 isClearable
                 onChange={handleChange3}
                 options={options.job_type}
-              />
+              /> */}
+            </div>
+          </div>
+          <div class="col-lg-12">
+            
+            <div class="">
+                                 <select class="form-select">
+                                    <option selected={true} disabled={true}>Industry</option>
+                                    {options.industry.map((e)=>{
+                                     return <option value={e.value}>{e.label}</option>
+                                    })}
+                                 </select>
+              {/* <CreatableSelect
+                placeholder="Industry"
+                classNamePrefix="my-className-prefix"
+                isClearable
+                onChange={handleChange3}
+                options={options.industry}
+              /> */}
             </div>
           </div>
           <div class="col-lg-6">
@@ -327,14 +356,14 @@ const FormPost = (props) => {
               </button>
               <button
                 type="button"
-                name="per Annum"
+                name="per Mile"
                 class={`btn ${perSaly === 3 ? "active" : ""}`}
                 onClick={(e) => {
                   e.preventDefault();
                   setPerSaly(3);
                 }}
               >
-                Per Annum
+                Per Mile
               </button>
             </div>
           </div>

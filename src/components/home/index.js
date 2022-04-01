@@ -61,7 +61,7 @@ const Home = (props) => {
   const [modalStateOtp, setModalStateOtp] = useState(false);
   const[otp,setOtp]=useState("");
   const[guest,setGuest]=useState("");
-  
+  const [searchTextFromServer,setSearchTextFromServer] = useState("")
   const [openedId, setOpenedId] = useState(0);
   let cookie = new Cookies();
 
@@ -197,8 +197,8 @@ const locationFunction = async () =>{
   };
 
   const searchResult = async (search) => {
-    setLoading(true);
     if(search){
+      setLoading(true);
       await postActions.Search(search, (err, res) => {
         if (err) {
           console.log("error:",err)
@@ -207,6 +207,7 @@ const locationFunction = async () =>{
           setList(res.data);
           scrollToTop();
           setLoading(false);
+          setSearchTextFromServer(res.text);
         }
       });
     }
@@ -327,7 +328,7 @@ const locationFunction = async () =>{
                     <div class="col-lg-12">
                       <div class="common-head">
                         <h2>
-                          Search <span>Results</span> for "{text}"
+                          Search <span>Results</span> for "{searchTextFromServer}"
                         </h2>
                       </div>
                     </div>
@@ -573,7 +574,7 @@ const locationFunction = async () =>{
         isOpen={modalStateOtp}
         className="p-0 product-modal-nb modal-lg modal-dialog-centered"
       >
-        <ModalBody>
+        <ModalBody className="p-5">
           {/* <div class="modal-body"> */}
             <p class="h4 title">Verify OTP</p>
             <small class="text-muted">We have sent an OTP to your Phone Number.
@@ -592,8 +593,8 @@ const locationFunction = async () =>{
             </div>
             <div class="row  send-buttons">
               {/* <div class="col-lg-6 mt-4"><button type="button" class="btn btn-light border border-info text-info ">Resend OTP</button></div> */}
-              <div class="col-lg-6 mt-4"><button type="button" class="btn btn-primary " onClick={(e)=>{ OnVerify(e)}}>Verify</button></div>
-              <div class="col-lg-6 mt-4"><button type="button" class="btn btn-primary" onClick={() => setModalStateOtp(false)}>Cancel</button></div>
+              <div class="col-lg-6 mt-4"><button type="button" class="btn btn-primary w-100" onClick={(e)=>{ OnVerify(e)}}>Verify</button></div>
+              <div class="col-lg-6 mt-4"><button type="button" class="btn btn-primary w-100" onClick={() => setModalStateOtp(false)}>Cancel</button></div>
             </div>
           {/* </div> */}
         </ModalBody>
