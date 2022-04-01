@@ -39,6 +39,7 @@ import img6 from "../../components/assets/img/icon-result-purple.png";
 import img7 from "../../components/assets/img/call-icon.png";
 import Agent from "../../actions/superAgent";
 import convertRegion from "../../usaStatesAbbrevations";
+import options from "../../options";
 
 
 Geocode.setApiKey("AIzaSyDvU4wxDQqhEtFcrKWCYfDHNIRiZYGZ6kg");
@@ -63,6 +64,8 @@ const Home = (props) => {
   const[guest,setGuest]=useState("");
   const [searchTextFromServer,setSearchTextFromServer] = useState("")
   const [openedId, setOpenedId] = useState(0);
+  const [stateCitySuggestions, setStateCitySuggestions] = useState([]);
+
   let cookie = new Cookies();
 
   useEffect(() => {
@@ -70,13 +73,13 @@ const Home = (props) => {
     let token = Agent.getToken();
     let tokenGuest = Agent.getTokenGuest();
 
-    console.log(token,'jecjj')
+    // console.log(token,'jecjj')
     setUser(token);
     setGuest(tokenGuest);
   }, [openedId]);
   const handleOtpChange = (e) => {
     setOtp(e);
-    console.log(otp);
+    // console.log(otp);
   };
 const SendOtpInModal=async (e)=>{
   e.preventDefault();
@@ -86,22 +89,23 @@ const SendOtpInModal=async (e)=>{
  }
 //  isloading true
 setLoading(true);
- console.log(phone1,'phone is here ')
+//  console.log(phone1,'phone is here ')
 
  const number = "+"+phone1;
    
-  const recaptchaVerifier =  new RecaptchaVerifier(
+  const recaptchaVerifierFn =  new RecaptchaVerifier(
       "recaptcha-container",
       {
        'size': 'invisible',
       },
       auth
     );
+    
     let result={};
-     signInWithPhoneNumber(auth, number, recaptchaVerifier).then((confirmationResult) => {
+     signInWithPhoneNumber(auth, number, recaptchaVerifierFn).then((confirmationResult) => {
        window.confirmationResult = confirmationResult;
        result=confirmationResult;
-       console.log(result,"here is result");
+      //  console.log(result,"here is result");
        toast("otp send ")
        setResult(result)
        setLoading(false)      
@@ -110,18 +114,19 @@ setLoading(true);
      }).catch((error) => {
       setLoading(false);       
       toast("Phone Number Invalid")
-      console.log(error,"here is eroor");
+      // console.log(error,"here is eroor");
+      recaptchaVerifierFn.clear()
      });
 }
 const OnVerify= async (e)=>{
   setLoading(true);       
   e.preventDefault();
-  console.log(otp, "here is otp");
+  // console.log(otp, "here is otp");
   if (otp === "" || otp === null) return;
   try {
     // setIsloading(true);
     let data = await result.confirm(otp);
-    console.log(data,'databis ')
+    // console.log(data,'databis ')
     cookie.set("x-access-token-gt", data._tokenResponse.idToken);
     toast("correct OTP");
     setLoading(false);       
@@ -132,7 +137,7 @@ const OnVerify= async (e)=>{
   } catch (err) {
     toast("Incorrect OTP",err);
     setLoading(false);       
-    console.log("verify eroor", err);
+    // console.log("verify eroor", err);
   }
 };
 const locationFunction = async () =>{
@@ -140,7 +145,7 @@ const locationFunction = async () =>{
 
   await navigator.geolocation.getCurrentPosition(
     (position) => {
-      console.log("[postions:",position.coords);
+      // console.log("[postions:",position.coords);
       Geocode.fromLatLng(33.424564,-111.833267).then(
         (response) => {
           let city, state;
@@ -156,7 +161,7 @@ const locationFunction = async () =>{
               }
             }
           }
-          console.log(city);
+          // console.log(city);
           searchText(city);
           setLoading(false);
           searchResult(city);
@@ -211,29 +216,46 @@ const locationFunction = async () =>{
   };
   const setVerif = () => {
     setVerify(true);
-    console.log("hello setVerify ");
+    // console.log("hello setVerify ");
   };
   const backToLogin = () => {
     setLoginn(true);
     setVerify(false);
-    console.log("hello setVerify ");
+    // console.log("hello setVerify ");
   };
   const showPost = () => {
     setPost(true);
-    console.log("hello setPost ");
+    // console.log("hello setPost ");
   };
   const setResul = (data, dataToSend) => {
-    console.log(dataToSend, "data is here ");
+    // console.log(dataToSend, "data is here ");
     setPhone(dataToSend.phone);
     setDataToSend(dataToSend);
     setResult(data);
     setVerify(true);
   };
   const setLoading1=(e)=>{
-    console.log(e);
+    // console.log(e);
     setLoading(e);
   }
-
+  const searchSuggestions=(text)=>{
+   
+    if(text.length > 0){
+      let suggestions = [];
+      options.state.map((stateValue)=>{
+        if(stateValue.includes(text)) suggestions.push({label:stateValue,value:"state"})
+      })
+      for (const property in options.city) {
+       options.city[property].map((stateValue)=>{
+          if(stateValue.includes(text)) suggestions.push({label:stateValue,value:"city"})
+        })
+     }
+      setStateCitySuggestions(suggestions);
+    }else{
+      setStateCitySuggestions([]);
+    }
+  }
+  
   return (
     <>
       <section class="main-banner-wrap">
@@ -261,16 +283,17 @@ const locationFunction = async () =>{
                 </div>
                 <div class="row">
                   <div class="col-lg-12">
-                    <div class="main-search-wrp">
+                    <div class= { stateCitySuggestions.length > 0 ? "main-search-wrp main-search-drp-open":"main-search-wrp"}>
                       {/* <form action=""> */}
                       <div>
                         <input
                           type="text"
                           class="form-control"
                           placeholder="Search by Zip Code, City or State"
-                          value={text}
+                          // value={text}
                           onChange={(e) => {
-                            searchText(e.target.value);
+                            searchText(text);
+                            searchSuggestions(e.target.value);
                           }}
                           onKeyPress={(event) => {
                             if (event.key === "Enter") {
@@ -287,6 +310,13 @@ const locationFunction = async () =>{
                         >
                            <img src={searchIcon} alt="" /> 
                         </button>
+                      </div>
+                      <div class= { stateCitySuggestions.length > 0 ? "search-nav-drp":"search-nav-drp d-none"}>
+                        <ul>
+                        {stateCitySuggestions.map((citi)=>{
+                          return <li onClick={()=>{ searchText(citi.label); searchResult(citi.label)}}>{citi.label}-<small>{citi.value}</small></li>
+                        })}
+                        </ul>
                       </div>
                       {/* </form> */}
                     </div>
@@ -331,9 +361,9 @@ const locationFunction = async () =>{
                       <div class="row">
                         <Accordion >
                           {list.map((job, index) => {
-                            console.log("index.state:",job.state);
+                            // console.log("index.state:",job.state);
                             let stateAbbr = convertRegion.convertRegion(job.state, 2);
-                            console.log("stateAbbr",stateAbbr);
+                            // console.log("stateAbbr",stateAbbr);
                             let randomNum = Math.floor(Math.random() * (5 - 1 + 1) + 1);
 
                             return (
