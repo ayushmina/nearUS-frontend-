@@ -22,7 +22,7 @@ const Verify = (props) => {
     console.log(otp, "here is otp");
     if (otp === "" || otp === null) return;
     try {
-      setIsloading(true);
+      props.setLoading(true);
       let data = await props.result.confirm(otp);
       console.log("verify otp", data);
       let { phoneNumber } = props.dataToSend;
@@ -34,7 +34,7 @@ const Verify = (props) => {
         if (err) {
           console.log("here is ottttttp error", res);
         } else {
-          setIsloading(false);
+          props.setLoading(false);
           cookie.set("x-access-token-ns", data._tokenResponse.idToken);
           toast("otp match successful")
           history("/dashboard");

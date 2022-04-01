@@ -8,6 +8,7 @@ import SlidingPane from "../slider";
 import Varify from "../verifyOtp";
 import postActions from "../../actions/postActions";
 import PhoneInput from 'react-phone-input-2'
+import Loader from "../loader";
 import { Modal, ModalBody, ModalFooter, ModalHeader, Button } from "reactstrap";
 import {
   Accordion,
@@ -187,10 +188,15 @@ const locationFunction = async () =>{
     setResult(data);
     setVerify(true);
   };
+  const setLoading1=(e)=>{
+    console.log(e);
+    setLoading(e);
+  }
 
   return (
     <>
       <section class="main-banner-wrap">
+      {loading ?<Loader></Loader> : ""}
       <ToastContainer></ToastContainer>
         <div class="banner-bg-video">
           <video autoPlay muted loop id="myVideo" preload="auto">
@@ -199,7 +205,7 @@ const locationFunction = async () =>{
           </video>
         </div>
         <div class="overlay-above-content">
-          <Header setLogin={setLogin} showPost={showPost} user={user}></Header>
+          <Header setLogin={setLogin} showPost={showPost} user={user} ></Header>
           <section class="main-banner-wrap">
             <div class="main-wrp-content">
               <div class="container">
@@ -248,15 +254,16 @@ const locationFunction = async () =>{
           </section>
         </div>
         <SlidingPane direction="right" state={login} setState={off}>
-          <Login setResult={setResul} user={user} />
+          <Login setResult={setResul} user={user} setLoading={setLoading1} />
         </SlidingPane>
-        <SlidingPane direction="right" state={post} setState={off}>
-          <FormPost />
+        <SlidingPane direction="right" state={post} setState={off}  >
+          <FormPost setLoading={setLoading1} />
         </SlidingPane>
-        <SlidingPane direction="right" state={verify} setState={backToLogin}>
+        <SlidingPane direction="right" state={verify} setState={backToLogin} >
           <Varify
             backToLogin={backToLogin}
             result={result}
+            setLoading={setLoading1}
             dataToSend={dataToSend}
           />
         </SlidingPane>

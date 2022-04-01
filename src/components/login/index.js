@@ -5,18 +5,13 @@ import {   RecaptchaVerifier, signInWithPhoneNumber,} from "firebase/auth";
 import { toast } from "react-toastify";
 import 'react-phone-input-2/lib/style.css'
 import PhoneInput from 'react-phone-input-2'
- import { auth } from "../../firebase";
- import Loader from 'rsuite/Loader';
-
-// import img from "../../assets/img//";
+import { auth } from "../../firebase";
 import firebase from "../../firebase";
 import { type } from "superagent/lib/utils";
 console.log("zFirebase", firebase.auth)
 const Login =(props)=> { 
 
    const [phone,setPhone]=useState("");
-   const [isloading,setIsloading]=useState(false);
-
    const setverify=()=>{
       props.setVerify(true);
    }
@@ -26,7 +21,8 @@ const Login =(props)=> {
          toast('Phone Number Invalid')
          return false;
       }
-      setIsloading(true);
+      props.setLoading(true);
+      
       console.log(typeof phone,'phone is here ')
       const number = "+" + phone;
          const recaptchaVerifier = await new RecaptchaVerifier(
@@ -49,7 +45,7 @@ const Login =(props)=> {
             }
             props.setResult(result,dataToSend)
             toast("otp sent successfully")
-            setIsloading(false);
+            props.setLoading(false);
 
 
           }).catch((error) => {
@@ -99,7 +95,7 @@ const Login =(props)=> {
                                  e.preventDefault();
                                  onSignInSubmit();
                              }}>Login</button>
-                             {isloading ? <div>LOading</div> : ""}
+                             
                           </div>
                        </div>
                     </div>

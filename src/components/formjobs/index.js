@@ -77,6 +77,7 @@ const FormPost = (props) => {
   };
 
   const sendform = () => {
+    props.setLoading(true);
     let temp = "";
     if (perSaly == 1) {
       temp = "Hour";
@@ -98,6 +99,7 @@ const FormPost = (props) => {
       !number &&
       !state
     ) {
+      props.setLoading(false);
       return false;
     }
     let dataToSend = {
@@ -117,9 +119,10 @@ const FormPost = (props) => {
 
     postActions.addPost(dataToSend, (err, res) => {
       if (err) {
-        //  showw error
+        toast("pls try again")
         console.log(err, "here is erro form send");
       } else {
+        props.setLoading(false);
         props.setPost(false);
         props.fetchPost();
         props.toastCall();
