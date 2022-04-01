@@ -21,6 +21,11 @@ const getToken = () => {
     console.log(token);
     return token
 }
+const getTokenGuest = () => {
+    let token = cookie.get('x-access-token-gt', { path: '/' });
+    console.log(token);
+    return token
+}
 
 const getLoginType = () => {
     let loginType = cookie.get('loginType', { path: '/' });
@@ -50,6 +55,7 @@ const fire = (method, url, shouldSendHeader=false) => {
 
 let Agent = {
     fire,
-    getToken
+    getToken,
+    getTokenGuest
 }
 export default Agent;
