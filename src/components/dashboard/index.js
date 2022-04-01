@@ -151,7 +151,6 @@ const Dashborad = (props) => {
     <>
       <ToastContainer />
       <section class="main-banner-wrap logged-user">
-      {loading ?<Loader></Loader> : ""}
         <TopDashBoradheader showPost={showPost} setLoading={setLoading1}></TopDashBoradheader>
         <SlidingPane direction="right" state={editPost} setState={off}>
           <EditFormPost
@@ -332,6 +331,7 @@ const Dashborad = (props) => {
             </div>
           </div>
         </div>
+        {loading ?<Loader></Loader> : ""}
       </section>
       ;<Abc></Abc>
     </>

@@ -64,7 +64,7 @@ const Home = (props) => {
   const [searchTextFromServer,setSearchTextFromServer] = useState("")
   const [openedId, setOpenedId] = useState(0);
   let cookie = new Cookies();
-
+  let recaptchaWrapperRef;
   useEffect(() => {
     locationFunction();
     let token = Agent.getToken();
@@ -89,7 +89,9 @@ setLoading(true);
  console.log(phone1,'phone is here ')
 
  const number = "+"+phone1;
-   
+ if (recaptchaWrapperRef) {
+  recaptchaWrapperRef.innerHTML = `<div id="recaptcha-container"></div>`
+}
  const recaptchaVerifier =  new RecaptchaVerifier(
       "recaptcha-container",
       {
@@ -97,6 +99,7 @@ setLoading(true);
       },
       auth
     );
+    console.log(recaptchaVerifier,"hbdjhbsdcbjshdbcjbsjhcdbshj")
     let result={};
      signInWithPhoneNumber(auth, number,  recaptchaVerifier).then((confirmationResult) => {
        confirmationResult = confirmationResult;
@@ -110,14 +113,11 @@ setLoading(true);
      }).catch((error) => {
       setLoading(false);
       toast("Phone Number Invalid")
+      document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
+      recaptchaVerifier.clear();
+      // recaptchaWrapperRef.innerHTML = `<div id="recaptcha-container"></div>`
       console.log(error,"here is eroor");
-        recaptchaVerifier.clear()
-        var elements = document.getElementById("recaptcha-container");
-        console.log(elements)
-        while(elements.length > 0){
-            elements[0].parentNode.removeChild(elements[0]);
 
-        }      
      });
 }
 const startAgain=()=>{
@@ -566,7 +566,9 @@ const locationFunction = async () =>{
               <button type="button" class="btn btn-primary w-100" onClick={(e) => { SendOtpInModal(e)}}>Send OTP</button>
               <button type="button" class="btn btn-light border border-info text-info w-100 mt-3" onClick={() => setModalState(false)}>Cancel</button>
             </div>
-            <div id="recaptcha-container"></div>
+            <div id="hellllll" ref={ref => recaptchaWrapperRef = ref}>
+                <div id="recaptcha-container"></div>
+             </div>
           </div>
         </ModalBody>
       </Modal>

@@ -8,15 +8,18 @@ import PhoneInput from 'react-phone-input-2'
 import { auth } from "../../firebase";
 import firebase from "../../firebase";
 import { type } from "superagent/lib/utils";
-console.log("zFirebase", firebase.auth)
-const Login =(props)=> { 
 
+const Login =(props)=> { 
+ 
    const [phone,setPhone]=useState("");
    const setverify=()=>{
       props.setVerify(true);
    }
-
+   let recaptchaWrapperRef ;
    const onSignInSubmit= async ()=>{
+      if (recaptchaWrapperRef) {
+         recaptchaWrapperRef.innerHTML = `<div id="recaptcha-container"></div>`
+       }
       if(phone.length<10){
          toast('Phone Number Invalid')
          return false;
@@ -50,6 +53,9 @@ const Login =(props)=> {
 
           }).catch((error) => {
             toast("auth/invalid-phone-number")
+            document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
+            recaptchaVerifier.clear();
+            // recaptchaWrapperRef.innerHTML = `<div id="recaptcha-container"></div>`
            console.log(error,"here is eroor");
           });
 
@@ -99,7 +105,9 @@ const Login =(props)=> {
                           </div>
                        </div>
                     </div>
-                    <div id="recaptcha-container"></div>
+                    <div id="hellllll" ref={ref => recaptchaWrapperRef = ref}>
+                <div id="recaptcha-container"></div>
+             </div>
                     <div class="login-artwork">
                        <img src={img1} class="img img-fluid" alt="" />
                     </div>
