@@ -1,11 +1,20 @@
 import React, { useState, Component } from "react";
 import img from "../../components/assets/img//NearUS-black.png";
 import headerImg from "../../components/assets/img/blue-logo.png";
-
+import Agent from "../../actions/superAgent";
+import {signOut} from "firebase/auth";
+import { auth } from "../../firebase";
 const TopDashBoradheader = (props) => {
   const showPost = () => {
     props.showPost();
   };
+  const logOut=(e)=>{
+    console.log("hello")
+    e.preventDefault();
+    Agent.removeSession();
+     signOut(auth);
+    window.location.reload();
+  }
 
   return (
     <header>
@@ -27,7 +36,9 @@ const TopDashBoradheader = (props) => {
             >
               Post a Job
             </button>
-            <button class="btn logged-user-icon" type="button">
+            <button class="btn logged-user-icon" type="button" onClick={e=>{
+              logOut(e)
+            }}>
             <i class="fa fa-sign-out" aria-hidden="true"></i>
             </button>
           </div>

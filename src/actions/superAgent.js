@@ -12,7 +12,7 @@ let AuthIntercept = require('superagent-intercept')((err, res) => {
 });
 
 let removeSession = () => {
-    cookie.remove('user', { path: '/' });
+    cookie.remove('x-access-token-ns', { path: '/' });
     cookie.remove('token', { path: '/' });
 }
 
@@ -50,6 +50,7 @@ const fire = (method, url, shouldSendHeader=false) => {
 
 let Agent = {
     fire,
-    getToken
+    getToken,
+    removeSession
 }
 export default Agent;

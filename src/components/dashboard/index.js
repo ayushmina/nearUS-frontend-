@@ -3,8 +3,6 @@ import TopDashBoradheader from "../topdashboard";
 import Abc from "../foter/";
 import EditFormPost from "../editformjobs";
 import SlidingPane from "../slider";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import postActions from "../../actions/postActions";
 import img from "../../components/assets/img/search-icon.png";
@@ -55,13 +53,6 @@ const Dashborad = (props) => {
   useEffect(() => {
     let token = Agent.getToken();
     fetchPost();
-    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-      console.log("Auth", currentuser);
-      setUser(currentuser);
-    });
-
-    // unsubscribe();
-    console.log(props);
     if (!token) {
       history("/");
     }
@@ -69,7 +60,7 @@ const Dashborad = (props) => {
   useEffect(() => {}, []);
 
   const fetchPost = async () => {
-    props.setLoading(false)
+    // props.setLoading(false)
     await postActions.myPost(searchText, (err, res) => {
       if (err) {
       } else {
