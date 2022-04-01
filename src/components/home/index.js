@@ -17,6 +17,11 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
+import purple from "../../components/assets/img/icon-result-purple.png";  
+import blue from "../../components/assets/img/icon-result-blue.png";
+import pink from "../../components/assets/img/icon-result-pink.png";
+import green from "../../components/assets/img/icon-result-green.png";
+import orange from "../../components/assets/img/icon-result-orange.png";
 import Cookies from "universal-cookie";
 import 'react-accessible-accordion/dist/fancy-example.css';
 import video from "../assets/img/bg-video.mp4";
@@ -33,6 +38,9 @@ import img5 from "../../components/assets/img/dollar-icon.png";
 import img6 from "../../components/assets/img/icon-result-purple.png";
 import img7 from "../../components/assets/img/call-icon.png";
 import Agent from "../../actions/superAgent";
+import convertRegion from "../../usaStatesAbbrevations";
+
+
 Geocode.setApiKey("AIzaSyDvU4wxDQqhEtFcrKWCYfDHNIRiZYGZ6kg");
 
 const Home = (props) => {
@@ -262,6 +270,7 @@ const locationFunction = async () =>{
                             }
                           }}
                         />
+                        
                         <button
                           class="btn"
                           type="button"
@@ -314,6 +323,11 @@ const locationFunction = async () =>{
                       <div class="row">
                         <Accordion >
                           {list.map((job, index) => {
+                            console.log("index.state:",job.state);
+                            let stateAbbr = convertRegion.convertRegion(job.state, 2);
+                            console.log("stateAbbr",stateAbbr);
+                            let randomNum = Math.floor(Math.random() * (5 - 1 + 1) + 1);
+
                             return (
                               <>  <div className="col-lg-6">
                                    <AccordionItem key={job._id}>
@@ -321,7 +335,7 @@ const locationFunction = async () =>{
                                   <AccordionItemButton>
                                     <div class="search-acc-header">
                                       <div class="search-acc-icon">
-                                        <img src={img6} alt="" />
+                                      <img src={randomNum === 1  ?  pink : randomNum === 2 ? green : randomNum === 3 ? blue : randomNum === 4 ?  purple : orange } alt="" />
                                       </div>
                                       <div class="search-acc-header-content">
                                         <h3>{job.jobType}</h3>
@@ -332,7 +346,7 @@ const locationFunction = async () =>{
                                               <div className="search-acc-header-text">
                                                 <img src={img1} alt="" />
                                                 <h6>
-                                                  {job.city}, {job.state}
+                                                  {job.city},  {stateAbbr}
                                                 </h6>
                                               </div>
                                             </li>

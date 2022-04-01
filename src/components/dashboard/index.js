@@ -14,7 +14,12 @@ import img2 from "../../components/assets/img/watch-icon.png";
 import img3 from "../../components/assets/img/gcap-icon.png";
 import img4 from "../../components/assets/img/edit-icon.png";
 import img5 from "../../components/assets/img/delete-icon.png";
-import img6 from "../../components/assets/img/icon-result-purple.png";
+import purple from "../../components/assets/img/icon-result-purple.png";  
+import blue from "../../components/assets/img/icon-result-blue.png";
+import pink from "../../components/assets/img/icon-result-pink.png";
+import green from "../../components/assets/img/icon-result-green.png";
+import orange from "../../components/assets/img/icon-result-orange.png";
+
 import img7 from "../../components/assets/img/dollar-icon.png";
 import img8 from "../../components/assets/img/repost-icon.png";
 import Agent from "../../actions/superAgent";
@@ -24,6 +29,7 @@ import Loader from "../loader";
 // ../../components/assets/img/no-job-artwork.png
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import convertRegion from "../../usaStatesAbbrevations";
 
 const Dashborad = (props) => {
   const [user, setUser] = useState(null);
@@ -69,9 +75,9 @@ const Dashborad = (props) => {
   useEffect(() => {}, []);
 
   const fetchPost = async () => {
-    props.setLoading(false)
+    // props.setLoading(false)
     await postActions.myPost(searchText, (err, res) => {
-      if (err) {
+      if (err) {  
       } else {
         setList(res.data);
       }
@@ -207,7 +213,10 @@ const Dashborad = (props) => {
             <div class="accordion" id="accordionExample">
               <div class="row">
                 {postList.length > 0 ? (
-                  postList.map((job) => {
+                  postList.map((job,index) => {
+                    let stateAbbr = convertRegion.convertRegion(job.state, 2);
+                    console.log("stateAbbr",stateAbbr);
+                    let randomNum = Math.floor(Math.random() * (5 - 1 + 1) + 1);
                     return (
                       <div class="col-lg-6">
                         <Accordion defaultActiveKey="1">
@@ -220,7 +229,7 @@ const Dashborad = (props) => {
                             >
                               <div class="search-acc-header">
                                 <div class="search-acc-icon">
-                                  <img src={img6} alt="" />
+                                  <img src={randomNum === 1  ?  pink : randomNum === 2 ? green : randomNum === 3 ? blue : randomNum === 4 ?  purple : orange } alt="" />
                                 </div>
                                 <div class="search-acc-header-content">
                                   <h3>{job.jobType}</h3>
@@ -231,7 +240,7 @@ const Dashborad = (props) => {
                                         <div className="search-acc-header-text">
                                           <img src={img1} alt="" />
                                           <h6>
-                                            {job.city}, {job.state}
+                                            {job.city}, {stateAbbr}
                                           </h6>
                                         </div>
                                       </li>
@@ -239,7 +248,7 @@ const Dashborad = (props) => {
                                         <div className="search-acc-header-text">
                                           <img src={img7} alt="" />
                                           <h6>
-                                            {kFormatter(job.salary)} -{" "}
+                                            {kFormatter(job.salary)}{"/"}
                                             {job.salaryPer}
                                           </h6>
                                         </div>
