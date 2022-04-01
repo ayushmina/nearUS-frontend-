@@ -62,7 +62,7 @@ function myPost(text, cb) {
 
 function Search(payload, cb) {
   Agent
-    .fire('get', `${BACKEND_URL}/users/searchJobs/${payload}`)
+    .fire('get', `${BACKEND_URL}/users/searchJobs?text=${payload}`)
     .end((err, res) => {
       var error = err || res.error ? ServerError(res) : (res.body && res.body.error) ? ServerError(res) : null;
       if (typeof cb === 'function') return cb(error, res && res.body);

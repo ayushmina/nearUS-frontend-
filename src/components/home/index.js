@@ -23,7 +23,7 @@ import video from "../assets/img/bg-video.mp4";
 import {   RecaptchaVerifier, signInWithPhoneNumber,} from "firebase/auth";
 import { auth } from "../../firebase";
 import { ToastContainer, toast } from "react-toastify";
-import callIcon from "../../components/assets/img/call-icon.png";
+import Geocode from "react-geocode";
 import searchIcon from "../../components/assets/img/search-icon.png";
 import img1 from "../../components/assets/img/location-icon.png";
 import img2 from "../../components/assets/img/watch-icon.png";
@@ -33,7 +33,7 @@ import img5 from "../../components/assets/img/dollar-icon.png";
 import img6 from "../../components/assets/img/icon-result-purple.png";
 import img7 from "../../components/assets/img/call-icon.png";
 import Agent from "../../actions/superAgent";
-import { async } from "@firebase/util";
+Geocode.setApiKey("AIzaSyDvU4wxDQqhEtFcrKWCYfDHNIRiZYGZ6kg");
 
 const Home = (props) => {
   const [login, setLoginn] = useState(false);
@@ -52,15 +52,20 @@ const Home = (props) => {
   const [modalState, setModalState] = useState(false);
   const [modalStateOtp, setModalStateOtp] = useState(false);
   const[otp,setOtp]=useState("");
+  const[guest,setGuest]=useState("");
+  
   const [openedId, setOpenedId] = useState(0);
   let cookie = new Cookies();
 
   useEffect(() => {
     locationFunction();
     let token = Agent.getToken();
+    let tokenGuest = Agent.getTokenGuest();
+
     console.log(token,'jecjj')
     setUser(token);
-  }, []);
+    setGuest(tokenGuest);
+  }, [openedId]);
   const handleOtpChange = (e) => {
     setOtp(e);
     console.log(otp);
@@ -110,6 +115,7 @@ const OnVerify= async (e)=>{
     setModalStateOtp(false);
     setModalState(false)
     setOtp("");
+    setOpenedId(1);
   } catch (err) {
     toast("Incorrect OTP",err);
     console.log("verify eroor", err);
@@ -119,19 +125,34 @@ const locationFunction = async () =>{
   // ipapi.location(callback); 
   await navigator.geolocation.getCurrentPosition(
     (position) => {
-      console.log("[postions:",position);
-      // let latitude = position && position.coords && position.coords.latitude;
-      // let longitude =
-      //   position && position.coords && position.coords.longitude;
-      // this.setState({
-      //   latitude,
-      //   longitude,
-      // });
+      console.log("[postions:",position.coords);
+      Geocode.fromLatLng(33.424564,-111.833267).then(
+        (response) => {
+          let city, state;
+          for (let i = 0; i < response.results[0].address_components.length; i++) {
+            for (let j = 0; j < response.results[0].address_components[i].types.length; j++) {
+              switch (response.results[0].address_components[i].types[j]) {
+                case "locality":
+                  city = response.results[0].address_components[i].long_name;
+                  break;
+                // case "administrative_area_level_1":
+                //   state = response.results[0].address_components[i].long_name;
+                //   break;
+              }
+            }
+          }
+          console.log(city);
+          searchText(city);
+          setLoading(false);
+          searchResult(city);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     },
     (error) => {
       console.log("error in get location", error);
-      // ipapi.location(callback); // Complete location for your IP address
-      // console.error("Error Code = " + error.code + " - " + error.message);
     }
   )}
 
@@ -148,16 +169,20 @@ const locationFunction = async () =>{
     });
   };
 
-  const searchResult = async () => {
+  const searchResult = async (search) => {
     setLoading(true);
-    await postActions.Search(text, (err, res) => {
-      if (err) {
-      } else {
-        setList(res.data);
-        scrollToTop();
-        setLoading(false);
-      }
-    });
+    if(search){
+      await postActions.Search(search, (err, res) => {
+        if (err) {
+          console.log("error:",err)
+        } else {
+          if(res.data < 1) toast("No data found");
+          setList(res.data);
+          scrollToTop();
+          setLoading(false);
+        }
+      });
+    }
   };
 
   const setLogin = () => {
@@ -227,22 +252,23 @@ const locationFunction = async () =>{
                           type="text"
                           class="form-control"
                           placeholder="Search by Zip Code, City or State"
+                          value={text}
                           onChange={(e) => {
                             searchText(e.target.value);
                           }}
                           onKeyPress={(event) => {
                             if (event.key === "Enter") {
-                              searchResult();
+                              searchResult(event.target.value);
                             }
                           }}
                         />
                         <button
                           class="btn"
                           type="button"
-                          onClick={searchResult}
+                          onClick={()=>searchResult(text)}
                           disabled={text.length > 0 ? false : true}
                         >
-                          {!loading ? <img src={searchIcon} alt="" /> : ""}
+                           <img src={searchIcon} alt="" /> 
                         </button>
                       </div>
                       {/* </form> */}
@@ -343,11 +369,11 @@ const locationFunction = async () =>{
                                   </div>
                                   <div class="acc-contact-details">
                                     <ul>
-                                      <li onMouseOver={() => setHoverState(true)} onMouseOut={() => setHoverState(false)}>
+                                      <li onMouseOver={() =>!guest ? setHoverState(true):""} onMouseOut={() => setHoverState(false)}>
                                         {!hoverState ? (
-                                          <a href="javascript:;">
+                                          <a href={`tel:${job.phoneNumber}`}>
                                             <img src={img7} alt="" />
-                                              +1 xxxx-xxx-xxx
+                                            {guest ? job.phoneNumber  :"+1 xxxx-xxx-xxx"} 
                                           </a>
                                         ) : (
                                             <button
@@ -359,10 +385,10 @@ const locationFunction = async () =>{
                                             </button>
                                           )}
                                       </li>
-                                      <li onMouseOver={() => setHoverStateEmail(true)} onMouseOut={() => setHoverStateEmail(false)}>
-                                        {!hoverStateEmail ? (<a href="javascript:;">
+                                      <li onMouseOver={() => !guest ?  setHoverStateEmail(true) : ""} onMouseOut={() => setHoverStateEmail(false)}>
+                                        {!hoverStateEmail ? (<a href={`mailto:${job.emailAddress}`}>
                                           <img src={img4} alt="" />
-                                            xxxxxx@mail.com
+                                          {guest ? job.emailAddress  :"xxxxxx@mail.com"} 
                                         </a>) : (<button className="btn" type="button" onClick={() => setModalState(true)}>
                                           Click to reveal info
                                         </button>)}
@@ -497,7 +523,7 @@ const locationFunction = async () =>{
                      <PhoneInput
                               country="us"
                               class="form-control changephone"
-                              value={phone}
+                              value={phone1}
                               onChange={(phoneNumber) =>
                                 setPhone1( phoneNumber )
                               }
@@ -524,7 +550,7 @@ const locationFunction = async () =>{
             <p class="h4 title">Verify OTP</p>
             <small class="text-muted">We have sent an OTP to your Phone Number.
             </small><br />
-            <small>+1 4864-864-864</small>
+            <small>+{phone1}</small>
             {/* <a href="" class="">update Number</a> */}
             <div class="mt-3">
               <div class="otp-filling">

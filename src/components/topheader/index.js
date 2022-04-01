@@ -28,13 +28,13 @@ const showPost=()=>{
    }} >
       {props.user ? 'Dashboard' : 'Login/signup'}</button>
 
-      {props.user ?
+      {/* {props.user ?
                  <button   class="btn" type="button"onClick={e=>{
       e.preventDefault()
       showPost();
    }}        >Post a
                  Job</button>:
-                 ''}
+                 ''} */}
               </div>
            </div>
         </nav>

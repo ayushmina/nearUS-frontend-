@@ -60,7 +60,8 @@ const Verify = (props) => {
       </h3>
       <p>
         We have sent an OTP to your Phone Number. <br />{" "}
-        <b>{props.dataToSend.phone}</b> <a href="javascript:;">Update Number</a>{" "}
+        <b>{props.dataToSend.phone}</b>
+         {/* <a href="javascript:;">Update Number</a>{" "} */}
       </p>
       <div class="mt-5">
         <div class="row">
