@@ -77,6 +77,7 @@ const SendOtpInModal=async (e)=>{
     return false;
  }
 //  isloading true
+setLoading(true);
  console.log(phone1,'phone is here ')
 
  const number = "+"+phone1;
@@ -94,15 +95,18 @@ const SendOtpInModal=async (e)=>{
        result=confirmationResult;
        console.log(result,"here is result");
        toast("otp send ")
-       setResult(result)       
+       setResult(result)
+       setLoading(false)      
        setModalStateOtp(true);
        setModalState(false)
      }).catch((error) => {
+      setLoading(false);       
       toast("Phone Number Invalid")
       console.log(error,"here is eroor");
      });
 }
 const OnVerify= async (e)=>{
+  setLoading(true);       
   e.preventDefault();
   console.log(otp, "here is otp");
   if (otp === "" || otp === null) return;
@@ -112,17 +116,20 @@ const OnVerify= async (e)=>{
     console.log(data,'databis ')
     cookie.set("x-access-token-gt", data._tokenResponse.idToken);
     toast("correct OTP");
+    setLoading(false);       
     setModalStateOtp(false);
     setModalState(false)
     setOtp("");
     setOpenedId(1);
   } catch (err) {
     toast("Incorrect OTP",err);
+    setLoading(false);       
     console.log("verify eroor", err);
   }
 };
 const locationFunction = async () =>{
   // ipapi.location(callback); 
+
   await navigator.geolocation.getCurrentPosition(
     (position) => {
       console.log("[postions:",position.coords);
