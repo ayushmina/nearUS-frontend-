@@ -90,7 +90,7 @@ setLoading(true);
 
  const number = "+"+phone1;
    
-  const recaptchaVerifier =  new RecaptchaVerifier(
+ const recaptchaVerifier =  new RecaptchaVerifier(
       "recaptcha-container",
       {
        'size': 'invisible',
@@ -98,8 +98,8 @@ setLoading(true);
       auth
     );
     let result={};
-     signInWithPhoneNumber(auth, number, recaptchaVerifier).then((confirmationResult) => {
-       window.confirmationResult = confirmationResult;
+     signInWithPhoneNumber(auth, number,  recaptchaVerifier).then((confirmationResult) => {
+       confirmationResult = confirmationResult;
        result=confirmationResult;
        console.log(result,"here is result");
        toast("otp send ")
@@ -108,10 +108,22 @@ setLoading(true);
        setModalStateOtp(true);
        setModalState(false)
      }).catch((error) => {
-      setLoading(false);       
+      setLoading(false);
       toast("Phone Number Invalid")
       console.log(error,"here is eroor");
+        recaptchaVerifier.clear()
+        var elements = document.getElementById("recaptcha-container");
+        console.log(elements)
+        while(elements.length > 0){
+            elements[0].parentNode.removeChild(elements[0]);
+
+        }      
      });
+}
+const startAgain=()=>{
+  setLoginn(false);
+  setVerify(false);
+  window.location.reload();
 }
 const OnVerify= async (e)=>{
   setLoading(true);       
@@ -212,11 +224,6 @@ const locationFunction = async () =>{
     setVerify(true);
     console.log("hello setVerify ");
   };
-  const backToLogin = () => {
-    setLoginn(true);
-    setVerify(false);
-    console.log("hello setVerify ");
-  };
   const showPost = () => {
     setPost(true);
     console.log("hello setPost ");
@@ -301,9 +308,9 @@ const locationFunction = async () =>{
         <SlidingPane direction="right" state={post} setState={off}  >
           <FormPost setLoading={setLoading1} />
         </SlidingPane>
-        <SlidingPane direction="right" state={verify} setState={backToLogin} >
+        <SlidingPane direction="right" state={verify} setState={startAgain} >
           <Varify
-            backToLogin={backToLogin}
+            
             result={result}
             setLoading={setLoading1}
             dataToSend={dataToSend}
