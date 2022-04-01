@@ -20,6 +20,7 @@ import img8 from "../../components/assets/img/repost-icon.png";
 import Agent from "../../actions/superAgent";
 import noJObs from "../../components/assets/img/no-job-artwork.png";
 import FormPost from "../formjobs";
+import Loader from "../loader";
 // ../../components/assets/img/no-job-artwork.png
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -44,7 +45,7 @@ const Dashborad = (props) => {
     zipcode: "",
   });
   const [searchText, setSearchText] = useState("");
-
+  const [loading, setLoading] = useState(false);
   // Updating phase
   useEffect(() => {
     fetchPost();
@@ -68,6 +69,7 @@ const Dashborad = (props) => {
   useEffect(() => {}, []);
 
   const fetchPost = async () => {
+    props.setLoading(false)
     await postActions.myPost(searchText, (err, res) => {
       if (err) {
       } else {
@@ -80,7 +82,10 @@ const Dashborad = (props) => {
     setEditPost(false);
     setPost(false);
   };
-
+  const setLoading1=(e)=>{
+    console.log(e);
+    setLoading(e);
+  }
   const editJob = (job) => {
     setPostData({
       contactName: job.contactName,
@@ -149,7 +154,8 @@ const Dashborad = (props) => {
     <>
       <ToastContainer />
       <section class="main-banner-wrap logged-user">
-        <TopDashBoradheader showPost={showPost}></TopDashBoradheader>
+      {loading ?<Loader></Loader> : ""}
+        <TopDashBoradheader showPost={showPost} setLoading={setLoading1}></TopDashBoradheader>
         <SlidingPane direction="right" state={editPost} setState={off}>
           <EditFormPost
             postState={editPost}
@@ -157,6 +163,7 @@ const Dashborad = (props) => {
             fetchPost={fetchPost}
             toastCall={toastCallEdit}
             postData={postData}
+            setLoading={setLoading1}
           />
         </SlidingPane>
         <SlidingPane direction="right" state={post} setState={off}>
@@ -165,6 +172,7 @@ const Dashborad = (props) => {
             setPost={setPost}
             fetchPost={fetchPost}
             toastCall={toastCall}
+            setLoading={setLoading1}
           />
         </SlidingPane>
       </section>

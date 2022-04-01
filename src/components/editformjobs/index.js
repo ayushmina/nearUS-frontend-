@@ -85,6 +85,7 @@ const EditFormPost = (props) => {
   };
 
   const sendform = () => {
+    props.setLoading(true);
     let temp = "";
     if (perSaly == 1) {
       temp = "Hour";
@@ -106,6 +107,7 @@ const EditFormPost = (props) => {
       !number &&
       !state
     ) {
+      props.setLoading(false);
       return false;
     }
     let dataToSend = {
@@ -129,6 +131,7 @@ const EditFormPost = (props) => {
         //  showw error
         console.log(err, "here is erro form send");
       } else {
+        props.setLoading(false);
         props.setPost(false);
         props.fetchPost();
         props.toastCall();
