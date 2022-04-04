@@ -30,7 +30,7 @@ const job_type = [
 const industry = [
     {
         label: "Hotel/motel",
-        value: "Hotel/motel"
+        value: "Hotel"
     },
     {
         label: "Restaurants",
@@ -38,7 +38,7 @@ const industry = [
     },
     {
         label: "Gas station/ Liqour store",
-        value: "Gas station/ Liqour store"
+        value: "GasStationLiqourstore"
     },
     {
         label: "Gaming",
@@ -50,13 +50,13 @@ const industry = [
     },
     {
         label: "Healthcare services",
-        value: "Healthcare services"
+        value: "HealthcareServices"
     },{
         label: "Real Estate",
-        value: "Real Estate"
+        value: "RealEstate"
     },{
         label: "Media & Telecom",
-        value: "Media & Telecom"
+        value: "MediaTelecom"
     },{
         label: "Banks",
         value: "Banks"
@@ -74,10 +74,10 @@ const industry = [
         value: "Warehouse"
     },{
         label: "Transportation & Logistics",
-        value: "Transportation & Logistics"
+        value: "TransportationLogistics"
     },{
         label: "Farming & landscaping",
-        value: "Farming & landscaping"
+        value: "Farminglandscaping"
     },
     {
         label: "Other",

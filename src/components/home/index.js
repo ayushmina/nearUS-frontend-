@@ -41,6 +41,25 @@ import Agent from "../../actions/superAgent";
 import convertRegion from "../../usaStatesAbbrevations";
 import options from "../../options";
 
+import Banks from "../../components/assets/industry/bank.png";
+import building from "../../components/assets/industry/building.png";
+import Hotel from "../../components/assets/industry/hotel.png";
+import Restaurants from "../../components/assets/industry/restaurant.png";
+import GasStationLiqourstore from "../../components/assets/industry/gas-station.png";
+import Gaming from "../../components/assets/industry/Gaming.png";
+import Retail from "../../components/assets/industry/Retail.png";
+import HealthcareServices from "../../components/assets/industry/Healthcare.png";
+import RealEstate from "../../components/assets/industry/Real Estate.png";
+import MediaTelecom from "../../components/assets/industry/MediaandTelecom.png";
+import Construction from "../../components/assets/industry/construction.png";
+import Insurance from "../../components/assets/industry/health-insurance.png";
+import Energy from "../../components/assets/industry/Energy.png";
+import Warehouse from "../../components/assets/industry/warehouse.png";
+import TransportationLogistics from "../../components/assets/industry/Transportation.png";
+import Farminglandscaping from "../../components/assets/industry/Farrming.png";
+import Other from "../../components/assets/industry/Other.png";
+
+
 
 Geocode.setApiKey("AIzaSyDvU4wxDQqhEtFcrKWCYfDHNIRiZYGZ6kg");
 
@@ -67,7 +86,7 @@ const Home = (props) => {
   const [stateCitySuggestions, setStateCitySuggestions] = useState([]);
 
   let cookie = new Cookies();
-
+  let recaptchaWrapperRef;
   useEffect(() => {
     locationFunction();
     let token = Agent.getToken();
@@ -92,18 +111,20 @@ setLoading(true);
 //  console.log(phone1,'phone is here ')
 
  const number = "+"+phone1;
-   
-  const recaptchaVerifierFn =  new RecaptchaVerifier(
+ if (recaptchaWrapperRef) {
+  recaptchaWrapperRef.innerHTML = `<div id="recaptcha-container"></div>`
+}
+ const recaptchaVerifier =  new RecaptchaVerifier(
       "recaptcha-container",
       {
        'size': 'invisible',
       },
       auth
     );
-    
+    console.log(recaptchaVerifier,"hbdjhbsdcbjshdbcjbsjhcdbshj")
     let result={};
-     signInWithPhoneNumber(auth, number, recaptchaVerifierFn).then((confirmationResult) => {
-       window.confirmationResult = confirmationResult;
+     signInWithPhoneNumber(auth, number,  recaptchaVerifier).then((confirmationResult) => {
+       confirmationResult = confirmationResult;
        result=confirmationResult;
       //  console.log(result,"here is result");
        toast("otp send ")
@@ -112,11 +133,19 @@ setLoading(true);
        setModalStateOtp(true);
        setModalState(false)
      }).catch((error) => {
-      setLoading(false);       
+      setLoading(false);
       toast("Phone Number Invalid")
-      // console.log(error,"here is eroor");
-      recaptchaVerifierFn.clear()
+      document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
+      recaptchaVerifier.clear();
+      // recaptchaWrapperRef.innerHTML = `<div id="recaptcha-container"></div>`
+      console.log(error,"here is eroor");
+
      });
+}
+const startAgain=()=>{
+  setLoginn(false);
+  setVerify(false);
+  window.location.reload();
 }
 const OnVerify= async (e)=>{
   setLoading(true);       
@@ -216,11 +245,6 @@ const locationFunction = async () =>{
   };
   const setVerif = () => {
     setVerify(true);
-    // console.log("hello setVerify ");
-  };
-  const backToLogin = () => {
-    setLoginn(true);
-    setVerify(false);
     // console.log("hello setVerify ");
   };
   const showPost = () => {
@@ -332,9 +356,9 @@ const locationFunction = async () =>{
         <SlidingPane direction="right" state={post} setState={off}  >
           <FormPost setLoading={setLoading1} />
         </SlidingPane>
-        <SlidingPane direction="right" state={verify} setState={backToLogin} >
+        <SlidingPane direction="right" state={verify} setState={startAgain} >
           <Varify
-            backToLogin={backToLogin}
+            
             result={result}
             setLoading={setLoading1}
             dataToSend={dataToSend}
@@ -365,7 +389,7 @@ const locationFunction = async () =>{
                             let stateAbbr = convertRegion.convertRegion(job.state, 2);
                             // console.log("stateAbbr",stateAbbr);
                             let randomNum = Math.floor(Math.random() * (5 - 1 + 1) + 1);
-
+                            let industry = job.industry == "Restaurants" ? Restaurants : job.industry == "Banks" ? Banks : job.industry == "Hotel" ? Hotel : job.industry == "GasStationLiqourstore" ? GasStationLiqourstore : job.industry == "Gaming" ? Gaming : job.industry ==  "Retail" ? Retail : job.industry == "HealthcareServices"? HealthcareServices:job.industry == "RealEstate"? RealEstate:job.industry == "MediaTelecom"?  MediaTelecom:job.industry == "Construction" ? Construction:job.industry=="Insurance"? Insurance:job.industry =="Energy"?Energy:job.industry == "Warehouse"? Warehouse:job.industry == "TransportationLogistics"? TransportationLogistics:job.industry =="Farminglandscaping"?Farminglandscaping:Other;
                             return (
                               <>  <div className="col-lg-6">
                                    <AccordionItem key={job._id}>
@@ -373,7 +397,8 @@ const locationFunction = async () =>{
                                   <AccordionItemButton>
                                     <div class="search-acc-header">
                                       <div class="search-acc-icon">
-                                      <img src={randomNum === 1  ?  pink : randomNum === 2 ? green : randomNum === 3 ? blue : randomNum === 4 ?  purple : orange } alt="" />
+                                      <img src={industry} alt="" />
+                                      {/* <img src={randomNum === 1  ?  pink : randomNum === 2 ? green : randomNum === 3 ? blue : randomNum === 4 ?  purple : orange } alt="" /> */}
                                       </div>
                                       <div class="search-acc-header-content">
                                         <h3>{job.jobType}</h3>
@@ -589,7 +614,9 @@ const locationFunction = async () =>{
               <button type="button" class="btn btn-primary w-100" onClick={(e) => { SendOtpInModal(e)}}>Send OTP</button>
               <button type="button" class="btn btn-light border border-info text-info w-100 mt-3" onClick={() => setModalState(false)}>Cancel</button>
             </div>
-            <div id="recaptcha-container"></div>
+            <div id="hellllll" ref={ref => recaptchaWrapperRef = ref}>
+                <div id="recaptcha-container"></div>
+             </div>
           </div>
         </ModalBody>
       </Modal>

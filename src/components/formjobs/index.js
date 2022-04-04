@@ -26,6 +26,7 @@ const FormPost = (props) => {
   const [job_type, setJobType] = useState("");
   const [pinCode, setPinCode] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
+  const [industry,setIndustry]=useState("");
   const temp = [
     {
       value: "ayuhs",
@@ -58,12 +59,7 @@ const FormPost = (props) => {
   const handleChange1 = (newValue, actionMeta) => {
     setCityName(newValue.label);
   };
-  const handleChange2 = (newValue, actionMeta) => {
-    setExperience(newValue.label);
-  };
-  const handleChange3 = (newValue, actionMeta) => {
-    setJobType(newValue.label);
-  };
+
 
   const optionMaker = (arr) => {
     let data = [];
@@ -77,7 +73,7 @@ const FormPost = (props) => {
   };
 
   const sendform = () => {
-    props.setLoading(true);
+    
     let temp = "";
     if (perSaly == 1) {
       temp = "Hour";
@@ -86,22 +82,44 @@ const FormPost = (props) => {
     } else if (perSaly == 3) {
       temp = "Mile";
     }
+    if(!name){
+       toast.warning("ENTER CONTACT NAME")
+       return
+    }
+    if(!email){
+       toast.warning("ENTER EMAIL")
+       return
+    }
+    if(!businessName){
+       toast.warning("ENTER BUSINESSNAME")
+       return
+    }
+    if(!salary){
+       toast.warning("ENTER SALARY")
+       return
+    }
+    if(!job_type){
+       toast.warning("ENTER JOB TYPE")
+       return
+    }
+    if(!number){
+      toast.warning("ENTER NUMBER")
+      return
+    }
+
     if (
       !name &&
       !email &&
       !businessName &&
       !salary &&
       !job_type &&
-      !pinCode &&
-      !cityName &&
       !experience &&
-      !information &&
-      !number &&
-      !state
+      !number
     ) {
-      props.setLoading(false);
+      
       return false;
     }
+    props.setLoading(true);
     let dataToSend = {
       contactName: name,
       emailAddress: email,
@@ -115,6 +133,7 @@ const FormPost = (props) => {
       state: state,
       city: cityName,
       zipcode: pinCode,
+      industry:industry,
     };
 
     postActions.addPost(dataToSend, (err, res) => {
@@ -132,7 +151,7 @@ const FormPost = (props) => {
 
   return (
     <div class="post-job-content">
-            <ToastContainer />
+            
       <h3>
         Post a <span>Job</span>
       </h3>
@@ -148,7 +167,9 @@ const FormPost = (props) => {
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
+                required
               />
+              {/* <span style={{"color":"red"}}>*</span> */}
             </div>
           </div>
           <div class="col-lg-6">
@@ -156,7 +177,7 @@ const FormPost = (props) => {
               <input
                 type="text"
                 class="form-control"
-                placeholder="Phone Number"
+                placeholder="Phone Number *"
                 maxlength="10"
                 onKeyPress={(event) => {
                   if (!/[0-9]/.test(event.key)) {
@@ -174,7 +195,7 @@ const FormPost = (props) => {
               <input
                 type="email"
                 class="form-control"
-                placeholder="Email Address"
+                placeholder="Email Address *"
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -268,7 +289,10 @@ const FormPost = (props) => {
         <div class="row">
           <div class="col-lg-6">
             <div class="">
-            <select class="form-select">
+            <select class="form-select" onChange={(e)=>{
+                console.log(e.target.value); 
+                setExperience(e.target.value)
+                                    }} >
                                     <option selected={true} disabled={true}>Experience</option>
                                     {options.experience.map((e)=>{
                                      return <option value={e.value}>{e.label}</option>
@@ -285,11 +309,17 @@ const FormPost = (props) => {
           </div>
           <div class="col-lg-6">
             <div class="">
-            <select class="form-select">
-                                    <option selected={true} disabled={true}>Job type</option>
+            <select class="form-select" value={job_type}  onChange={(e)=>{
+                console.log(e.target.value); 
+                setJobType(e.target.value)
+                                    }} >
+                                    <option 
+                                    class="form-control custom-select"
+                                    selected={true} disabled={true}>Job type</option>
                                     {options.job_type.map((e)=>{
                                      return <option value={e.value}>{e.label}</option>
                                     })}
+                                    
                                  </select>
               {/* <CreatableSelect
                 placeholder="Job type"
@@ -303,7 +333,10 @@ const FormPost = (props) => {
           <div class="col-lg-12">
             
             <div class="">
-                                 <select class="form-select">
+                                 <select class="form-select"  onChange={(e)=>{
+                console.log(e.target.value); 
+                setIndustry(e.target.value)
+                                    }} >
                                     <option selected={true} disabled={true}>Industry</option>
                                     {options.industry.map((e)=>{
                                      return <option value={e.value}>{e.label}</option>
@@ -393,6 +426,7 @@ const FormPost = (props) => {
             >
               Post Job
             </button>
+            <ToastContainer />
           </div>
         </div>
       </div>

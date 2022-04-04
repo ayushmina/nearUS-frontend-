@@ -1,13 +1,16 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 const firebaseConfig = {
-    apiKey: "AIzaSyBnW-JxS_ObTxL13cqVEcouFgaxErwrvlc",
-    authDomain: "nearus-9acce.firebaseapp.com",
-    projectId: "nearus-9acce",
-    storageBucket: "nearus-9acce.appspot.com",
-    messagingSenderId: "1036181121620",
-    appId: "1:1036181121620:web:c93a54a1caa9caa80b9bc1",
-};
+    apiKey: "AIzaSyCykS4PdImPgnkA2Ien1j7kQfOdTNnFK04",
+    authDomain: "near-us-3b4f3.firebaseapp.com",
+    projectId: "near-us-3b4f3",
+    storageBucket: "near-us-3b4f3.appspot.com",
+    messagingSenderId: "652576746145",
+    appId: "1:652576746145:web:274a9c8c4365e716651ee0",
+    measurementId: "G-87WPTK9R2P"
+  };
+  
+  
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
