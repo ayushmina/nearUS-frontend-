@@ -103,6 +103,7 @@ const Dashborad = (props) => {
     setLoading(e);
   }
   const editJob = (job) => {
+    // console.log(industry,"here is indu")
     setPostData({
       contactName: job.contactName,
       emailAddress: job.emailAddress,
@@ -117,6 +118,8 @@ const Dashborad = (props) => {
       city: job.city,
       zipcode: job.zipcode,
       id: job._id,
+      industry:job.industry,
+      jobTitle:job.jobTitle
     });
     setEditPost(true);
   };
@@ -243,8 +246,8 @@ const Dashborad = (props) => {
                                   {/* <img src={randomNum === 1  ?  pink : randomNum === 2 ? green : randomNum === 3 ? blue : randomNum === 4 ?  purple : orange } alt="" /> */}
                                 </div>
                                 <div class="search-acc-header-content">
-                                  <h3>{job.jobType}</h3>
-                                  <p>{job.businessName}</p>
+                                  <h3>{job.jobTitle}</h3>
+                                  <p>{job.businessName}  ({job.jobType})</p>
                                   <div>
                                     <ul>
                                       <li>

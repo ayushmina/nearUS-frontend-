@@ -16,7 +16,7 @@ const experience = [{
 }
 ]
 
-const job_type = [
+const jobType = [
     {
         label: "Full Time",
         value: "Full Time"
@@ -1254,7 +1254,7 @@ const city = {
 
 export default {
     experience,
-    job_type,
+    jobType,
     industry,
     state,
     city

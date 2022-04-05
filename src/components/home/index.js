@@ -35,7 +35,7 @@ import img2 from "../../components/assets/img/watch-icon.png";
 import img3 from "../../components/assets/img/gcap-icon.png";
 import img4 from "../../components/assets/img/mail-icon.png";
 import img5 from "../../components/assets/img/dollar-icon.png";
-import img6 from "../../components/assets/img/icon-result-purple.png";
+import img6 from "../../components/assets/img/Group 306.png";
 import img7 from "../../components/assets/img/call-icon.png";
 import Agent from "../../actions/superAgent";
 import convertRegion from "../../usaStatesAbbrevations";
@@ -175,7 +175,7 @@ const locationFunction = async () =>{
   await navigator.geolocation.getCurrentPosition(
     (position) => {
       // console.log("[postions:",position.coords);
-      Geocode.fromLatLng(33.424564,-111.833267).then(
+      Geocode.fromLatLng(position.coords.latitude,position.coords.longitude).then(
         (response) => {
           let city, state;
           for (let i = 0; i < response.results[0].address_components.length; i++) {
@@ -225,7 +225,7 @@ const locationFunction = async () =>{
         if (err) {
           console.log("error:",err)
         } else {
-          if(res.data < 1) toast("No data found");
+          // if(res.data < 1) toast("No data found");
           setList(res.data);
           scrollToTop();
           setLoading(false);
@@ -267,11 +267,12 @@ const locationFunction = async () =>{
     if(text.length > 0){
       let suggestions = [];
       options.state.map((stateValue)=>{
-        if(stateValue.includes(text)) suggestions.push({label:stateValue,value:"state"})
+        if(stateValue.includes(text)) suggestions.push({label: stateValue ,value:"USA"})
       })
       for (const property in options.city) {
+        
        options.city[property].map((stateValue)=>{
-          if(stateValue.includes(text)) suggestions.push({label:stateValue,value:"city"})
+          if(stateValue.includes(text)) suggestions.push({label:stateValue,value:property})
         })
      }
       setStateCitySuggestions(suggestions);
@@ -338,7 +339,7 @@ const locationFunction = async () =>{
                       <div class= { stateCitySuggestions.length > 0 ? "search-nav-drp":"search-nav-drp d-none"}>
                         <ul>
                         {stateCitySuggestions.map((citi)=>{
-                          return <li onClick={()=>{ searchText(citi.label); searchResult(citi.label)}}>{citi.label}-<small>{citi.value}</small></li>
+                          return <li onClick={()=>{ searchText(citi.label); searchResult(citi.label)}}>{citi.label}, {citi.value}</li>
                         })}
                         </ul>
                       </div>
@@ -400,8 +401,8 @@ const locationFunction = async () =>{
                                       {/* <img src={randomNum === 1  ?  pink : randomNum === 2 ? green : randomNum === 3 ? blue : randomNum === 4 ?  purple : orange } alt="" /> */}
                                       </div>
                                       <div class="search-acc-header-content">
-                                        <h3>{job.jobType}</h3>
-                                        <p>{job.businessName}</p>
+                                        <h3>{job.jobTitle}</h3>
+                                        <p>{job.businessName} ({job.jobType})</p>
                                         <div>
                                           <ul>
                                             <li>
@@ -592,8 +593,8 @@ const locationFunction = async () =>{
                 <div class="search-accordian">
                 <div class="container">
                           <div class="no-post-wrp">
-                            <img src={noPosts} class="img img-fluid" alt="" />
-                            <h4>No Results Found</h4>
+                            <img src={img6} class="img img-fluid" alt="" />
+                            <h4>Err! Currently no jobs found in this area, Please try after sometime.</h4>
                           </div>
                         </div>
                 </div>
