@@ -23,10 +23,11 @@ const FormPost = (props) => {
   const [arrycity, setarr] = useState([]);
   const [cityName, setCityName] = useState("");
   const [experience, setExperience] = useState("");
-  const [job_type, setJobType] = useState("");
+  const [jobType, setJobType] = useState("");
   const [pinCode, setPinCode] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [industry,setIndustry]=useState("");
+  const [jobTitle,setJobTitle]=useState("");
   // const temp = [
   //   {
   //     value: "ayuhs",
@@ -98,7 +99,7 @@ const FormPost = (props) => {
        toast.warning("ENTER SALARY")
        return
     }
-    if(!job_type){
+    if(!jobType){
        toast.warning("ENTER JOB TYPE")
        return
     }
@@ -112,7 +113,7 @@ const FormPost = (props) => {
       !email &&
       !businessName &&
       !salary &&
-      !job_type &&
+      !jobType &&
       !experience &&
       !number
     ) {
@@ -128,12 +129,13 @@ const FormPost = (props) => {
       comment: information,
       phoneNumber: number,
       experience: experience,
-      jobType: job_type,
+      jobType: jobType,
       salaryPer: temp,
       state: state,
       city: cityName,
       zipcode: pinCode,
       industry:industry,
+      jobTitle:jobTitle,
     };
 
     postActions.addPost(dataToSend, (err, res) => {
@@ -156,6 +158,26 @@ const FormPost = (props) => {
         Post a <span>Job</span>
       </h3>
       <div class="mb-3">
+      {/* <h4>Title</h4> */}
+
+      <div class="row">
+        <div class="col-lg-12">
+            <div class="">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Job Title"
+                onChange={(e) => {
+                  setJobTitle(e.target.value);
+                }}
+                required
+              />
+              {/* <span style={{"color":"red"}}>*</span> */}
+            </div>
+          </div>
+          </div>
+      </div>
+      <div class="mb-3">
         <h4>Personal Details</h4>
         <div class="row">
           <div class="col-lg-6">
@@ -163,7 +185,7 @@ const FormPost = (props) => {
               <input
                 type="text"
                 class="form-control"
-                placeholder="Contact Name"
+                placeholder="Name"
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
@@ -309,23 +331,12 @@ const FormPost = (props) => {
           </div>
           <div class="col-lg-6">
             <div class="">
-            <select class="form-select" value={job_type}  onChange={(e)=>{
-                console.log(e.target.value); 
-                setJobType(e.target.value)
-                                    }} >
-                                  <option selected={true} disabled={true}>Job type</option>
-                                    {options.job_type.map((e)=>{
+            <select class="form-select" onChange={(e)=>{ setJobType(e.target.value) }} >
+                                    <option selected={true} disabled={true}>Job Type</option>
+                                    {options.jobType.map((e)=>{
                                      return <option value={e.value}>{e.label}</option>
                                     })}
-                                    
                                  </select>
-              {/* <CreatableSelect
-                placeholder="Job type"
-                classNamePrefix="my-className-prefix"
-                isClearable
-                onChange={handleChange3}
-                options={options.job_type}
-              /> */}
             </div>
           </div>
           <div class="col-lg-12">

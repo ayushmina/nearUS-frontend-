@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 const EditFormPost = (props) => {
+  console.log(props);
   const [name, setName] = useState(props.postData.contactName);
   const [email, setEmail] = useState(props.postData.emailAddress);
   const [businessName, setBusinessName] = useState(props.postData.businessName);
@@ -23,10 +24,13 @@ const EditFormPost = (props) => {
   const [arrycity, setarr] = useState([]);
   const [cityName, setCityName] = useState(props.postData.city);
   const [experience, setExperience] = useState(props.postData.experience);
-  const [job_type, setJobType] = useState(props.postData.jobType);
+  const [jobType, setJobType] = useState(props.postData.jobType);
   const [pinCode, setPinCode] = useState(props.postData.zipcode);
   const [isDisabled, setIsDisabled] = useState(false);
   const [selectedState,setSelectedState]=useState();
+  const [industry,setIndustry]=useState(props.postData.industry);
+  const [jobTitle,setJobTitle]=useState(props.postData.jobTitle);
+
   const temp = [
     {
       value: "llll",
@@ -92,14 +96,14 @@ const EditFormPost = (props) => {
     } else if (perSaly == 2) {
       temp = "Month";
     } else if (perSaly == 3) {
-      temp = "Annum";
+      temp = "Mile";
     }
     if (
       !name &&
       !email &&
       !businessName &&
       !salary &&
-      !job_type &&
+      !jobType &&
       !pinCode &&
       !cityName &&
       !experience &&
@@ -111,6 +115,7 @@ const EditFormPost = (props) => {
       return false;
     }
     let dataToSend = {
+      industry:industry,
       contactName: name,
       emailAddress: email,
       businessName: businessName,
@@ -118,7 +123,7 @@ const EditFormPost = (props) => {
       comment: information,
       phoneNumber: number,
       experience: experience,
-      jobType: job_type,
+      jobType: jobType,
       salaryPer: temp,
       state: state,
       city: cityName,
@@ -145,6 +150,27 @@ const EditFormPost = (props) => {
       <h3>
         Edit <span>Job</span>
       </h3>
+      <div class="mb-3">
+      {/* <h4>Title</h4> */}
+
+      <div class="row">
+        <div class="col-lg-12">
+            <div class="">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Job Title"
+                value={jobTitle}
+                onChange={(e) => {
+                  setJobTitle(e.target.value);
+                }}
+                required
+              />
+              {/* <span style={{"color":"red"}}>*</span> */}
+            </div>
+          </div>
+          </div>
+      </div>
       <div class="mb-3">
         <h4>Personal Details</h4>
         <div class="row">
@@ -285,27 +311,54 @@ const EditFormPost = (props) => {
         <div class="row">
           <div class="col-lg-6">
             <div class="">
-              <CreatableSelect
-                placeholder="Experience"
-                defaultValue={{value:experience,label:experience}}
-                isClearable
-                classNamePrefix="my-className-prefix"
-
-                onChange={handleChange2}
-                options={options.experience}
-              />
+      
+                 <select class="form-select" value={experience}  onChange={(e)=>{
+                                 console.log(e.target.value); 
+                                 setExperience(e.target.value)
+                                    }} >
+                                    <option selected={true} disabled={true}>Experience</option>
+                                    {options.experience.map((e)=>{
+                                     return <option value={e.value}>{e.label}</option>
+                                    })}
+                                 </select>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="">
-              <CreatableSelect
+              {/* <CreatableSelect
                 placeholder="Job type"
                 classNamePrefix="my-className-prefix"
                 isClearable
                 onChange={handleChange3}
-                options={options.job_type}
-                defaultValue={{label:job_type,value:job_type}}
-              />
+                options={options.jobType}
+                defaultValue={{label:jobType,value:jobType}}
+              /> */}
+
+                        <select class="form-select" value={jobType}  onChange={(e)=>{
+                                 console.log(e.target.value); 
+                                 setJobType(e.target.value)
+                                    }} >
+                                    <option selected={true} disabled={true}>Job type</option>
+                                    {options.jobType.map((e)=>{
+                                     return <option value={e.value}>{e.label}</option>
+                                    })}
+                                 </select>
+
+            </div>
+          </div>
+          <div class="col-lg-12">
+            
+            <div class="">
+                                 <select class="form-select" value={industry}  onChange={(e)=>{
+                                 console.log(e.target.value); 
+                                 setIndustry(e.target.value)
+                                    }} >
+                                    <option selected={true} disabled={true}>Industry</option>
+                                    {options.industry.map((e)=>{
+                                     return <option value={e.value}>{e.label}</option>
+                                    })}
+                                 </select>
+        
             </div>
           </div>
           <div class="col-lg-6">
@@ -321,6 +374,7 @@ const EditFormPost = (props) => {
               />
             </div>
           </div>
+     
           <div class="col-lg-6">
             <div class="per-ul">
               <button
@@ -354,7 +408,7 @@ const EditFormPost = (props) => {
                   setPerSaly(3);
                 }}
               >
-                Per Annum
+                Per Mile
               </button>
             </div>
           </div>
