@@ -312,7 +312,7 @@ const FormPost = (props) => {
           <div class="col-lg-6">
             <div class="">
             <select class="form-select" onChange={(e)=>{
-                console.log(e.target.value); 
+              
                 setExperience(e.target.value)
                                     }} >
                                     <option selected={true} disabled={true}>Experience</option>
@@ -343,7 +343,7 @@ const FormPost = (props) => {
             
             <div class="">
                                  <select class="form-select"  onChange={(e)=>{
-                console.log(e.target.value); 
+              
                 setIndustry(e.target.value)
                                     }} >
                                     <option selected={true} disabled={true}>Industry</option>

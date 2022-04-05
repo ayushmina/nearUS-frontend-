@@ -11,7 +11,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 const EditFormPost = (props) => {
-  console.log(props);
   const [name, setName] = useState(props.postData.contactName);
   const [email, setEmail] = useState(props.postData.emailAddress);
   const [businessName, setBusinessName] = useState(props.postData.businessName);
@@ -40,7 +39,6 @@ const EditFormPost = (props) => {
   const [perSaly, setPerSaly] = useState(props.postData.salaryPer==="Annum"? 3: props.postData.salaryPer==="Hour" ? 1 : 2);
   useEffect(() => {
     setStateOption(optionMaker(data.data));
-    console.log(state);
     setSelectedState({
         value: state,
         label: state,
@@ -313,7 +311,6 @@ const EditFormPost = (props) => {
             <div class="">
       
                  <select class="form-select" value={experience}  onChange={(e)=>{
-                                 console.log(e.target.value); 
                                  setExperience(e.target.value)
                                     }} >
                                     <option selected={true} disabled={true}>Experience</option>
@@ -335,7 +332,6 @@ const EditFormPost = (props) => {
               /> */}
 
                         <select class="form-select" value={jobType}  onChange={(e)=>{
-                                 console.log(e.target.value); 
                                  setJobType(e.target.value)
                                     }} >
                                     <option selected={true} disabled={true}>Job type</option>
@@ -350,7 +346,6 @@ const EditFormPost = (props) => {
             
             <div class="">
                                  <select class="form-select" value={industry}  onChange={(e)=>{
-                                 console.log(e.target.value); 
                                  setIndustry(e.target.value)
                                     }} >
                                     <option selected={true} disabled={true}>Industry</option>

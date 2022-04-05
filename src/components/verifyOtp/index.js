@@ -13,18 +13,15 @@ const Verify = (props) => {
   const [isloading, setIsloading] = useState(false);
 
   useEffect(() => {
-    console.log(props.result, "here is props.result in vvvvi");
   }, []);
 
 
   const verifyOtp = async (e) => {
     e.preventDefault();
-    console.log(otp, "here is otp");
     if (otp === "" || otp === null) return;
     try {
       props.setLoading(true);
       let data = await props.result.confirm(otp);
-      console.log("verify otp", data);
       let { phoneNumber } = props.dataToSend;
       let dataToSend = {
         phoneNumber: phoneNumber,
@@ -33,7 +30,7 @@ const Verify = (props) => {
       loginAction.login(dataToSend, (err, res) => {
         if (err) {
           props.setLoading(false);
-          console.log("here is ottttttp error", res);
+          console.log("here is otp error", res);
         } else {
           props.setLoading(false);
           cookie.set("x-access-token-ns", data._tokenResponse.idToken);
@@ -41,7 +38,6 @@ const Verify = (props) => {
           history("/dashboard");
         }
       });
-      // window.location.reload();
     } catch (err) {
       toast("Incorrect OTP",err);
       console.log("verify eroor", err);
@@ -49,9 +45,7 @@ const Verify = (props) => {
   };
   const handleOtpChange = (e) => {
     setOtp(e);
-    console.log(otp);
   };
-  //
   return (
     <div class="post-job-content">
       <ToastContainer />

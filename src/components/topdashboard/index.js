@@ -9,7 +9,6 @@ const TopDashBoradheader = (props) => {
     props.showPost();
   };
   const logOut=(e)=>{
-    console.log("hello")
     e.preventDefault();
     Agent.removeSession();
      signOut(auth);
