@@ -24,7 +24,7 @@ import green from "../../components/assets/img/icon-result-green.png";
 import orange from "../../components/assets/img/icon-result-orange.png";
 import Cookies from "universal-cookie";
 import 'react-accessible-accordion/dist/fancy-example.css';
-import video from "../assets/img/video.mp4";
+import video from "../assets/img/bg-video.mp4";
 import {   RecaptchaVerifier, signInWithPhoneNumber,} from "firebase/auth";
 import { auth } from "../../firebase";
 import { ToastContainer, toast } from "react-toastify";
