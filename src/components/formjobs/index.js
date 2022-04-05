@@ -27,12 +27,12 @@ const FormPost = (props) => {
   const [pinCode, setPinCode] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [industry,setIndustry]=useState("");
-  const temp = [
-    {
-      value: "ayuhs",
-      label: "hello",
-    },
-  ];
+  // const temp = [
+  //   {
+  //     value: "ayuhs",
+  //     label: "hello",
+  //   },
+  // ];
   const [perSaly, setPerSaly] = useState(1);
   useEffect(() => {
     setStateOption(optionMaker(data.data));
@@ -236,7 +236,7 @@ const FormPost = (props) => {
                   isClearable
                   onChange={handleChange}
                   classNamePrefix="my-className-prefix"
-                  options={temp}
+                  options={[]}
                 />
               )}
             </div>
@@ -313,9 +313,7 @@ const FormPost = (props) => {
                 console.log(e.target.value); 
                 setJobType(e.target.value)
                                     }} >
-                                    <option 
-                                    class="form-control custom-select"
-                                    selected={true} disabled={true}>Job type</option>
+                                  <option selected={true} disabled={true}>Job type</option>
                                     {options.job_type.map((e)=>{
                                      return <option value={e.value}>{e.label}</option>
                                     })}

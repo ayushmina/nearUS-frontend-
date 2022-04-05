@@ -32,6 +32,7 @@ const Verify = (props) => {
       };
       loginAction.login(dataToSend, (err, res) => {
         if (err) {
+          props.setLoading(false);
           console.log("here is ottttttp error", res);
         } else {
           props.setLoading(false);

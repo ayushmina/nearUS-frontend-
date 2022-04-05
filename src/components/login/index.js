@@ -52,6 +52,7 @@ const Login =(props)=> {
 
 
           }).catch((error) => {
+            props.setLoading(false);
             toast("auth/invalid-phone-number")
             document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
             recaptchaVerifier.clear();

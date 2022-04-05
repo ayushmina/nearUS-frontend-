@@ -17,14 +17,14 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
-import purple from "../../components/assets/img/icon-result-purple.png";  
+import noPosts from "../../components/assets/img/noPosts.png";  
 import blue from "../../components/assets/img/icon-result-blue.png";
 import pink from "../../components/assets/img/icon-result-pink.png";
 import green from "../../components/assets/img/icon-result-green.png";
 import orange from "../../components/assets/img/icon-result-orange.png";
 import Cookies from "universal-cookie";
 import 'react-accessible-accordion/dist/fancy-example.css';
-import video from "../assets/img/bg-video.mp4";
+import video from "../assets/img/video.mp4";
 import {   RecaptchaVerifier, signInWithPhoneNumber,} from "firebase/auth";
 import { auth } from "../../firebase";
 import { ToastContainer, toast } from "react-toastify";
@@ -358,7 +358,6 @@ const locationFunction = async () =>{
         </SlidingPane>
         <SlidingPane direction="right" state={verify} setState={startAgain} >
           <Varify
-            
             result={result}
             setLoading={setLoading1}
             dataToSend={dataToSend}
@@ -574,11 +573,38 @@ const locationFunction = async () =>{
               </section>
             </>
           </section>
-          <Abc></Abc>
         </>
       ) : (
-          ""
+        <>
+        <section class="search-result-wrp homepage">
+          <>
+            <section class="">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="common-head">
+                      <h2>
+                        Search <span>Results</span> for "{searchTextFromServer}"
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="search-accordian">
+                <div class="container">
+                          <div class="no-post-wrp">
+                            <img src={noPosts} class="img img-fluid" alt="" />
+                            <h4>No Results Found</h4>
+                          </div>
+                        </div>
+                </div>
+              </div>
+            </section>
+          </>
+        </section>
+      </>
         )}
+                  <Abc></Abc>
+
       <Modal
         isOpen={modalState}
         className="p-0 product-modal-nb otp-wrp modal-lg modal-dialog-centered"
