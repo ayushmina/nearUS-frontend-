@@ -1,27 +1,69 @@
 import React, { Component, useEffect, useState } from "react";
 import img1 from "../../components/assets/img/login-artwork.png";
+import {   RecaptchaVerifier, signInWithPhoneNumber,} from "firebase/auth";
 import OtpInput from "react-otp-input";
 import Cookies from "universal-cookie";
 import loginAction from "../../actions/login.action";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+
 const Verify = (props) => {
   const history = useNavigate();
+  let recaptchaWrapperRef ;
   let cookie = new Cookies();
   var [otp, setOtp] = useState("");
-  const [isloading, setIsloading] = useState(false);
+  const [result,setResult]=useState(props.result);
+  const [flag,setFlag]=useState(true);
+
 
   useEffect(() => {
+    setResult(props.result);
   }, []);
+  const resentOtp= async ()=>{
+    setFlag(false);
+    if (recaptchaWrapperRef) {
+       recaptchaWrapperRef.innerHTML = `<div id="recaptcha-container"></div>`
+     }
+    props.setLoading(true);
+    
+    const number = "+" + props.dataToSend.phoneNumber;
+       const recaptchaVerifier = await new RecaptchaVerifier(
+         "recaptcha-container",
+         {
+          'size': 'invisible',
+         },
+         auth
+       );
+       let result={};
+        signInWithPhoneNumber(auth, number, recaptchaVerifier).then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          result=confirmationResult;
+       
+          setResult(result);
+          toast("otp sent successfully")
+          props.setLoading(false);
 
+
+        }).catch((error) => {
+          props.setLoading(false);
+          toast("auth/invalid-phone-number")
+          document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
+          recaptchaVerifier.clear();
+         console.log(error,"here is eroor");
+        });
+
+ }
 
   const verifyOtp = async (e) => {
     e.preventDefault();
     if (otp === "" || otp === null) return;
     try {
       props.setLoading(true);
-      let data = await props.result.confirm(otp);
+      console.log(result,"here is result")
+      let data =await result.confirm(otp);
+      console.log(data,"data is here ")
       let { phoneNumber } = props.dataToSend;
       let dataToSend = {
         phoneNumber: phoneNumber,
@@ -30,6 +72,7 @@ const Verify = (props) => {
       loginAction.login(dataToSend, (err, res) => {
         if (err) {
           props.setLoading(false);
+          document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
           console.log("here is otp error", res);
         } else {
           props.setLoading(false);
@@ -39,6 +82,8 @@ const Verify = (props) => {
         }
       });
     } catch (err) {
+      document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
+      props.setLoading(false);
       toast("Incorrect OTP",err);
       console.log("verify eroor", err);
     }
@@ -70,20 +115,24 @@ const Verify = (props) => {
               />
             </div>
           </div>
+          
           <div class="col-lg-12">
             <div class="otp-btn-ul">
+            {flag?
               <a href="#">
                 <button
                   class="btn post-main-btn"
                   type="button"
                   onClick={(e) => {
                     e.preventDefault();
-                    window.location.reload();
+                    resentOtp();
+                    // window.location.reload();
                   }}
                 >
-                  Start Again
+                  Resend Otp
                 </button>
               </a>
+          :""}
               <a href="posted-jobs.html">
                 <button
                   class="btn post-main-btn"
@@ -102,6 +151,9 @@ const Verify = (props) => {
       <div class="login-artwork">
         <img src={img1} class="img img-fluid" alt="" />
       </div>
+      <div id="hellllll" ref={ref => recaptchaWrapperRef = ref}>
+                <div id="recaptcha-container"></div>
+             </div>
     </div>
   );
 };

@@ -45,7 +45,8 @@ const Login =(props)=> {
             props.setResult(result,dataToSend)
             toast("otp sent successfully")
             props.setLoading(false);
-
+            document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
+            recaptchaVerifier.clear();
 
           }).catch((error) => {
             props.setLoading(false);

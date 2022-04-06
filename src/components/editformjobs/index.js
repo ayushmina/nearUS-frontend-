@@ -126,6 +126,8 @@ const EditFormPost = (props) => {
       state: state,
       city: cityName,
       zipcode: pinCode,
+      jobTitle:jobTitle
+
     //   id:props.postData.id,
     };
 
