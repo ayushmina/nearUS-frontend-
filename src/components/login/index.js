@@ -26,7 +26,6 @@ const Login =(props)=> {
       }
       props.setLoading(true);
       
-      console.log(typeof phone,'phone is here ')
       const number = "+" + phone;
          const recaptchaVerifier = await new RecaptchaVerifier(
            "recaptcha-container",
@@ -35,28 +34,25 @@ const Login =(props)=> {
            },
            auth
          );
-      //   await recaptchaVerifier
          let result={};
           signInWithPhoneNumber(auth, number, recaptchaVerifier).then((confirmationResult) => {
             window.confirmationResult = confirmationResult;
             result=confirmationResult;
-            console.log(result,"here is result");
          
             let dataToSend={
                phoneNumber: "+"+ phone,
-               // firebaseUID:"kjbljhebvljhbdflvbdfjhvbjdfbvjbdfjvbdf"
             }
             props.setResult(result,dataToSend)
             toast("otp sent successfully")
             props.setLoading(false);
-
+            document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
+            recaptchaVerifier.clear();
 
           }).catch((error) => {
             props.setLoading(false);
             toast("auth/invalid-phone-number")
             document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
             recaptchaVerifier.clear();
-            // recaptchaWrapperRef.innerHTML = `<div id="recaptcha-container"></div>`
            console.log(error,"here is eroor");
           });
 
@@ -89,7 +85,6 @@ const Login =(props)=> {
                               onChange={(phoneNumber) =>
                                 setPhone( phoneNumber )
                               }
-                              // defaultMask=
                               style={{ display: "flex", flex: 1 }}
                               alwaysDefaultMask={false}
                             

@@ -5,9 +5,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 function SlidPane(props) {
   const {direction,width,state,setState,heading,element} = props
   const handleClose = () =>{ setState(false)
-  console.log(props)};
-  // const handleShow = () => setState(true);
-
+};
   return (
     <>
       <Offcanvas show={state} onHide={handleClose} placement="end">

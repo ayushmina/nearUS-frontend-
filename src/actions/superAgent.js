@@ -18,12 +18,12 @@ let removeSession = () => {
 
 const getToken = () => {
     let token = cookie.get('x-access-token-ns', { path: '/' });
-    console.log(token);
+    // console.log(token);
     return token
 }
 const getTokenGuest = () => {
     let token = cookie.get('x-access-token-gt', { path: '/' });
-    console.log(token);
+    // console.log(token);
     return token
 }
 

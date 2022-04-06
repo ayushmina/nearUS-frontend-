@@ -92,13 +92,11 @@ const Home = (props) => {
     let token = Agent.getToken();
     let tokenGuest = Agent.getTokenGuest();
 
-    // console.log(token,'jecjj')
     setUser(token);
     setGuest(tokenGuest);
   }, [openedId]);
   const handleOtpChange = (e) => {
     setOtp(e);
-    // console.log(otp);
   };
 const SendOtpInModal=async (e)=>{
   e.preventDefault();
@@ -121,12 +119,10 @@ setLoading(true);
       },
       auth
     );
-    console.log(recaptchaVerifier,"hbdjhbsdcbjshdbcjbsjhcdbshj")
     let result={};
      signInWithPhoneNumber(auth, number,  recaptchaVerifier).then((confirmationResult) => {
        confirmationResult = confirmationResult;
        result=confirmationResult;
-      //  console.log(result,"here is result");
        toast("otp send ")
        setResult(result)
        setLoading(false)      
@@ -137,7 +133,6 @@ setLoading(true);
       toast("Phone Number Invalid")
       document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
       recaptchaVerifier.clear();
-      // recaptchaWrapperRef.innerHTML = `<div id="recaptcha-container"></div>`
       console.log(error,"here is eroor");
 
      });
@@ -150,12 +145,9 @@ const startAgain=()=>{
 const OnVerify= async (e)=>{
   setLoading(true);       
   e.preventDefault();
-  // console.log(otp, "here is otp");
   if (otp === "" || otp === null) return;
   try {
-    // setIsloading(true);
     let data = await result.confirm(otp);
-    // console.log(data,'databis ')
     cookie.set("x-access-token-gt", data._tokenResponse.idToken);
     toast("correct OTP");
     setLoading(false);       
@@ -166,15 +158,12 @@ const OnVerify= async (e)=>{
   } catch (err) {
     toast("Incorrect OTP",err);
     setLoading(false);       
-    // console.log("verify eroor", err);
   }
 };
 const locationFunction = async () =>{
-  // ipapi.location(callback); 
 
   await navigator.geolocation.getCurrentPosition(
     (position) => {
-      // console.log("[postions:",position.coords);
       Geocode.fromLatLng(position.coords.latitude,position.coords.longitude).then(
         (response) => {
           let city, state;
@@ -184,13 +173,11 @@ const locationFunction = async () =>{
                 case "locality":
                   city = response.results[0].address_components[i].long_name;
                   break;
-                // case "administrative_area_level_1":
                 //   state = response.results[0].address_components[i].long_name;
                 //   break;
               }
             }
           }
-          // console.log(city);
           searchText(city);
           setLoading(false);
           searchResult(city);
@@ -225,7 +212,6 @@ const locationFunction = async () =>{
         if (err) {
           console.log("error:",err)
         } else {
-          // if(res.data < 1) toast("No data found");
           setList(res.data);
           scrollToTop();
           setLoading(false);
@@ -245,21 +231,17 @@ const locationFunction = async () =>{
   };
   const setVerif = () => {
     setVerify(true);
-    // console.log("hello setVerify ");
   };
   const showPost = () => {
     setPost(true);
-    // console.log("hello setPost ");
   };
   const setResul = (data, dataToSend) => {
-    // console.log(dataToSend, "data is here ");
     setPhone(dataToSend.phone);
     setDataToSend(dataToSend);
     setResult(data);
     setVerify(true);
   };
   const setLoading1=(e)=>{
-    // console.log(e);
     setLoading(e);
   }
   const searchSuggestions=(text)=>{
@@ -315,7 +297,6 @@ const locationFunction = async () =>{
                           type="text"
                           class="form-control"
                           placeholder="Search by Zip Code, City or State"
-                          // value={text}
                           onChange={(e) => {
                             searchText(text);
                             searchSuggestions(e.target.value);
@@ -385,9 +366,7 @@ const locationFunction = async () =>{
                       <div class="row">
                         <Accordion >
                           {list.map((job, index) => {
-                            // console.log("index.state:",job.state);
                             let stateAbbr = convertRegion.convertRegion(job.state, 2);
-                            // console.log("stateAbbr",stateAbbr);
                             let randomNum = Math.floor(Math.random() * (5 - 1 + 1) + 1);
                             let industry = job.industry == "Restaurants" ? Restaurants : job.industry == "Banks" ? Banks : job.industry == "Hotel" ? Hotel : job.industry == "GasStationLiqourstore" ? GasStationLiqourstore : job.industry == "Gaming" ? Gaming : job.industry ==  "Retail" ? Retail : job.industry == "HealthcareServices"? HealthcareServices:job.industry == "RealEstate"? RealEstate:job.industry == "MediaTelecom"?  MediaTelecom:job.industry == "Construction" ? Construction:job.industry=="Insurance"? Insurance:job.industry =="Energy"?Energy:job.industry == "Warehouse"? Warehouse:job.industry == "TransportationLogistics"? TransportationLogistics:job.industry =="Farminglandscaping"?Farminglandscaping:Other;
                             return (
@@ -631,7 +610,6 @@ const locationFunction = async () =>{
                               onChange={(phoneNumber) =>
                                 setPhone1( phoneNumber )
                               }
-                              // defaultMask=
                               style={{ display: "flex", flex: 1 }}
                               alwaysDefaultMask={false}
                             

@@ -43,7 +43,6 @@ import TransportationLogistics from "../../components/assets/industry/Transporta
 import Farminglandscaping from "../../components/assets/industry/Farrming.png";
 import Other from "../../components/assets/industry/Other.png";
 
-// ../../components/assets/img/no-job-artwork.png
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import convertRegion from "../../usaStatesAbbrevations";
@@ -69,7 +68,6 @@ const Dashborad = (props) => {
   });
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
-  // Updating phase
   useEffect(() => {
     fetchPost();
   }, [searchText]);
@@ -85,7 +83,6 @@ const Dashborad = (props) => {
   useEffect(() => { }, []);
 
   const fetchPost = async () => {
-    // props.setLoading(false)
     await postActions.myPost(searchText, (err, res) => {
       if (err) {
       } else {
@@ -103,7 +100,6 @@ const Dashborad = (props) => {
     setLoading(e);
   }
   const editJob = (job) => {
-    // console.log(industry,"here is indu")
     setPostData({
       contactName: job.contactName,
       emailAddress: job.emailAddress,
@@ -140,17 +136,14 @@ const Dashborad = (props) => {
 
   const showPost = () => {
     setPost(true);
-    console.log("hello setPost ");
   };
 
   const setSearchTextInput = (e) => {
     setSearchText(e.target.value);
-    // fetchPost();
   };
   const deletePost = (job) => {
     postActions.deletePost(job._id, (err, res) => {
       if (err) {
-        //  showw error
         console.log(err, "here is error in delete");
       } else {
         fetchPost();
@@ -161,7 +154,6 @@ const Dashborad = (props) => {
   const repost = (job) => {
     postActions.repost(job._id, (err, res) => {
       if (err) {
-        //  showw error
         console.log(err, "here is erro in repost");
       } else {
         fetchPost();
@@ -227,7 +219,6 @@ const Dashborad = (props) => {
                 {postList.length > 0 ? (
                   postList.map((job, index) => {
                     let stateAbbr = convertRegion.convertRegion(job.state, 2);
-                    console.log("stateAbbr", stateAbbr);
                     let randomNum = Math.floor(Math.random() * (5 - 1 + 1) + 1);
                     let industry = job.industry == "Restaurants" ? Restaurants : job.industry == "Banks" ? Banks : job.industry == "Hotel" ? Hotel : job.industry == "GasStationLiqourstore" ? GasStationLiqourstore : job.industry == "Gaming" ? Gaming : job.industry ==  "Retail" ? Retail : job.industry == "HealthcareServices"? HealthcareServices:job.industry == "RealEstate"? RealEstate:job.industry == "MediaTelecom"?  MediaTelecom:job.industry == "Construction" ? Construction:job.industry=="Insurance"? Insurance:job.industry =="Energy"?Energy:job.industry == "Warehouse"? Warehouse:job.industry == "TransportationLogistics"? TransportationLogistics:job.industry =="Farminglandscaping"?Farminglandscaping:Other;
                     return (
