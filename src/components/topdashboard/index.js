@@ -1,5 +1,5 @@
 import React, { useState, Component } from "react";
-import img from "../../components/assets/img//NearUS-black.png";
+import img from "../../components/assets/img/NearUS-black.png";
 import headerImg from "../../components/assets/img/blue-logo.png";
 import Agent from "../../actions/superAgent";
 import {signOut} from "firebase/auth";
@@ -12,7 +12,10 @@ const TopDashBoradheader = (props) => {
     e.preventDefault();
     Agent.removeSession();
      signOut(auth);
-    window.location.reload();
+     props.home();
+  }
+  const home=()=>{
+    props.home();
   }
 
   return (
@@ -23,6 +26,17 @@ const TopDashBoradheader = (props) => {
             <img src={headerImg} class="img img-fluid" alt="" />
           </a>
           <div class="nav-buttons">
+          <button
+              class="btn"
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                home();
+              }}
+            >
+              <i class="fas fa-home"></i> Home
+            
+            </button>
             <button
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasPostjob"
@@ -33,7 +47,9 @@ const TopDashBoradheader = (props) => {
                 showPost();
               }}
             >
-              Post a Job
+              <i class="fas fa-briefcase"></i> Post a Job
+              
+
             </button>
             <button class="btn logged-user-icon" type="button" onClick={e=>{
               logOut(e)

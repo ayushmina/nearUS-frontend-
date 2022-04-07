@@ -87,6 +87,11 @@ const Login =(props)=> {
                               }
                               style={{ display: "flex", flex: 1 }}
                               alwaysDefaultMask={false}
+                              onKeyPress={(event) => {
+                                 if (event.key === "Enter") {
+                                    onSignInSubmit();
+                                 }
+                               }}
                             
                      />
                              </div>

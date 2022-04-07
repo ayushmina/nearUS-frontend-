@@ -84,6 +84,7 @@ const Home = (props) => {
   const [searchTextFromServer,setSearchTextFromServer] = useState("")
   const [openedId, setOpenedId] = useState(0);
   const [stateCitySuggestions, setStateCitySuggestions] = useState([]);
+  const [flag,setFlag]=useState(false);
 
   let cookie = new Cookies();
   let recaptchaWrapperRef;
@@ -213,9 +214,14 @@ const locationFunction = async () =>{
           console.log("error:",err)
         } else {
           setList(res.data);
-          scrollToTop();
+          
+          if(flag){
+             scrollToTop();
+          }   
+          setStateCitySuggestions([]);
           setLoading(false);
-          setSearchTextFromServer(res.text);
+          setSearchTextFromServer(res.text);         
+          setFlag(true); 
         }
       });
     }
@@ -249,7 +255,7 @@ const locationFunction = async () =>{
     if(text.length > 0){
       let suggestions = [];
       options.state.map((stateValue)=>{
-        if(stateValue.includes(text)) suggestions.push({label: stateValue ,value:"USA"})
+        if(stateValue.toLowerCase().includes(text.toLowerCase())) suggestions.push({label: stateValue ,value:"USA"})
       })
       for (const property in options.city) {
         
@@ -297,8 +303,10 @@ const locationFunction = async () =>{
                           type="text"
                           class="form-control"
                           placeholder="Search by Zip Code, City or State"
+                          value={text}
                           onChange={(e) => {
-                            searchText(text);
+                            e.preventDefault();
+                            searchText(e.target.value);
                             searchSuggestions(e.target.value);
                           }}
                           onKeyPress={(event) => {

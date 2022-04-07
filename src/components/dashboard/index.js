@@ -81,7 +81,9 @@ const Dashborad = (props) => {
     }
   }, []);
   useEffect(() => { }, []);
-
+  const home=()=>{
+    history("/");
+  }
   const fetchPost = async () => {
     await postActions.myPost(searchText, (err, res) => {
       if (err) {
@@ -165,7 +167,7 @@ const Dashborad = (props) => {
     <>
       <ToastContainer />
       <section class="main-banner-wrap logged-user">
-        <TopDashBoradheader showPost={showPost} setLoading={setLoading1}></TopDashBoradheader>
+        <TopDashBoradheader showPost={showPost} setLoading={setLoading1} home={home}></TopDashBoradheader>
         <SlidingPane direction="right" state={editPost} setState={off}>
           <EditFormPost
             postState={editPost}
