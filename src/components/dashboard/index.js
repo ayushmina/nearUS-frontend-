@@ -240,7 +240,7 @@ const Dashborad = (props) => {
                                 </div>
                                 <div class="search-acc-header-content">
                                   <h3>{job.jobTitle}</h3>
-                                  <p>{job.businessName}  ({job.jobType})</p>
+                                  <p>{job.businessName} </p>
                                   <div>
                                     <ul>
                                       <li>

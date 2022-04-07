@@ -260,7 +260,7 @@ const locationFunction = async () =>{
       for (const property in options.city) {
         
        options.city[property].map((stateValue)=>{
-          if(stateValue.includes(text)) suggestions.push({label:stateValue,value:property})
+          if(stateValue.toLowerCase().includes(text.toLowerCase())) suggestions.push({label:stateValue,value:property})
         })
      }
       setStateCitySuggestions(suggestions);
@@ -389,7 +389,7 @@ const locationFunction = async () =>{
                                       </div>
                                       <div class="search-acc-header-content">
                                         <h3>{job.jobTitle}</h3>
-                                        <p>{job.businessName} ({job.jobType})</p>
+                                        <p>{job.businessName}</p>
                                         <div>
                                           <ul>
                                             <li>
