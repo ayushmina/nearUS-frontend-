@@ -1,14 +1,41 @@
 import React, { useState, Component } from "react";
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import animationData from "../../utils/103109-high-five.json" 
+import Lottie from 'react-lottie';
 
 
 function SlidPane(props) {
+  // const [animation, setAnimation] = useState(false);
+
   const {direction,width,state,setState,heading,element} = props
   const handleClose = () =>{ setState(false)
 };
+  // const defaultOptions = {
+  //   loop: true,
+  //   autoplay: true,
+  //   animationData: animationData,
+  //   rendererSettings: {
+  //     preserveAspectRatio: "xMidYMid slice"
+  //   }
+  // };
   return (
     <>
       <Offcanvas show={state} onHide={handleClose} placement="end">
+      {/* {animation?<Lottie 
+	    options={defaultOptions}
+      isClickToPauseDisabled={true}
+        height={400}
+        width={400}
+        eventListeners={[
+          {
+            eventName: 'complete',
+            callback: () => {console.log("hello"); setAnimation(false)}
+          },
+          {
+            eventName: 'loopComplete',
+            callback: () =>{console.log("hello"); setAnimation(false)}
+          },
+        ]}/>:""} */}
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>{heading}</Offcanvas.Title>
         </Offcanvas.Header>

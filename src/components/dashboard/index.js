@@ -42,14 +42,17 @@ import Warehouse from "../../components/assets/industry/warehouse.png";
 import TransportationLogistics from "../../components/assets/industry/Transportation.png";
 import Farminglandscaping from "../../components/assets/industry/Farrming.png";
 import Other from "../../components/assets/industry/Other.png";
-
+import Lottie from 'react-lottie';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import convertRegion from "../../usaStatesAbbrevations";
+import animationData from "../../utils/103109-high-five.json" 
 
 const Dashborad = (props) => {
   const [user, setUser] = useState(null);
   const [post, setPost] = useState(false);
+  const [animation, setAnimation] = useState(false);
+
   const [editPost, setEditPost] = useState(false);
   const [postList, setList] = useState([]);
   const [postData, setPostData] = useState({
@@ -100,6 +103,10 @@ const Dashborad = (props) => {
   const setLoading1 = (e) => {
     console.log(e);
     setLoading(e);
+  }
+  const setanimation1 = (e) => {
+    console.log(e);
+    setAnimation(e)
   }
   const editJob = (job) => {
     setPostData({
@@ -163,8 +170,33 @@ const Dashborad = (props) => {
       }
     });
   };
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
   return (
     <>
+    {animation?<Lottie 
+	    options={defaultOptions}
+      isClickToPauseDisabled={true}
+        height={400}
+        width={400}
+        eventListeners={[
+          {
+            eventName: 'complete',
+            callback: () => {console.log("hello"); setAnimation(false)}
+          },
+          {
+            eventName: 'loopComplete',
+            callback: () =>{console.log("hello"); setAnimation(false)}
+          },
+        ]}
+        
+      />:""}
       <ToastContainer />
       <section class="main-banner-wrap logged-user">
         <TopDashBoradheader showPost={showPost} setLoading={setLoading1} home={home}></TopDashBoradheader>
@@ -175,6 +207,7 @@ const Dashborad = (props) => {
             fetchPost={fetchPost}
             toastCall={toastCallEdit}
             postData={postData}
+            setanimation={setanimation1}
             setLoading={setLoading1}
           />
         </SlidingPane>
@@ -185,6 +218,7 @@ const Dashborad = (props) => {
             fetchPost={fetchPost}
             toastCall={toastCall}
             setLoading={setLoading1}
+            setanimation={setanimation1}
           />
         </SlidingPane>
       </section>

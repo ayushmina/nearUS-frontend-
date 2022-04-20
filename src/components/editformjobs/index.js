@@ -10,6 +10,8 @@ import postActions from "../../actions/postActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
+import animationData from "../../utils/103109-high-five.json" 
+import Lottie from 'react-lottie';
 const EditFormPost = (props) => {
   const [name, setName] = useState(props.postData.contactName);
   const [email, setEmail] = useState(props.postData.emailAddress);
@@ -29,6 +31,7 @@ const EditFormPost = (props) => {
   const [selectedState,setSelectedState]=useState();
   const [industry,setIndustry]=useState(props.postData.industry);
   const [jobTitle,setJobTitle]=useState(props.postData.jobTitle);
+  const [animation, setAnimation] = useState(false);
 
   const temp = [
     {
@@ -137,16 +140,50 @@ const EditFormPost = (props) => {
         console.log(err, "here is erro form send");
       } else {
         props.setLoading(false);
-        props.setPost(false);
-        props.fetchPost();
-        props.toastCall();
+      
+        setAnimation(true)
       }
     });
+  };
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
   };
 
   return (
     <div class="post-job-content">
             <ToastContainer />
+            <dev class="lottieclasss" >
+            {animation?<Lottie 
+	    options={defaultOptions}
+      isClickToPauseDisabled={true}
+        height={400}
+        width={400}
+        eventListeners={[
+          {
+            eventName: 'complete',
+            callback: () => {console.log("hello");
+            props.setPost(false);
+            props.fetchPost();
+            props.toastCall();
+            setAnimation(false)
+          }
+          },
+          {
+            eventName: 'loopComplete',
+            callback: () =>{console.log("hello");
+            props.setPost(false);
+            props.fetchPost();
+            props.toastCall();
+             setAnimation(false)
+          }
+          },
+        ]}/>:""}
+        </dev>
       <h3>
         Edit <span>Job</span>
       </h3>
@@ -154,21 +191,7 @@ const EditFormPost = (props) => {
       {/* <h4>Title</h4> */}
 
       <div class="row">
-        <div class="col-lg-12">
-            <div class="">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Job Title"
-                value={jobTitle}
-                onChange={(e) => {
-                  setJobTitle(e.target.value);
-                }}
-                required
-              />
-              {/* <span style={{"color":"red"}}>*</span> */}
-            </div>
-          </div>
+       
           </div>
       </div>
       <div class="mb-3">
@@ -309,6 +332,21 @@ const EditFormPost = (props) => {
       <div class="mb-3">
         <h4>Additional Info</h4>
         <div class="row">
+        <div class="col-lg-12">
+            <div class="">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Job Title"
+                value={jobTitle}
+                onChange={(e) => {
+                  setJobTitle(e.target.value);
+                }}
+                required
+              />
+              {/* <span style={{"color":"red"}}>*</span> */}
+            </div>
+          </div>
           <div class="col-lg-6">
             <div class="">
       
@@ -434,7 +472,7 @@ const EditFormPost = (props) => {
                 sendform();
               }}
             >
-              Edit Job
+              Save Job
             </button>
           </div>
         </div>
