@@ -124,7 +124,7 @@ setLoading(true);
      signInWithPhoneNumber(auth, number,  recaptchaVerifier).then((confirmationResult) => {
        confirmationResult = confirmationResult;
        result=confirmationResult;
-       toast("otp send ")
+       toast("OTP sent")
        setResult(result)
        setLoading(false)      
        setModalStateOtp(true);

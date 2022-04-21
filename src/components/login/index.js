@@ -43,7 +43,7 @@ const Login =(props)=> {
                phoneNumber: "+"+ phone,
             }
             props.setResult(result,dataToSend)
-            toast("Otp Sent Successfully")
+            toast("OTP Sent Successfully")
             props.setLoading(false);
             document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
             recaptchaVerifier.clear();
