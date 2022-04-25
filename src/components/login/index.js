@@ -43,14 +43,14 @@ const Login =(props)=> {
                phoneNumber: "+"+ phone,
             }
             props.setResult(result,dataToSend)
-            toast("Otp Sent Successfully")
+            toast("OTP Sent Successfully")
             props.setLoading(false);
             document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
             recaptchaVerifier.clear();
 
           }).catch((error) => {
             props.setLoading(false);
-            toast("auth/invalid-phone-number")
+            toast("Auth/invalid-phone-number")
             document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
             recaptchaVerifier.clear();
            console.log(error,"here is eroor");

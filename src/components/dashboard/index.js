@@ -384,7 +384,7 @@ const Dashborad = (props) => {
         </div>
         {loading ? <Loader></Loader> : ""}
       </section>
-      ;<Abc></Abc>
+      <Abc></Abc>
     </>
   );
 };

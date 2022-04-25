@@ -223,7 +223,7 @@ footer {
     position: absolute !important;
     object-fit: contain !important;
     left: 0 !important;
-    top: 9% !important;
+    top:0px;
     z-index: 1000000 !important;
     background: rgb(255 255 255 / 42%);
     backdrop-filter: saturate(180%) blur(2px);
@@ -533,6 +533,9 @@ footer {
 	font-size: 26px;
 	font-weight: 500;
 	margin-bottom: 35px;
+}
+g image{
+	width: 100%;
 }
 
 .post-job-content h3 span {

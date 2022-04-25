@@ -42,13 +42,13 @@ const Verify = (props) => {
           result=confirmationResult;
        
           setResult(result);
-          toast("otp sent successfully")
+          toast("OTP sent successfully")
           props.setLoading(false);
 
 
         }).catch((error) => {
           props.setLoading(false);
-          toast("auth/invalid-phone-number")
+          toast("Auth/invalid-phone-number")
           document.getElementById("hellllll").innerHTML = "<div id='recaptcha'></div>";
           recaptchaVerifier.clear();
          console.log(error,"here is eroor");
@@ -77,7 +77,7 @@ const Verify = (props) => {
         } else {
           props.setLoading(false);
           cookie.set("x-access-token-ns", data._tokenResponse.idToken);
-          toast("otp match successful")
+          toast("OTP match successful")
           history("/dashboard");
         }
       });

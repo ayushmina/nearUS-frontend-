@@ -10,7 +10,7 @@ import postActions from "../../actions/postActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
-import animationData from "../../utils/103109-high-five.json" 
+import animationData from "../../utils/64967-two-folks-high-fiving.json" 
 import Lottie from 'react-lottie';
 const FormPost = (props) => {
   const [name, setName] = useState("");
