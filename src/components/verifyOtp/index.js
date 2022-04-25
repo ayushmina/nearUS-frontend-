@@ -40,12 +40,9 @@ const Verify = (props) => {
         signInWithPhoneNumber(auth, number, recaptchaVerifier).then((confirmationResult) => {
           window.confirmationResult = confirmationResult;
           result=confirmationResult;
-       
           setResult(result);
-          toast("OTP sent successfully")
+          toast("OTP Sent Successfully")
           props.setLoading(false);
-
-
         }).catch((error) => {
           props.setLoading(false);
           toast("Auth/invalid-phone-number")
