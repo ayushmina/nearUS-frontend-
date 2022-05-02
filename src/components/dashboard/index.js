@@ -46,9 +46,12 @@ import Lottie from 'react-lottie';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import convertRegion from "../../usaStatesAbbrevations";
-import animationData from "../../utils/103109-high-five.json" 
-
+import animationData from "../../utils/64967-two-folks-high-fiving.json" 
+import { findAllByTestId } from "@testing-library/react";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 const Dashborad = (props) => {
+  let SkeletonArry=[1,2,3,4,5,6];
   const [user, setUser] = useState(null);
   const [post, setPost] = useState(false);
   const [animation, setAnimation] = useState(false);
@@ -70,7 +73,7 @@ const Dashborad = (props) => {
     zipcode: "",
   });
   const [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchPost();
   }, [searchText]);
@@ -91,6 +94,7 @@ const Dashborad = (props) => {
     await postActions.myPost(searchText, (err, res) => {
       if (err) {
       } else {
+        setLoading(false)
         setList(res.data);
       }
     });
@@ -148,6 +152,7 @@ const Dashborad = (props) => {
   };
 
   const setSearchTextInput = (e) => {
+    setLoading(true)
     setSearchText(e.target.value);
   };
   const deletePost = (job) => {
@@ -180,7 +185,11 @@ const Dashborad = (props) => {
   };
   return (
     <>
-    {animation?<Lottie 
+    
+    {animation?
+    <div className="setanimation">
+    <div class="lottie" >
+      <Lottie 
 	    options={defaultOptions}
       isClickToPauseDisabled={true}
         height={400}
@@ -188,15 +197,22 @@ const Dashborad = (props) => {
         eventListeners={[
           {
             eventName: 'complete',
-            callback: () => {console.log("hello"); setAnimation(false)}
+            callback: () => {console.log("hello"); 
+            setAnimation(false)
+          }
           },
           {
             eventName: 'loopComplete',
-            callback: () =>{console.log("hello"); setAnimation(false)}
+            callback: () =>{console.log("hello"); 
+            setAnimation(false)
+          }
           },
         ]}
         
-      />:""}
+      />
+      </div>
+      </div>
+      :""}
       <ToastContainer />
       <section class="main-banner-wrap logged-user">
         <TopDashBoradheader showPost={showPost} setLoading={setLoading1} home={home}></TopDashBoradheader>
@@ -362,9 +378,20 @@ const Dashborad = (props) => {
                       </div>
                     );
                   })
-                ) : (
+                ) :<> {loading ? <><div>
+                   <section class="search-result-wrp">
+                        <div class="container">
+                        <div class="row">
+                          {SkeletonArry.map(e=>{
+                            return(<div class="col-lg-6">
+                              <Skeleton height={30} />
+                            </div>)
+                          })}
+               </div>
+                        </div>
+                      </section>
+                  </div></>:(
                     <>
-                      {" "}
                       <section class="search-result-wrp">
                         <div class="container">
                           {/* <div class="common-head">
@@ -376,8 +403,22 @@ const Dashborad = (props) => {
                           </div>
                         </div>
                       </section>
+                      {/* <section class="search-result-wrp">
+                        <div class="container">
+                        <div class="row">
+                          {SkeletonArry.map(e=>{
+                            return(<div class="col-lg-6">
+                              <Skeleton height={30} />
+                            </div>)
+                          })}
+               </div>
+                        </div>
+                      </section> */}
                     </>
                   )}
+                   </>
+                  }
+                 
               </div>
             </div>
           </div>

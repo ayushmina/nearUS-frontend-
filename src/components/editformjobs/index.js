@@ -13,6 +13,8 @@ import Select from "react-select";
 import animationData from "../../utils/64967-two-folks-high-fiving.json" 
 import Lottie from 'react-lottie';
 const EditFormPost = (props) => {
+  const [valueCity,setValueCity]=useState({label:props.postData.city,value:props.postData.city})
+  const [valueState,setValueState]=useState({label:props.postData.state,value:props.postData.state})
   const [name, setName] = useState(props.postData.contactName);
   const [email, setEmail] = useState(props.postData.emailAddress);
   const [businessName, setBusinessName] = useState(props.postData.businessName);
@@ -65,11 +67,45 @@ const EditFormPost = (props) => {
     setarr(data);
   };
   const handleChange = (newValue, actionMeta) => {
-    setStates(newValue.label);
+    console.log(actionMeta,"s")
+    console.log(newValue,"jj")
+
+    if(actionMeta.action=="select-option")
+    {
+      setStates(newValue.label);
+      setValueState({
+        value:newValue.label,
+        label:newValue.label
+        
+      })
+      setValueCity(null)
+      setCityName(null)
     setIsDisabled(false);
+  } else  if(actionMeta.action=="clear"){
+    setStates(null);
+    setCityName(null)
+    setarr([]);
+    setValueCity(null)
+    setIsDisabled(true);
+    setValueState(null)
+    }
   };
   const handleChange1 = (newValue, actionMeta) => {
-    setCityName(newValue.label);
+    console.log(newValue,"jj")
+    if(actionMeta.action=="select-option")
+    {
+      setCityName(newValue.label);
+      setValueCity({
+        value:newValue.label,
+        label:newValue.label
+
+      })
+  } else  if(actionMeta.action=="clear"){
+    setCityName(null)
+    setValueCity(null)
+    
+    }
+    
   };
   const handleChange2 = (newValue, actionMeta) => {
     setExperience(newValue.label);
@@ -140,8 +176,10 @@ const EditFormPost = (props) => {
         console.log(err, "here is erro form send");
       } else {
         props.setLoading(false);
-      
-        setAnimation(true)
+        props.setPost(false);
+        props.fetchPost();
+        props.setanimation(true);
+        // setAnimation(true)
       }
     });
   };
@@ -157,33 +195,7 @@ const EditFormPost = (props) => {
   return (
     <div class="post-job-content">
             <ToastContainer />
-            <dev class="lottieclasss" >
-            {animation?<Lottie 
-	    options={defaultOptions}
-      isClickToPauseDisabled={true}
-        height={400}
-        width={400}
-        eventListeners={[
-          {
-            eventName: 'complete',
-            callback: () => {console.log("hello");
-            props.setPost(false);
-            props.fetchPost();
-            props.toastCall();
-            setAnimation(false)
-          }
-          },
-          {
-            eventName: 'loopComplete',
-            callback: () =>{console.log("hello");
-            props.setPost(false);
-            props.fetchPost();
-            props.toastCall();
-             setAnimation(false)
-          }
-          },
-        ]}/>:""}
-        </dev>
+          
       <h3>
         Edit <span>Job</span>
       </h3>
@@ -266,15 +278,17 @@ const EditFormPost = (props) => {
                 <Select
                   placeholder="State"
                   isClearable
+                  value={valueState}
                   onChange={handleChange}
                   classNamePrefix="my-className-prefix"
-                  defaultValue={{label:state,value:state}}
+                  defaultValue={valueState}
                   options={stateOption}
                 />
               ) : (
                 <Select
                   placeholder="State"
                   isClearable
+                  value={valueState}
                   onChange={handleChange}
                   defaultValue={{label:state,value:state}}
                   classNamePrefix="my-className-prefix"
@@ -290,8 +304,9 @@ const EditFormPost = (props) => {
                   placeholder="City..."
                   isClearable
                   isDisabled={isDisabled}
+                  value={valueCity}
                   classNamePrefix="my-className-prefix"
-                  defaultValue={{label:cityName,value:cityName}}
+                  defaultValue={valueCity}
                   onChange={handleChange1}
                   options={arrycity}
                 />
@@ -300,9 +315,10 @@ const EditFormPost = (props) => {
                   placeholder="City..."
                   classNamePrefix="my-className-prefix"
                   isClearable
+                  defaultValue={valueCity}
+                  value={valueCity}
                   isDisabled={isDisabled}
                   onChange={handleChange1}
-                  defaultValue={{label:cityName,value:cityName}}
                   options={[]}
                 />
               )}

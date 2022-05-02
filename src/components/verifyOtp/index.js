@@ -126,7 +126,7 @@ const Verify = (props) => {
                     // window.location.reload();
                   }}
                 >
-                  Resend Otp
+                  Resend OTP
                 </button>
               </a>
           :""}

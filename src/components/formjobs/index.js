@@ -12,7 +12,10 @@ import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 import animationData from "../../utils/64967-two-folks-high-fiving.json" 
 import Lottie from 'react-lottie';
+
 const FormPost = (props) => {
+  const [valueCity,setValueCity]=useState(null)
+  const [valueState,setValueState]=useState(null)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [businessName, setBusinessName] = useState("");
@@ -50,19 +53,55 @@ const FormPost = (props) => {
   useEffect(() => {
   }, [cityName]);
   const getCityArry = () => {
+    if(state!=null){
     if (city[state] == null) {
       setarr([]);
       return;
     }
     let data = optionMaker(city[state]);
     setarr(data);
+  }
   };
   const handleChange = (newValue, actionMeta) => {
-    setStates(newValue.label);
+    console.log(actionMeta,"s")
+    console.log(newValue,"jj")
+
+    if(actionMeta.action=="select-option")
+    {
+      setStates(newValue.label);
+      setValueState({
+        value:newValue.label,
+        label:newValue.label
+        
+      })
+      setValueCity(null)
+      setCityName(null)
     setIsDisabled(false);
+  } else  if(actionMeta.action=="clear"){
+    setStates(null);
+    setCityName(null)
+    setarr([]);
+    setValueCity(null)
+    setIsDisabled(true);
+    setValueState(null)
+    }
   };
   const handleChange1 = (newValue, actionMeta) => {
-    setCityName(newValue.label);
+    console.log(newValue,"jj")
+    if(actionMeta.action=="select-option")
+    {
+      setCityName(newValue.label);
+      setValueCity({
+        value:newValue.label,
+        label:newValue.label
+
+      })
+  } else  if(actionMeta.action=="clear"){
+    setCityName(null)
+    setValueCity(null)
+    
+    }
+    
   };
 
 
@@ -144,12 +183,13 @@ const FormPost = (props) => {
 
     postActions.addPost(dataToSend, (err, res) => {
       if (err) {
-        toast("pls try again")
+        toast("Please try again")
         console.log(err, "here is erro form send");
       } else {
         props.setLoading(false);
-     
-        setAnimation(true)
+        props.setPost(false);
+        props.fetchPost();
+        props.setanimation(true)
       }
     });
   };
@@ -164,33 +204,7 @@ const FormPost = (props) => {
 
   return (
     <div class="post-job-content">
-           <dev class="lottieclasss" >
-            {animation?<Lottie 
-	    options={defaultOptions}
-      isClickToPauseDisabled={true}
-        height={400}
-        width={400}
-        eventListeners={[
-          {
-            eventName: 'complete',
-            callback: () => {console.log("hello");
-            props.setPost(false);
-            props.fetchPost();
-            props.toastCall();
-            setAnimation(false)
-          }
-          },
-          {
-            eventName: 'loopComplete',
-            callback: () =>{console.log("hello");
-            props.setPost(false);
-            props.fetchPost();
-            props.toastCall();
-             setAnimation(false)
-          }
-          },
-        ]}/>:""}
-        </dev> 
+           
       <h3>
         Post a <span>Job</span>
       </h3>
@@ -272,6 +286,7 @@ const FormPost = (props) => {
                 <Select
                   placeholder="State"
                   isClearable
+                  value={valueState}
                   onChange={handleChange}
                   classNamePrefix="my-className-prefix"
                   options={stateOption}
@@ -280,6 +295,8 @@ const FormPost = (props) => {
                 <Select
                   placeholder="State"
                   isClearable
+                  value={valueState}
+
                   onChange={handleChange}
                   classNamePrefix="my-className-prefix"
                   options={[]}
@@ -293,6 +310,8 @@ const FormPost = (props) => {
                 <CreatableSelect
                   placeholder="City..."
                   isClearable
+                  value={valueCity}
+
                   isDisabled={isDisabled}
                   classNamePrefix="my-className-prefix"
                   onChange={handleChange1}
@@ -303,6 +322,8 @@ const FormPost = (props) => {
                   placeholder="City..."
                   classNamePrefix="my-className-prefix"
                   isClearable
+                  value={valueCity}
+
                   isDisabled={isDisabled}
                   onChange={handleChange1}
                   options={[]}
