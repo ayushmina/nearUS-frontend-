@@ -18,6 +18,9 @@ const FormPost = (props) => {
   const [valueState,setValueState]=useState(null)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [placeHolder, setplaceHolder] = useState(true);
+  const [placeHolderCity, setplaceHolderCity] = useState(true);
+
   const [businessName, setBusinessName] = useState("");
   const [salary, setSalary] = useState("");
   const [information, setInformation] = useState("");
@@ -65,7 +68,7 @@ const FormPost = (props) => {
   const handleChange = (newValue, actionMeta) => {
     console.log(actionMeta,"s")
     console.log(newValue,"jj")
-
+    setplaceHolder(false)
     if(actionMeta.action=="select-option")
     {
       setStates(newValue.label);
@@ -88,6 +91,7 @@ const FormPost = (props) => {
   };
   const handleChange1 = (newValue, actionMeta) => {
     console.log(newValue,"jj")
+    setplaceHolderCity(false)
     if(actionMeta.action=="select-option")
     {
       setCityName(newValue.label);
@@ -284,7 +288,7 @@ const FormPost = (props) => {
             <div class="">
               {stateOption.length > 0 ? (
                 <Select
-                  placeholder="State"
+                  placeholder={placeHolder?"State":""}
                   isClearable
                   value={valueState}
                   onChange={handleChange}
@@ -293,7 +297,7 @@ const FormPost = (props) => {
                 />
               ) : (
                 <Select
-                  placeholder="State"
+                  placeholder={placeHolder?"State":""}
                   isClearable
                   value={valueState}
 
@@ -308,10 +312,9 @@ const FormPost = (props) => {
             <div class="">
               {arrycity.length > 0 ? (
                 <CreatableSelect
-                  placeholder="City..."
                   isClearable
                   value={valueCity}
-
+                  placeholder={placeHolderCity?"City":""}
                   isDisabled={isDisabled}
                   classNamePrefix="my-className-prefix"
                   onChange={handleChange1}
@@ -319,11 +322,10 @@ const FormPost = (props) => {
                 />
               ) : (
                 <CreatableSelect
-                  placeholder="City..."
                   classNamePrefix="my-className-prefix"
                   isClearable
                   value={valueCity}
-
+                  placeholder={placeHolderCity?"City":""}
                   isDisabled={isDisabled}
                   onChange={handleChange1}
                   options={[]}

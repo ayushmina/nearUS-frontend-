@@ -34,7 +34,10 @@ body {
     bottom: 0;
     z-index: 99999;
 }
-
+.lottie div{
+	height: 350px !important;
+	width: 350px !important;
+}
 .lottie{
     display: flex;
     justify-content: center;
