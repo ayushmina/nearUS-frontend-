@@ -141,7 +141,7 @@ setLoading(true);
 const startAgain=()=>{
   setLoginn(false);
   setVerify(false);
-  window.location.reload();
+  // window.location.reload();
 }
 const OnVerify= async (e)=>{
   setLoading(true);       
@@ -151,18 +151,19 @@ const OnVerify= async (e)=>{
     let data = await result.confirm(otp);
     cookie.set("x-access-token-gt", data._tokenResponse.idToken);
     toast("correct OTP");
+
+    setGuest(data._tokenResponse.idToken);
     setLoading(false);       
     setModalStateOtp(false);
     setModalState(false)
     setOtp("");
-    setOpenedId(1);
+    searchResult(text);
   } catch (err) {
     toast("Incorrect OTP",err);
     setLoading(false);       
   }
 };
 const locationFunction = async () =>{
-
   await navigator.geolocation.getCurrentPosition(
     (position) => {
       Geocode.fromLatLng(position.coords.latitude,position.coords.longitude).then(
@@ -207,6 +208,7 @@ const locationFunction = async () =>{
   };
 
   const searchResult = async (search) => {
+
     if(search){
       setLoading(true);
       await postActions.Search(search, (err, res) => {
@@ -287,7 +289,7 @@ const locationFunction = async () =>{
               <div class="container">
                 <div class="row">
                   <div class="col-lg-5 m-auto">
-                    <h1>Find & Hire Locals For your work</h1>
+                    <h1>Find you local job now</h1>
                     <p>
                       Work with the best workers from your neighbourhood on our
                       secure flexible and easy to use platform.

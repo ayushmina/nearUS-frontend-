@@ -329,7 +329,7 @@ const Dashborad = (props) => {
                             </Accordion.Header>
                             <Accordion.Body>
                               <div class="accordion-body">
-                                <p>{job.comment}</p>
+                                <p dangerouslySetInnerHTML={{__html: job.comment}}></p>
                               </div>
                               <div class="acc-contact-details">
                                 <ul class="">

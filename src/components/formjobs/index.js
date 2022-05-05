@@ -12,7 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 import animationData from "../../utils/64967-two-folks-high-fiving.json" 
 import Lottie from 'react-lottie';
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 const FormPost = (props) => {
   const [valueCity,setValueCity]=useState(null)
   const [valueState,setValueState]=useState(null)
@@ -154,7 +155,14 @@ const FormPost = (props) => {
       toast.warning("ENTER NUMBER")
       return
     }
-
+    if(!state){
+      toast.warning("ENTER STATE")
+      return
+    }
+    if(!cityName){
+      toast.warning("ENTER CITY")
+      return
+    }
     if (
       !name &&
       !email &&
@@ -205,6 +213,9 @@ const FormPost = (props) => {
       preserveAspectRatio: "xMidYMid slice"
     }
   };
+  const  setinfo=(value)=> {
+    setInformation(value)
+  }
 
   return (
     <div class="post-job-content">
@@ -227,7 +238,7 @@ const FormPost = (props) => {
               <input
                 type="text"
                 class="form-control"
-                placeholder="Name"
+                placeholder="Name (required)"
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
@@ -241,7 +252,7 @@ const FormPost = (props) => {
               <input
                 type="text"
                 class="form-control"
-                placeholder="Phone Number *"
+                placeholder="Phone Number (required)"
                 maxlength="10"
                 onKeyPress={(event) => {
                   if (!/[0-9]/.test(event.key)) {
@@ -259,7 +270,7 @@ const FormPost = (props) => {
               <input
                 type="email"
                 class="form-control"
-                placeholder="Email Address *"
+                placeholder="Email Address (required)"
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -276,7 +287,7 @@ const FormPost = (props) => {
               <input
                 type="text"
                 class="form-control"
-                placeholder="Business Name"
+                placeholder="Business Name "
                 
                 onChange={(e) => {
                   setBusinessName(e.target.value);
@@ -288,7 +299,7 @@ const FormPost = (props) => {
             <div class="">
               {stateOption.length > 0 ? (
                 <Select
-                  placeholder={placeHolder?"State":""}
+                  placeholder={placeHolder?"State (required)":""}
                   isClearable
                   value={valueState}
                   onChange={handleChange}
@@ -297,7 +308,7 @@ const FormPost = (props) => {
                 />
               ) : (
                 <Select
-                  placeholder={placeHolder?"State":""}
+                  placeholder={placeHolder?"State (required)":""}
                   isClearable
                   value={valueState}
 
@@ -314,7 +325,7 @@ const FormPost = (props) => {
                 <CreatableSelect
                   isClearable
                   value={valueCity}
-                  placeholder={placeHolderCity?"City":""}
+                  placeholder={placeHolderCity?"City (required)":""}
                   isDisabled={isDisabled}
                   classNamePrefix="my-className-prefix"
                   onChange={handleChange1}
@@ -325,7 +336,7 @@ const FormPost = (props) => {
                   classNamePrefix="my-className-prefix"
                   isClearable
                   value={valueCity}
-                  placeholder={placeHolderCity?"City":""}
+                  placeholder={placeHolderCity?"City (required)":""}
                   isDisabled={isDisabled}
                   onChange={handleChange1}
                   options={[]}
@@ -354,7 +365,7 @@ const FormPost = (props) => {
         </div>
       </div>
       <div class="mb-3">
-        <h4>Additional Info</h4>
+        <h4>Job information</h4>
         <div class="row">
         <div class="col-lg-12">
             <div class="">
@@ -426,7 +437,7 @@ const FormPost = (props) => {
               <input
                 type="text"
                 class="form-control"
-                placeholder="Salary"
+                placeholder="Salary(USD)"
                 onChange={(e) => {
                   setSalary(e.target.value);
                 }}
@@ -472,7 +483,7 @@ const FormPost = (props) => {
           </div>
           <div class="col-lg-12">
             <div>
-              <textarea
+              {/* <textarea
                 class="form-control"
                 name=""
                 id=""
@@ -482,7 +493,11 @@ const FormPost = (props) => {
                 onChange={(e) => {
                   setInformation(e.target.value);
                 }}
-              ></textarea>
+              ></textarea> */}
+               <ReactQuill 
+                   value={information}
+                   onChange={setinfo}
+                 />
             </div>
           </div>
           <div class="col-lg-12">

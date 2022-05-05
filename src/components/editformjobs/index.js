@@ -11,7 +11,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 import animationData from "../../utils/64967-two-folks-high-fiving.json" 
-import Lottie from 'react-lottie';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 const EditFormPost = (props) => {
   const [valueCity,setValueCity]=useState({label:props.postData.city,value:props.postData.city})
   const [valueState,setValueState]=useState({label:props.postData.state,value:props.postData.state})
@@ -34,7 +35,8 @@ const EditFormPost = (props) => {
   const [industry,setIndustry]=useState(props.postData.industry);
   const [jobTitle,setJobTitle]=useState(props.postData.jobTitle);
   const [animation, setAnimation] = useState(false);
-
+  const [placeHolder, setplaceHolder] = useState(true);
+  const [placeHolderCity, setplaceHolderCity] = useState(true);
   const temp = [
     {
       value: "llll",
@@ -69,7 +71,7 @@ const EditFormPost = (props) => {
   const handleChange = (newValue, actionMeta) => {
     console.log(actionMeta,"s")
     console.log(newValue,"jj")
-
+    setplaceHolder(false)
     if(actionMeta.action=="select-option")
     {
       setStates(newValue.label);
@@ -92,6 +94,7 @@ const EditFormPost = (props) => {
   };
   const handleChange1 = (newValue, actionMeta) => {
     console.log(newValue,"jj")
+    setplaceHolderCity(false)
     if(actionMeta.action=="select-option")
     {
       setCityName(newValue.label);
@@ -135,22 +138,38 @@ const EditFormPost = (props) => {
     } else if (perSaly == 3) {
       temp = "Mile";
     }
-    if (
-      !name &&
-      !email &&
-      !businessName &&
-      !salary &&
-      !jobType &&
-      !pinCode &&
-      !cityName &&
-      !experience &&
-      !information &&
-      !number &&
-      !state
-    ) {
-      props.setLoading(false);
-      return false;
-    }
+    if(!name){
+      toast.warning("ENTER CONTACT NAME")
+      return
+   }
+   if(!email){
+      toast.warning("ENTER EMAIL")
+      return
+   }
+   if(!businessName){
+      toast.warning("ENTER BUSINESSNAME")
+      return
+   }
+   if(!salary){
+      toast.warning("ENTER SALARY")
+      return
+   }
+   if(!jobType){
+      toast.warning("ENTER JOB TYPE")
+      return
+   }
+   if(!number){
+     toast.warning("ENTER NUMBER")
+     return
+   }
+   if(!state){
+    toast.warning("ENTER STATE")
+    return
+  }
+  if(!cityName){
+    toast.warning("ENTER CITY")
+    return
+  }
     let dataToSend = {
       industry:industry,
       contactName: name,
@@ -191,6 +210,9 @@ const EditFormPost = (props) => {
       preserveAspectRatio: "xMidYMid slice"
     }
   };
+ const  setinfo=(value)=> {
+    setInformation(value)
+  }
 
   return (
     <div class="post-job-content">
@@ -214,7 +236,7 @@ const EditFormPost = (props) => {
               <input
                 type="text"
                 class="form-control"
-                placeholder="Contact Name"
+                placeholder="Contact Name (required)"
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
@@ -228,7 +250,7 @@ const EditFormPost = (props) => {
                 type="text"
                 class="form-control"
                 value={number}
-                placeholder="Phone Number"
+                placeholder="Phone Number (required)"
                 maxlength="10"
                 onKeyPress={(event) => {
                   if (!/[0-9]/.test(event.key)) {
@@ -246,7 +268,7 @@ const EditFormPost = (props) => {
               <input
                 type="email"
                 class="form-control"
-                placeholder="Email Address"
+                placeholder="Email Address (required)"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -264,7 +286,7 @@ const EditFormPost = (props) => {
               <input
                 type="text"
                 class="form-control"
-                placeholder="Business Name"
+                placeholder="Business Name (required)"
                 value={businessName}
                 onChange={(e) => {
                   setBusinessName(e.target.value);
@@ -276,8 +298,8 @@ const EditFormPost = (props) => {
             <div class="">
               {stateOption.length > 0 ? (
                 <Select
-                  placeholder="State"
-                  isClearable
+                placeholder={placeHolder?"State (required)":""}
+                isClearable
                   value={valueState}
                   onChange={handleChange}
                   classNamePrefix="my-className-prefix"
@@ -286,7 +308,7 @@ const EditFormPost = (props) => {
                 />
               ) : (
                 <Select
-                  placeholder="State"
+                placeholder={placeHolder?"State (required)":""}
                   isClearable
                   value={valueState}
                   onChange={handleChange}
@@ -301,7 +323,7 @@ const EditFormPost = (props) => {
             <div class="">
               {arrycity.length > 0 ? (
                 <CreatableSelect
-                  placeholder="City..."
+                 placeholder={placeHolderCity?"City (required)":""}
                   isClearable
                   isDisabled={isDisabled}
                   value={valueCity}
@@ -312,7 +334,7 @@ const EditFormPost = (props) => {
                 />
               ) : (
                 <CreatableSelect
-                  placeholder="City..."
+                placeholder={placeHolderCity?"City (required)":""}
                   classNamePrefix="my-className-prefix"
                   isClearable
                   defaultValue={valueCity}
@@ -465,18 +487,10 @@ const EditFormPost = (props) => {
           </div>
           <div class="col-lg-12">
             <div>
-              <textarea
-                class="form-control"
-                name=""
-                id=""
-                cols="30"
-                rows="4"
-                placeholder="Additional Information"
-                value={information}
-                onChange={(e) => {
-                  setInformation(e.target.value);
-                }}
-              ></textarea>
+               <ReactQuill 
+                   value={information}
+                   onChange={setinfo}
+                 />
             </div>
           </div>
           <div class="col-lg-12">
