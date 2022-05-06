@@ -17,11 +17,7 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
-import noPosts from "../../components/assets/img/noPosts.png";  
-import blue from "../../components/assets/img/icon-result-blue.png";
-import pink from "../../components/assets/img/icon-result-pink.png";
-import green from "../../components/assets/img/icon-result-green.png";
-import orange from "../../components/assets/img/icon-result-orange.png";
+
 import Cookies from "universal-cookie";
 import 'react-accessible-accordion/dist/fancy-example.css';
 import video from "../assets/img/bg-video.mp4";
@@ -277,10 +273,12 @@ const locationFunction = async () =>{
       {loading ?<Loader></Loader> : ""}
       <ToastContainer></ToastContainer>
         <div class="banner-bg-video">
-          <video autoPlay muted loop id="myVideo" preload="auto">
+          {/* <video autoPlay muted loop id="myVideo" preload="auto">
             <source src={video} type="video/mp4" />
             Your browser does not support HTML5 video.
-          </video>
+          </video> */}
+          {/* <img src={MaskGroup5} ></img> */}
+          
         </div>
         <div class="overlay-above-content">
           <Header setLogin={setLogin} showPost={showPost} user={user} ></Header>
@@ -289,7 +287,7 @@ const locationFunction = async () =>{
               <div class="container">
                 <div class="row">
                   <div class="col-lg-5 m-auto">
-                    <h1>Find you local job now</h1>
+                    <h1>Find your local job now</h1>
                     <p>
                       Work with the best workers from your neighbourhood on our
                       secure flexible and easy to use platform.

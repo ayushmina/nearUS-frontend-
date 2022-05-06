@@ -17,6 +17,10 @@
     }
 }
 @media screen and (min-device-width: 300px) and (max-device-width: 768px) {
+    .banner-bg-video 
+    {
+        background-image: url(../img/MaskGroup6.png) !important;
+    }
     .main-banner-wrap .navbar-brand {
         width: 100%;
         text-align: center;

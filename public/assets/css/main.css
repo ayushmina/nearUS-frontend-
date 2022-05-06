@@ -218,6 +218,9 @@ footer {
 	margin: 0;
 	padding: 0;
 	position: relative;
+	width:100%;
+	background-image: url(../img/MaskGroup5.png);
+	background-size: cover;
 }
 
 .main-wrp-content {
