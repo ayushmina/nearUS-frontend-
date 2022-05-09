@@ -16,6 +16,13 @@
         max-width: 1350px;
     }
 }
+@media screen and (min-device-width: 320px) and (max-device-width: 768px) 
+ {
+    .main-wrp-content h1 {
+        font-size: 26px !important;
+
+    }
+}
 @media screen and (min-device-width: 300px) and (max-device-width: 768px) {
     .banner-bg-video 
     {
@@ -51,7 +58,8 @@
         width: 40px !important;
     }   
     .main-wrp-content h1 {
-        font-size: 36px;
+        font-size: 26px !important;
+
     }
     .main-search-wrp input {
         font-size: 12px;
