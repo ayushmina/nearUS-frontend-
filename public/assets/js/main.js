@@ -1,13 +1,27 @@
 
 
 // admin sidebar js
-
+$(document).ready(function () {
+	$(document).on("mouseenter",'div.ql-container.ql-snow',function() {
+		alert('show');
+		// $(".sidebar-wrapper").toggleClass("d-block");
+		// $("body").toggleClass("no-scroll");
+	});
+	$(document).on("click",'div.ql-container.ql-snow',function() {
+		alert('show');
+		// $(".sidebar-wrapper").toggleClass("d-block");
+		// $("body").toggleClass("no-scroll");
+	});
+});
 $(document).ready(function () {
 	$(".sidebar-mb-toggle-btn").click(function () {
 		$(".sidebar-wrapper").toggleClass("d-block");
 		$("body").toggleClass("no-scroll");
 	});
 });
+console.log("========");
+console.log($(document).find('div.ql-container').html());
+
 // sticky header js start
 
 $(window).scroll(function () {
@@ -144,4 +158,21 @@ $(this).star.click(function() {
 	} else {
 		star.addClass("starred");
 	}
+	});
+
+	// $(document).ready(function(){
+	// 	$(".ql-editor").click(function(){
+	// 		console.log('show');
+	// 	//   $("ql-snow").toggleClass("show-content");
+	// 	//   $(".ql-editor").show();
+
+	// 	});
+	//   });
+
+	$(document).ready(function () {
+		$(document).on("click",'.ql-editor',function() {
+			alert('show');
+			// $(".sidebar-wrapper").toggleClass("d-block");
+			// $("body").toggleClass("no-scroll");
+		});
 	});

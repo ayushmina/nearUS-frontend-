@@ -13,6 +13,7 @@ import Select from "react-select";
 import animationData from "../../utils/64967-two-folks-high-fiving.json" 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import newdata from "../../usaCities";
 const EditFormPost = (props) => {
   const [valueCity,setValueCity]=useState({label:props.postData.city,value:props.postData.city})
   const [valueState,setValueState]=useState({label:props.postData.state,value:props.postData.state})
@@ -37,15 +38,36 @@ const EditFormPost = (props) => {
   const [animation, setAnimation] = useState(false);
   const [placeHolder, setplaceHolder] = useState(true);
   const [placeHolderCity, setplaceHolderCity] = useState(true);
+  const [newCityOption, setnewCityOption] = useState([]);
+
   const temp = [
     {
       value: "llll",
       label: "llll",
     },
   ];
-  const [perSaly, setPerSaly] = useState(props.postData.salaryPer==="Annum"? 3: props.postData.salaryPer==="Hour" ? 1 : 2);
+  const [perSaly, setPerSaly] = useState(props.postData.salaryPer==="Mile"? 3: props.postData.salaryPer==="Hour" ? 1 : 2);
+  const makejson=()=>{
+  const groupedCities = {};
+  const StateName=[];
+  newdata.forEach(c => {
+      const stateName = c.state.replace(' ', '');
+      if (!groupedCities[stateName]) {
+          groupedCities[stateName] = [];
+          StateName.push(stateName);
+      }
+  
+      groupedCities[stateName].push(c);
+  });
+  StateName.sort();
+  setnewCityOption(groupedCities)
+
+  // console.log(groupedCities,StateName,'arry')
+  setStateOption(optionMaker(StateName));
+  }
   useEffect(() => {
-    setStateOption(optionMaker(data.data));
+    // setStateOption(optionMaker(data.data));
+    makejson();
     setSelectedState({
         value: state,
         label: state,
@@ -58,19 +80,24 @@ const EditFormPost = (props) => {
       getCityArry();
     }
   }, [state]);
-  useEffect(() => {
-  }, [cityName]);
+
   const getCityArry = () => {
     if (city[state] == null) {
       setarr([]);
       return;
     }
-    let data = optionMaker(city[state]);
-    setarr(data);
+    let arrry=[];
+    if(newCityOption[state]!=null)
+    {
+       newCityOption[state].map(e=>{
+       arrry.push(e.city)
+     })
+     let data = optionMaker(arrry);
+     setarr(data);
+      }
+   
   };
   const handleChange = (newValue, actionMeta) => {
-    console.log(actionMeta,"s")
-    console.log(newValue,"jj")
     setplaceHolder(false)
     if(actionMeta.action=="select-option")
     {
@@ -93,7 +120,7 @@ const EditFormPost = (props) => {
     }
   };
   const handleChange1 = (newValue, actionMeta) => {
-    console.log(newValue,"jj")
+    // console.log(newValue,"jj")
     setplaceHolderCity(false)
     if(actionMeta.action=="select-option")
     {

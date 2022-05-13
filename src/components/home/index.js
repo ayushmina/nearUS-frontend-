@@ -33,6 +33,8 @@ import img4 from "../../components/assets/img/mail-icon.png";
 import img5 from "../../components/assets/img/dollar-icon.png";
 import img6 from "../../components/assets/img/Group 306.png";
 import img7 from "../../components/assets/img/call-icon.png";
+import img8 from "../../components/assets/img/Iconmaterial-date-range.png";
+
 import Agent from "../../actions/superAgent";
 import convertRegion from "../../usaStatesAbbrevations";
 import options from "../../options";
@@ -54,7 +56,8 @@ import Warehouse from "../../components/assets/industry/warehouse.png";
 import TransportationLogistics from "../../components/assets/industry/Transportation.png";
 import Farminglandscaping from "../../components/assets/industry/Farrming.png";
 import Other from "../../components/assets/industry/Other.png";
-
+import moment from "moment"
+import newdata from "../../usaCities";
 
 
 Geocode.setApiKey("AIzaSyDvU4wxDQqhEtFcrKWCYfDHNIRiZYGZ6kg");
@@ -81,9 +84,26 @@ const Home = (props) => {
   const [openedId, setOpenedId] = useState(0);
   const [stateCitySuggestions, setStateCitySuggestions] = useState([]);
   const [flag,setFlag]=useState(false);
+  const [newCityOption, setnewCityOption] = useState([]);
 
   let cookie = new Cookies();
   let recaptchaWrapperRef;
+  const makejson=()=>{
+    // console.log(newdata,"aayush mina ")
+  const groupedCities = {};
+  const cityName=[];
+  newdata.forEach(c => {
+      const stateName = c.city.replace(' ', '');
+      cityName.push(c.city);
+
+  });
+  cityName.sort();
+  // console.log(cityName,'nh')
+  setnewCityOption(cityName);
+  }
+  useEffect(()=>{
+    makejson()
+  },[])
   useEffect(() => {
     locationFunction();
     let token = Agent.getToken();
@@ -250,9 +270,9 @@ const locationFunction = async () =>{
   }
   const searchSuggestions=(text)=>{
    
-    if(text.length > 0){
+    if(text.length > 0&&newCityOption.length>0){
       let suggestions = [];
-      options.state.map((stateValue)=>{
+      newCityOption.map((stateValue)=>{
         if(stateValue.toLowerCase().includes(text.toLowerCase())) suggestions.push({label: stateValue ,value:"USA"})
       })
       for (const property in options.city) {
@@ -328,7 +348,11 @@ const locationFunction = async () =>{
                       <div class= { stateCitySuggestions.length > 0 ? "search-nav-drp":"search-nav-drp d-none"}>
                         <ul>
                         {stateCitySuggestions.map((citi)=>{
-                          return <li onClick={()=>{ searchText(citi.label); searchResult(citi.label)}}>{citi.label}, {citi.value}</li>
+                          return <li onClick={()=>{ searchText(citi.label);
+                            //  searchResult(citi.label)
+                            setStateCitySuggestions([]);
+                             }}>
+                               {citi.label}, {citi.value}</li>
                         })}
                         </ul>
                       </div>
@@ -419,6 +443,12 @@ const locationFunction = async () =>{
                                               <div className="search-acc-header-text">
                                                 <img src={img3} alt="" />
                                                 <h6>{job.experience} Years</h6>
+                                              </div>
+                                            </li>
+                                            <li>
+                                              <div className="search-acc-header-text">
+                                                <img src={img8} alt="" />
+                                                <h6>{moment(job.createAt).format("DD/MM/YYYY")}</h6>
                                               </div>
                                             </li>
                                           </ul>

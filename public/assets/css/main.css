@@ -318,7 +318,7 @@ footer {
 }
 
 .nav-buttons button {
-	background: transparent;
+	background: #0056d6;
 	color: #fff;
 	border: 1px solid #fff;
 	border-radius: 25px;
@@ -327,6 +327,15 @@ footer {
 	font-size: 14px;
 	height: 40px;
 }
+
+.ql-toolbar.ql-snow {
+    display: none;
+}
+
+
+/* .show-content{
+	display: block;
+} */
 
 .nav-buttons button:hover {
 	background:#0056D6;
@@ -441,8 +450,15 @@ footer {
 }
 
 .search-acc-header-content ul li {
-	margin-right: 15px;
-	width: 105px;
+	margin-right: 2px;
+    width: 108px;
+}
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border-top: 1px solid #ccc !important ;
+}
+.overflow-hide
+{
+overflow:hidden;
 }
 
 .search-acc-header-content ul li img {

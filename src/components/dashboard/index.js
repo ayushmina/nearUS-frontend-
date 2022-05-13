@@ -12,19 +12,13 @@ import img2 from "../../components/assets/img/watch-icon.png";
 import img3 from "../../components/assets/img/gcap-icon.png";
 import img4 from "../../components/assets/img/edit-icon.png";
 import img5 from "../../components/assets/img/delete-icon.png";
-import purple from "../../components/assets/img/icon-result-purple.png";
-import blue from "../../components/assets/img/icon-result-blue.png";
-import pink from "../../components/assets/img/icon-result-pink.png";
-import green from "../../components/assets/img/icon-result-green.png";
-import orange from "../../components/assets/img/icon-result-orange.png";
-
 import img7 from "../../components/assets/img/dollar-icon.png";
 import img8 from "../../components/assets/img/repost-icon.png";
+import img9 from "../../components/assets/img/Iconmaterial-date-range.png";
 import Agent from "../../actions/superAgent";
 import noJObs from "../../components/assets/img/no-job-artwork.png";
 import FormPost from "../formjobs";
 import Loader from "../loader";
-
 import Banks from "../../components/assets/industry/bank.png";
 import building from "../../components/assets/industry/building.png";
 import Hotel from "../../components/assets/industry/hotel.png";
@@ -50,12 +44,14 @@ import animationData from "../../utils/64967-two-folks-high-fiving.json"
 import { findAllByTestId } from "@testing-library/react";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import moment from "moment"
+import newdata from "../../usaCities";
+
 const Dashborad = (props) => {
   let SkeletonArry=[1,2,3,4,5,6];
   const [user, setUser] = useState(null);
   const [post, setPost] = useState(false);
   const [animation, setAnimation] = useState(false);
-
   const [editPost, setEditPost] = useState(false);
   const [postList, setList] = useState([]);
   const [postData, setPostData] = useState({
@@ -105,11 +101,13 @@ const Dashborad = (props) => {
     setPost(false);
   };
   const setLoading1 = (e) => {
-    console.log(e);
+    // console.log(e);
     setLoading(e);
   }
   const setanimation1 = (e) => {
-    console.log(e);
+    const root= document.getElementById("root");
+    root.classList.add("overflow-hide");
+    // console.log(e);
     setAnimation(e)
   }
   const editJob = (job) => {
@@ -197,13 +195,20 @@ const Dashborad = (props) => {
         eventListeners={[
           {
             eventName: 'complete',
-            callback: () => {console.log("hello"); 
+            callback: () => {
+              // console.log("hello"); 
+            const root= document.getElementById("root");
+
+            root.classList.remove("overflow-hide");
             setAnimation(false)
           }
           },
           {
             eventName: 'loopComplete',
-            callback: () =>{console.log("hello"); 
+            callback: () =>{
+            const root= document.getElementById("root");
+
+            root.classList.remove("overflow-hide");
             setAnimation(false)
           }
           },
@@ -322,6 +327,12 @@ const Dashborad = (props) => {
                                           <h6>{job.experience} Years</h6>
                                         </div>
                                       </li>
+                                      <li>
+                                              <div className="search-acc-header-text">
+                                                <img src={img9} alt="" />
+                                                <h6>{moment(job.createAt).format("DD/MM/YYYY")}</h6>
+                                              </div>
+                                            </li>
                                     </ul>
                                   </div>
                                 </div>
