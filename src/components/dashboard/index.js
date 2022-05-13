@@ -105,9 +105,11 @@ const Dashborad = (props) => {
     setLoading(e);
   }
   const setanimation1 = (e) => {
-    const root= document.getElementById("root");
+
+    const root = document.getElementsByTagName("body")[0];
     root.classList.add("overflow-hide");
-    // console.log(e);
+
+    console.log(e);
     setAnimation(e)
   }
   const editJob = (job) => {
@@ -196,20 +198,22 @@ const Dashborad = (props) => {
           {
             eventName: 'complete',
             callback: () => {
-              // console.log("hello"); 
-            const root= document.getElementById("root");
+            setAnimation(false)
+              console.log("hello"); 
+            const root = document.getElementsByTagName("body")[0];
 
             root.classList.remove("overflow-hide");
-            setAnimation(false)
+            
           }
           },
           {
             eventName: 'loopComplete',
             callback: () =>{
-            const root= document.getElementById("root");
+              setAnimation(false)
+              console.log("hello"); 
+            const root = document.getElementsByTagName("body")[0];
 
             root.classList.remove("overflow-hide");
-            setAnimation(false)
           }
           },
         ]}

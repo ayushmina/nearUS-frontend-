@@ -41,19 +41,19 @@ div .quill {
 	height: 350px !important;
 	width: 350px !important;
 }
-.lottie{
-    display: flex;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.lottie {
     background: rgba(255,255,255,0.83);
     z-index: 9999;
-	align-items: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    /* border-radius: 100%; */
+    position: fixed;
+    margin: 0 auto;
+    display: flex; 
+    justify-content: center;
+    align-content: center;
+    align-items: center;
 }
 .changephone{
 	height: 40px;
