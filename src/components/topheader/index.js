@@ -1,5 +1,5 @@
 import React, { useState, Component } from "react";
-import img from "../../components/assets/img/blue-logo.png";
+import img from "../../components/assets/img/white-logo.png";
 import {useNavigate} from 'react-router-dom'
 
 const Header =(props)=> {

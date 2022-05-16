@@ -229,7 +229,12 @@ footer {
 	width: 100%;
 	float: left;
 }
+.ql-editor {
 
+		font-family: 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif !important;
+	}
 .main-wrp-content {
 	padding: 50px 0px;
 	height: calc(100vh - 110px);
@@ -450,8 +455,8 @@ footer {
 }
 
 .search-acc-header-content ul li {
-	margin-right: 2px;
-    width: 108px;
+	margin-right: 14px;
+    width: fit-content;
 }
 .ql-toolbar.ql-snow + .ql-container.ql-snow {
     border-top: 1px solid #ccc !important ;
@@ -464,7 +469,7 @@ overflow:hidden;
 .search-acc-header-content ul li img {
 	height: 15px;
 	object-fit: contain;
-	margin-right: 2.5px;
+	margin-right: -3.5px;
 }
 
 .search-acc-header-content ul li h6 {

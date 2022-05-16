@@ -517,6 +517,7 @@ const EditFormPost = (props) => {
                <ReactQuill 
                    value={information}
                    onChange={setinfo}
+                   placeholder="Comment"
                  />
             </div>
           </div>

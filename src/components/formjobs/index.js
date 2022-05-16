@@ -504,7 +504,7 @@ const FormPost = (props) => {
             <div>
               <ReactQuill value={information} onClick={e=>{
                 
-}} onChange={setinfo} />
+                }} onChange={setinfo} placeholder="Comment" />
             </div>
           </div>
           <div class="col-lg-12">

@@ -94,9 +94,16 @@ const Home = (props) => {
   const cityName=[];
   newdata.forEach(c => {
       const stateName = c.city.replace(' ', '');
+
       cityName.push(c.city);
+      
+      if (!groupedCities[stateName]) {
+        groupedCities[stateName] = []
+        cityName.push(c.state);
+      }
 
   });
+  
   cityName.sort();
   // console.log(cityName,'nh')
   setnewCityOption(cityName);
@@ -198,7 +205,7 @@ const locationFunction = async () =>{
           }
           searchText(city);
           setLoading(false);
-          searchResult(city);
+          // searchResult(city);
         },
         (error) => {
           console.error(error);
@@ -233,9 +240,8 @@ const locationFunction = async () =>{
         } else {
           setList(res.data);
           
-          if(flag){
              scrollToTop();
-          }   
+          
           setStateCitySuggestions([]);
           setLoading(false);
           setSearchTextFromServer(res.text);         
