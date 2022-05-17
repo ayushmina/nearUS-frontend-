@@ -57,7 +57,7 @@ import TransportationLogistics from "../../components/assets/industry/Transporta
 import Farminglandscaping from "../../components/assets/industry/Farrming.png";
 import Other from "../../components/assets/industry/Other.png";
 import moment from "moment"
-import newdata from "../../usaCities";
+import UpdatedCitiesJson from "../../usaCities";
 
 
 Geocode.setApiKey("AIzaSyDvU4wxDQqhEtFcrKWCYfDHNIRiZYGZ6kg");
@@ -89,19 +89,14 @@ const Home = (props) => {
   let cookie = new Cookies();
   let recaptchaWrapperRef;
   const makejson=()=>{
-    // console.log(newdata,"aayush mina ")
-  const groupedCities = {};
   const cityName=[];
-  newdata.forEach(c => {
-      const stateName = c.city.replace(' ', '');
-
-      cityName.push(c.city);
-      
-      if (!groupedCities[stateName]) {
-        groupedCities[stateName] = []
-        cityName.push(c.state);
+  UpdatedCitiesJson.forEach(element => {      
+      if(!cityName.includes(element.city)){
+        cityName.push(element.city + ',' + element.state);
       }
-
+      if(!cityName.includes(element.state)){
+        cityName.push( element.state + ', USA' );
+      }
   });
   
   cityName.sort();
@@ -276,23 +271,27 @@ const locationFunction = async () =>{
   }
   const searchSuggestions=(text)=>{
    
-    if(text.length > 0&&newCityOption.length>0){
+    if( text.length > 0 && newCityOption.length > 0 ){
       let suggestions = [];
+
       newCityOption.map((stateValue)=>{
         if(stateValue.toLowerCase().includes(text.toLowerCase())) suggestions.push({label: stateValue ,value:"USA"})
       })
-      for (const property in options.city) {
-        
-       options.city[property].map((stateValue)=>{
-          if(stateValue.toLowerCase().includes(text.toLowerCase())) suggestions.push({label:stateValue,value:property})
-        })
-     }
+
+    //   for (const property in options.city) {
+    //    options.city[property].map((stateValue)=>{
+    //       if(stateValue.toLowerCase().includes(text.toLowerCase())) suggestions.push({label:stateValue,value:property})
+    //     })
+    //  }
+
       setStateCitySuggestions(suggestions);
     }else{
       setStateCitySuggestions([]);
     }
   }
-  
+
+  console.log("newCityOption:",newCityOption);
+
   return (
     <>
       <section class="main-banner-wrap">
