@@ -20,7 +20,6 @@ import {
 
 import Cookies from "universal-cookie";
 import 'react-accessible-accordion/dist/fancy-example.css';
-import video from "../assets/img/bg-video.mp4";
 import {   RecaptchaVerifier, signInWithPhoneNumber,} from "firebase/auth";
 import { auth } from "../../firebase";
 import { ToastContainer, toast } from "react-toastify";
@@ -59,12 +58,12 @@ import Other from "../../components/assets/industry/Other.png";
 import moment from "moment"
 import UpdatedCitiesJson from "../../usaCities";
 
-
 Geocode.setApiKey("AIzaSyDvU4wxDQqhEtFcrKWCYfDHNIRiZYGZ6kg");
 
 const Home = (props) => {
   const [login, setLoginn] = useState(false);
   const [verify, setVerify] = useState(false);
+  const [initialRender, setInitialRender] = useState(true);
   const [result, setResult] = useState({});
   const [post, setPost] = useState(false);
   const [user, setUser] = useState("");
@@ -90,12 +89,12 @@ const Home = (props) => {
   let recaptchaWrapperRef;
   const makejson=()=>{
   const cityName=[];
-  UpdatedCitiesJson.forEach(element => {      
+  UpdatedCitiesJson.forEach(element => {
       if(!cityName.includes(element.city)){
         cityName.push(element.city + ',' + element.state);
       }
       if(!cityName.includes(element.state)){
-        cityName.push( element.state + ', USA' );
+        cityName.push( element.state + ',USA' );
       }
   });
   
@@ -226,7 +225,6 @@ const locationFunction = async () =>{
   };
 
   const searchResult = async (search) => {
-
     if(search){
       setLoading(true);
       await postActions.Search(search, (err, res) => {
@@ -234,13 +232,12 @@ const locationFunction = async () =>{
           console.log("error:",err)
         } else {
           setList(res.data);
-          
-             scrollToTop();
-          
+          scrollToTop();
           setStateCitySuggestions([]);
           setLoading(false);
           setSearchTextFromServer(res.text);         
           setFlag(true); 
+          setInitialRender(false);
         }
       });
     }
@@ -627,7 +624,6 @@ const locationFunction = async () =>{
       </>
         )}
                   <Abc></Abc>
-
       <Modal
         isOpen={modalState}
         className="p-0 product-modal-nb otp-wrp modal-lg modal-dialog-centered"

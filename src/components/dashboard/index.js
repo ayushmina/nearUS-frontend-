@@ -185,7 +185,6 @@ const Dashborad = (props) => {
   };
   return (
     <>
-    
     {animation?
     <div className="setanimation">
     <div class="lottie" >

@@ -413,6 +413,7 @@ footer {
 	padding-left: 0px;
 	margin-bottom: 0px;
 	height: 50px;
+	flex-wrap: wrap;
 }
 
 .search-acc-header-content {
@@ -484,6 +485,7 @@ overflow:hidden;
 .search-acc-header-text img {
     position: relative;
     top: 5px;
+	margin-right: 3px !important;
 }
 
 .search-acc-header-text {
