@@ -63,6 +63,16 @@ const EditFormPost = (props) => {
   setnewCityOption(groupedCities)
 
   // console.log(groupedCities,StateName,'arry')
+  let arrry=[];
+  if(groupedCities[props.postData.state]!=null)
+  {
+    groupedCities[props.postData.state].map(e=>{
+     arrry.push(e.city)
+   })
+   let data = optionMaker(arrry);
+   console.log(data)
+   setarr(data);
+    }
   setStateOption(optionMaker(StateName));
   }
   useEffect(() => {
@@ -90,6 +100,7 @@ const EditFormPost = (props) => {
     if(newCityOption[state]!=null)
     {
        newCityOption[state].map(e=>{
+         if(!arrry.includes(e.city))
        arrry.push(e.city)
      })
      let data = optionMaker(arrry);
@@ -249,7 +260,7 @@ const EditFormPost = (props) => {
         Edit <span>Job</span>
       </h3>
       <div class="mb-3">
-      {/* <h4>Title</h4> */}
+
 
       <div class="row">
        
@@ -368,7 +379,7 @@ const EditFormPost = (props) => {
                   value={valueCity}
                   isDisabled={isDisabled}
                   onChange={handleChange1}
-                  options={[]}
+                  options={arrycity}
                 />
               )}
             </div>

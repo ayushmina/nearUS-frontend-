@@ -90,6 +90,7 @@ const FormPost = (props) => {
       let arrry = []
       if (newCityOption[state] != null) {
         newCityOption[state].map((e) => {
+          if(!arrry.includes(e.city))
           arrry.push(e.city)
         })
 
