@@ -85,23 +85,32 @@ const Home = (props) => {
   const [stateCitySuggestions, setStateCitySuggestions] = useState([]);
   const [flag,setFlag]=useState(false);
   const [newCityOption, setnewCityOption] = useState([]);
+  const [newStateOption, setnewStateOption] = useState([]);
+
 
   let cookie = new Cookies();
   let recaptchaWrapperRef;
   const makejson=()=>{
-  const cityName=[];
+  const tempArry=[];
+  const stateName=[];
+  const cityarry=[];
+  let tempState=[];
+
   UpdatedCitiesJson.forEach(element => {      
-      if(!cityName.includes(element.city)){
-        cityName.push(element.city + ',' + element.state);
+      if(!tempArry.includes(element.city)){
+        tempArry.push(element.city);
+        cityarry.push({city:element.city ,state:element.state})
       }
-      if(!cityName.includes(element.state)){
-        cityName.push( element.state + ', USA' );
+      if(!tempState.includes(element.state)){
+        tempState.push(element.state)
+        stateName.push(element.state)
       }
   });
   
-  cityName.sort();
+  tempArry.sort();
   // console.log(cityName,'nh')
-  setnewCityOption(cityName);
+  setnewCityOption(cityarry);
+  setnewStateOption(stateName);
   }
   useEffect(()=>{
     makejson()
@@ -275,9 +284,16 @@ const locationFunction = async () =>{
       let suggestions = [];
 
       newCityOption.map((stateValue)=>{
-        if(stateValue.toLowerCase().includes(text.toLowerCase())) suggestions.push({label: stateValue ,value:"USA"})
+        if(stateValue.city.toLowerCase().includes(text.toLowerCase()))
+        {
+          
+          suggestions.push({label:stateValue.city+","+stateValue.state,value:stateValue.city})
+        }
       })
 
+      newStateOption.map((stateValue)=>{
+        if(stateValue.toLowerCase().includes(text.toLowerCase())) suggestions.push({label: stateValue+', USA',value:stateValue})
+      })
     //   for (const property in options.city) {
     //    options.city[property].map((stateValue)=>{
     //       if(stateValue.toLowerCase().includes(text.toLowerCase())) suggestions.push({label:stateValue,value:property})
@@ -353,11 +369,11 @@ const locationFunction = async () =>{
                       <div class= { stateCitySuggestions.length > 0 ? "search-nav-drp":"search-nav-drp d-none"}>
                         <ul>
                         {stateCitySuggestions.map((citi)=>{
-                          return <li onClick={()=>{ searchText(citi.label);
+                          return <li onClick={()=>{ searchText(citi.value);
                             //  searchResult(citi.label)
                             setStateCitySuggestions([]);
                              }}>
-                               {citi.label}, {citi.value}</li>
+                               {citi.label}</li>
                         })}
                         </ul>
                       </div>
