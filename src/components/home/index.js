@@ -113,6 +113,10 @@ const Home = (props) => {
   }
   useEffect(()=>{
     makejson()
+    
+    const root = document.getElementsByTagName("body")[0];
+    root.classList.add("overflow-hide");
+
   },[])
   useEffect(() => {
     locationFunction();
@@ -240,13 +244,17 @@ const locationFunction = async () =>{
         if (err) {
           console.log("error:",err)
         } else {
+          const root = document.getElementsByTagName("body")[0];
+
+            root.classList.remove("overflow-hide");
           setList(res.data);
-          scrollToTop();
+         
           setStateCitySuggestions([]);
           setLoading(false);
           setSearchTextFromServer(res.text);         
           setFlag(true); 
           setInitialRender(false);
+          scrollToTop();
         }
       });
     }
