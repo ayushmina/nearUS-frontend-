@@ -8,6 +8,8 @@ import SlidingPane from "../slider"
 import Varify from "../verifyOtp"
 import postActions from "../../actions/postActions"
 import PhoneInput from "react-phone-input-2"
+import ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css"
 import Loader from "../loader"
 import { Modal, ModalBody, ModalFooter, ModalHeader, Button } from "reactstrap"
 import {
@@ -76,6 +78,8 @@ const Home = (props) => {
   const [hoverState, setHoverState] = useState(false)
   const [hoverStateEmail, setHoverStateEmail] = useState(false)
   const [modalState, setModalState] = useState(false)
+  const [modalStateApply, setModalStateApply] = useState(false)
+
   const [modalStateOtp, setModalStateOtp] = useState(false)
   const [otp, setOtp] = useState("")
   const [guest, setGuest] = useState("")
@@ -85,6 +89,12 @@ const Home = (props) => {
   const [flag, setFlag] = useState(false)
   const [newCityOption, setnewCityOption] = useState([])
   const [newStateOption, setnewStateOption] = useState([])
+  const [Name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [Phonee, setPhonee] = useState("")
+  const [comment, setComment] = useState("")
+  const [salary, setSalary] = useState("")
+
 
   let cookie = new Cookies()
   let recaptchaWrapperRef
@@ -328,7 +338,28 @@ const Home = (props) => {
       setStateCitySuggestions([])
     }
   }
+  const setinfo = (value) => {
+    setComment(value)
+  }
 
+  let applyoOnJob=(ele)=>{
+    let dataToSend={
+      name:Name,
+      proposal:comment,
+      email:email,
+      postid:ele,
+      salary:salary
+    }
+    postActions.ApplyPost(dataToSend,(err,res)=>{
+      if(err){
+
+      }else{
+        alert("action done success full")
+        setModalStateApply(false)
+      }      
+    })
+
+  }
   // console.log("newCityOption:",newCityOption);
 
   return (
@@ -658,6 +689,18 @@ const Home = (props) => {
                                                   </button>
                                                 )}
                                               </li>
+                                              <li>
+                                              <button
+                                                    className="btn"
+                                                    type="button"
+                                                    onClick={() =>{
+                                                      setModalStateApply(true);
+                                                    } 
+                                                  }
+                                                  >
+                                                    Apply 
+                                                  </button>
+                                              </li>
                                             </ul>
                                           </div>
                                         </AccordionItemPanel>
@@ -903,6 +946,93 @@ const Home = (props) => {
             </div>
           </div>
           {/* </div> */}
+        </ModalBody>
+      </Modal>
+      <Modal
+        isOpen={modalStateApply}
+        className="p-0 product-modal-nb modal-lg modal-dialog-centered"
+      >
+        <ModalBody className="p-5">
+        <div class="mb-3">
+        <div class="row">
+          <div class="col-lg-12">
+          <div class="m-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Name (required)"
+                onChange={(e) => {
+                  setName(e.target.value)
+                }}
+                
+              />
+            </div>
+            <div class="m-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="email"
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                }}
+                
+              />
+            </div>
+            <div class="m-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="phone"
+                onChange={(e) => {
+                  setPhonee(e.target.value)
+                }}
+                
+              />
+            </div>
+            <div class="m-3">
+            <div>
+              <ReactQuill value={comment} onClick={e=>{
+                
+                }} onChange={setinfo} placeholder="Comment" />
+            </div>
+              </div>
+              <div class="m-3">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="salary"
+                onChange={(e) => {
+                  setSalary(e.target.value)
+                }}
+                
+              />
+            </div>
+            </div>
+            <div class="col-lg-12">
+              <button
+                type="button"
+                class="btn btn-primary w-100"
+               
+                onClick={() =>applyoOnJob()}
+                
+              >
+                Apply
+              </button>
+            </div>
+            <div class="col-lg-12">
+              <button
+                type="button"
+                class="btn btn-primary w-100"
+                onClick={() => {
+                  setModalStateApply(false)
+                }
+              }
+              >
+                Cancel
+              </button>
+            </div>
+            </div>
+        </div>
         </ModalBody>
       </Modal>
     </>
